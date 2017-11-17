@@ -26,6 +26,7 @@ class ApplicationConfigTest extends TestCase
         $this->assertSame("resources/application/", $applicationConfig->getPersistCacheDirectory());
         $this->assertSame([], $applicationConfig->getBootstrapQueue());
         $this->assertSame("bootstrap/", $applicationConfig->getBootstrapDirectory());
+        $this->assertSame("config/", $applicationConfig->getConfigDirectory());
         $this->assertSame("data/cache/application/", $applicationConfig->getCacheDirectory());
     }
 
@@ -93,6 +94,29 @@ class ApplicationConfigTest extends TestCase
         ]);
     }
 
+    public function testConfigDirectory()
+    {
+        $applicationConfig = new ApplicationConfig([
+            'configDirectory' => 'testDirectory',
+        ]);
+        $this->assertSame("testDirectory/", $applicationConfig->getConfigDirectory());
+
+        $applicationConfig = new ApplicationConfig([
+            'configDirectory' => "testDirectory/",
+        ]);
+        $this->assertSame("testDirectory/", $applicationConfig->getConfigDirectory());
+
+        $applicationConfig = new ApplicationConfig([
+            'configDirectory' => "",
+        ]);
+        $this->assertSame("./", $applicationConfig->getConfigDirectory());
+
+        $this->expectException(InvalidArgumentException::class);
+        new ApplicationConfig([
+            'configDirectory' => [],
+        ]);
+    }
+
     public function testCacheDirectory()
     {
         $applicationConfig = new ApplicationConfig([
@@ -141,6 +165,7 @@ class ApplicationConfigTest extends TestCase
             'persistCacheDirectory'         => 'resources/application_test/',
             'cacheDirectory'                => 'data/cache/application_test/',
             'bootstrapDirectory'            => 'bootstrap_test/',
+            'configDirectory'               => 'config_test/',
             'bootstrapQueue'                => [ServiceManagerBootstrap::class],
         ];
 
@@ -156,6 +181,7 @@ class ApplicationConfigTest extends TestCase
             'persistCacheDirectory'         => 'resources/application_test/',
             'cacheDirectory'                => 'data/cache/application_test/',
             'bootstrapDirectory'            => 'bootstrap_test/',
+            'configDirectory'               => 'config_test/',
             'bootstrapQueue'                => [ServiceManagerBootstrap::class],
         ];
 
@@ -167,5 +193,6 @@ class ApplicationConfigTest extends TestCase
         $this->assertSame($config['cacheDirectory'], $applicationConfig->getCacheDirectory());
         $this->assertSame($config['bootstrapDirectory'], $applicationConfig->getBootstrapDirectory());
         $this->assertSame($config['bootstrapQueue'], $applicationConfig->getBootstrapQueue());
+        $this->assertSame($config['configDirectory'], $applicationConfig->getConfigDirectory());
     }
 }

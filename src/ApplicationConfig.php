@@ -20,6 +20,7 @@ final class ApplicationConfig implements \Serializable
         'persistCacheDirectory'         => 'resources/application/',
         'cacheDirectory'                => 'data/cache/application/',
         'bootstrapDirectory'            => 'bootstrap/',
+        'configDirectory'               => 'config/',
         'bootstrapQueue'                => [],
     ];
 
@@ -73,6 +74,18 @@ final class ApplicationConfig implements \Serializable
             $this->config['bootstrapDirectory'] = \rtrim($config['bootstrapDirectory'], '/') . '/';
         }
 
+        if (\array_key_exists('configDirectory', $config)) {
+            if (!\is_string($config['configDirectory'])) {
+                throw new InvalidArgumentException(\sprintf("'%' must be a string", "configDirectory"));
+            }
+
+            if (empty($config['configDirectory'])) {
+                $config['configDirectory'] = ".";
+            }
+
+            $this->config['configDirectory'] = \rtrim($config['configDirectory'], '/') . '/';
+        }
+
         if (\array_key_exists('bootstrapQueue', $config)) {
             if (!\is_array($config['bootstrapQueue'])) {
                 throw new InvalidArgumentException(\sprintf("'%' must be an array", "bootstrapQueue"));
@@ -112,6 +125,14 @@ final class ApplicationConfig implements \Serializable
     public function getBootstrapDirectory(): string
     {
         return $this->config['bootstrapDirectory'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getConfigDirectory(): string
+    {
+        return $this->config['configDirectory'];
     }
 
     /**

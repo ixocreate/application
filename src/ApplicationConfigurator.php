@@ -39,6 +39,11 @@ final class ApplicationConfigurator
     private $bootstrapDirectory;
 
     /**
+     * @var string
+     */
+    private $configDirectory = "config/";
+
+    /**
      * ApplicationConfigurator constructor.
      * @param string $bootstrapDirectory
      */
@@ -85,6 +90,18 @@ final class ApplicationConfigurator
     }
 
     /**
+     * @param string $configDirectory
+     */
+    public function setConfigDirectory(string $configDirectory): void
+    {
+        if (empty($configDirectory)) {
+            $configDirectory = ".";
+        }
+
+        $this->configDirectory = \rtrim($configDirectory, '/') . '/';
+    }
+
+    /**
      * @param string $bootstrapItem
      * @param int $priority
      */
@@ -114,6 +131,7 @@ final class ApplicationConfigurator
             'cacheDirectory'            => $this->cacheDirectory,
             'bootstrapQueue'            => $bootstrapQueue,
             'bootstrapDirectory'        => $this->bootstrapDirectory,
+            'configDirectory'           => $this->configDirectory,
         ]);
     }
 }

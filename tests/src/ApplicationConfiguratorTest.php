@@ -27,6 +27,7 @@ class ApplicationConfiguratorTest extends TestCase
         $this->assertSame([], $applicationConfig->getBootstrapQueue());
         $this->assertSame("data/cache/application/", $applicationConfig->getCacheDirectory());
         $this->assertSame("resource/application/", $applicationConfig->getPersistCacheDirectory());
+        $this->assertSame("config/", $applicationConfig->getConfigDirectory());
     }
 
     public function testBootstrapDirectory()
@@ -105,6 +106,29 @@ class ApplicationConfiguratorTest extends TestCase
         $applicationConfigurator->setCacheDirectory("/");
         $applicationConfig = $applicationConfigurator->getApplicationConfig();
         $this->assertSame("/", $applicationConfig->getCacheDirectory());
+    }
+
+    public function testConfigDirectory()
+    {
+        $applicationConfigurator = new ApplicationConfigurator("bootstrap");
+        $applicationConfigurator->setConfigDirectory("directory");
+        $applicationConfig = $applicationConfigurator->getApplicationConfig();
+        $this->assertSame("directory/", $applicationConfig->getConfigDirectory());
+
+        $applicationConfigurator = new ApplicationConfigurator("bootstrap");
+        $applicationConfigurator->setConfigDirectory("directory/");
+        $applicationConfig = $applicationConfigurator->getApplicationConfig();
+        $this->assertSame("directory/", $applicationConfig->getConfigDirectory());
+
+        $applicationConfigurator = new ApplicationConfigurator("bootstrap");
+        $applicationConfigurator->setConfigDirectory("");
+        $applicationConfig = $applicationConfigurator->getApplicationConfig();
+        $this->assertSame("./", $applicationConfig->getConfigDirectory());
+
+        $applicationConfigurator = new ApplicationConfigurator("bootstrap");
+        $applicationConfigurator->setConfigDirectory("/");
+        $applicationConfig = $applicationConfigurator->getApplicationConfig();
+        $this->assertSame("/", $applicationConfig->getConfigDirectory());
     }
 
     public function testAddBootstrapItem()
