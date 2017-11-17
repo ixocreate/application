@@ -1,4 +1,14 @@
 <?php
+/**
+ * kiwi-suite/application (https://github.com/kiwi-suite/application)
+ *
+ * @package kiwi-suite/application
+ * @see https://github.com/kiwi-suite/application
+ * @copyright Copyright (c) 2010 - 2017 kiwi suite GmbH
+ * @license MIT License
+ */
+
+declare(strict_types=1);
 namespace KiwiSuite\Application\Config;
 
 use PHPUnit\Framework\TestCase;
@@ -9,13 +19,13 @@ class ConfigTest extends TestCase
         'series' => [
             'season1' => [
                 'eps1.0_hellofriend.mov',
-                'eps1.1_ones-and-zer0es.mpeg'
+                'eps1.1_ones-and-zer0es.mpeg',
             ],
             'season2' => [
                 'eps2.0_unm4sk-pt1.tc',
-                'eps2.0_unm4sk-pt2.tc'
-            ]
-        ]
+                'eps2.0_unm4sk-pt2.tc',
+            ],
+        ],
     ];
 
     public function testAll()

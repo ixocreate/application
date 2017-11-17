@@ -29,22 +29,22 @@ final class ConfigBootstrap implements BootstrapInterface
 
         $configDirectories = [
             $applicationConfig->getConfigDirectory(),
-            $applicationConfig->getConfigDirectory() . 'local/'
+            $applicationConfig->getConfigDirectory() . 'local/',
         ];
 
         foreach ($configDirectories as $directory) {
-            if (!is_dir($directory)) {
+            if (!\is_dir($directory)) {
                 continue;
             }
 
             foreach (Glob::glob($directory . "*.config.php", Glob::GLOB_BRACE, true) as $file) {
                 $data = require $file;
 
-                if (!is_array($data)) {
+                if (!\is_array($data)) {
                     continue;
                 }
 
-                $prefix = substr(basename($file), 0, -11);
+                $prefix = \mb_substr(\basename($file), 0, -11);
                 $data = [$prefix => $data];
 
                 $mergedConfig = ArrayUtils::merge($mergedConfig, $data);
