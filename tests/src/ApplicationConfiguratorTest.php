@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace KiwiSuiteTest\Application;
 
 use KiwiSuite\Application\ApplicationConfigurator;
+use KiwiSuite\Application\Bootstrap\ConfigBootstrap;
 use KiwiSuite\Application\Bootstrap\ServiceManagerBootstrap;
 use PHPUnit\Framework\TestCase;
 
@@ -134,9 +135,10 @@ class ApplicationConfiguratorTest extends TestCase
     public function testAddBootstrapItem()
     {
         $applicationConfigurator = new ApplicationConfigurator("bootstrap");
-        $applicationConfigurator->addBootstrapItem(ServiceManagerBootstrap::class);
+        $applicationConfigurator->addBootstrapItem(ServiceManagerBootstrap::class, 50);
+        $applicationConfigurator->addBootstrapItem(ConfigBootstrap::class, 80);
         $applicationConfig = $applicationConfigurator->getApplicationConfig();
-        $this->assertSame([ServiceManagerBootstrap::class], $applicationConfig->getBootstrapQueue());
+        $this->assertSame([ConfigBootstrap::class, ServiceManagerBootstrap::class], $applicationConfig->getBootstrapQueue());
 
         //TODO check priority
     }
