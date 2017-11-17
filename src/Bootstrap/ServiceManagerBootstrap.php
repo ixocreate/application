@@ -12,8 +12,8 @@ declare(strict_types=1);
 namespace KiwiSuite\Application\Bootstrap;
 
 use KiwiSuite\Application\ApplicationConfig;
+use KiwiSuite\Application\Http\Middleware\Factory\MiddlewareSubManagerFactory;
 use KiwiSuite\Application\IncludeHelper;
-use KiwiSuite\Application\Middleware\Factory\MiddlewareSubManagerFactory;
 use KiwiSuite\ServiceManager\ServiceManagerConfig;
 use KiwiSuite\ServiceManager\ServiceManagerConfigurator;
 
