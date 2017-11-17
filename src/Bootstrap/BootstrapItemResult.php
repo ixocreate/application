@@ -17,14 +17,21 @@ final class BootstrapItemResult
      * @var array
      */
     private $services = [];
+    /**
+     * @var array
+     */
+    private $helpers = [];
 
     /**
      * BootstrapItemResult constructor.
      * @param array $services
+     * @param array $helpers
      */
-    public function __construct(array $services = [])
+    public function __construct(array $services = [], array $helpers = [])
     {
         $this->services = $services;
+
+        $this->helpers = $helpers;
     }
 
     /**
@@ -41,5 +48,21 @@ final class BootstrapItemResult
     public function getServices(): array
     {
         return $this->services;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasHelpers(): bool
+    {
+        return \count($this->helpers) > 0;
+    }
+
+    /**
+     * @return array
+     */
+    public function getHelpers(): array
+    {
+        return $this->helpers;
     }
 }

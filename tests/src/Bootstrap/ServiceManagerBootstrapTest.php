@@ -35,11 +35,11 @@ class ServiceManagerBootstrapTest extends TestCase
         $serviceManagerBootstrap = new ServiceManagerBootstrap();
         $bootstrapItemResult = $serviceManagerBootstrap->bootstrap($this->applicationConfig);
 
-        $this->assertArrayHasKey(ServiceManagerConfig::class, $bootstrapItemResult->getServices());
-        $this->assertInstanceOf(ServiceManagerConfig::class, $bootstrapItemResult->getServices()[ServiceManagerConfig::class]);
+        $this->assertArrayHasKey(ServiceManagerConfig::class, $bootstrapItemResult->getHelpers());
+        $this->assertInstanceOf(ServiceManagerConfig::class, $bootstrapItemResult->getHelpers()[ServiceManagerConfig::class]);
 
         /** @var ServiceManagerConfig $serviceManagerConfig */
-        $serviceManagerConfig = $bootstrapItemResult->getServices()[ServiceManagerConfig::class];
+        $serviceManagerConfig = $bootstrapItemResult->getHelpers()[ServiceManagerConfig::class];
         $this->assertArrayHasKey(\DateTime::class, $serviceManagerConfig->getFactories());
     }
 }

@@ -13,6 +13,7 @@ namespace KiwiSuite\Application\Bootstrap;
 
 use KiwiSuite\Application\ApplicationConfig;
 use KiwiSuite\Application\IncludeHelper;
+use KiwiSuite\Application\Middleware\Factory\MiddlewareSubManagerFactory;
 use KiwiSuite\ServiceManager\ServiceManagerConfig;
 use KiwiSuite\ServiceManager\ServiceManagerConfigurator;
 
@@ -30,6 +31,7 @@ final class ServiceManagerBootstrap implements BootstrapInterface
     public function bootstrap(ApplicationConfig $applicationConfig): BootstrapItemResult
     {
         $serviceManagerConfigurator = new ServiceManagerConfigurator();
+        $this->addDefaults($serviceManagerConfigurator);
 
         if (\file_exists($applicationConfig->getBootstrapDirectory() . $this->bootstrapFilename)) {
             IncludeHelper::include(
@@ -38,6 +40,11 @@ final class ServiceManagerBootstrap implements BootstrapInterface
             );
         }
 
-        return new BootstrapItemResult([ServiceManagerConfig::class => $serviceManagerConfigurator->getServiceManagerConfig()]);
+        return new BootstrapItemResult([], [ServiceManagerConfig::class => $serviceManagerConfigurator->getServiceManagerConfig()]);
+    }
+
+    private function addDefaults(ServiceManagerConfigurator $serviceManagerConfigurator)
+    {
+        $serviceManagerConfigurator->addSubManager('MiddlewareSubManager', MiddlewareSubManagerFactory::class);
     }
 }
