@@ -22,7 +22,7 @@ class MiddlewareSubManagerFactory implements SubManagerFactoryInterface
     {
         return new SubManager(
             $container,
-            new ServiceManagerConfig([]),
+            $container->get("MiddlewareConfig"),
             MiddlewareInterface::class
         );
     }

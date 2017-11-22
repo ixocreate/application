@@ -16,11 +16,15 @@ use PHPUnit\Framework\TestCase;
 
 class HttpApplicationTest extends TestCase
 {
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testRun()
     {
         $httpApplication = new HttpApplication(__DIR__ . "/../bootstrap");
         $httpApplication->run();
 
-        $this->expectOutputString("test");
+        $this->expectOutputString("Cannot GET http:/");
     }
 }
