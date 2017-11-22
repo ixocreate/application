@@ -13,7 +13,6 @@ namespace KiwiSuiteTest\Application\Bootstrap;
 
 use KiwiSuite\Application\ApplicationConfig;
 use KiwiSuite\Application\Bootstrap\MiddlewareBootstrap;
-use KiwiSuite\Application\Bootstrap\ServiceManagerBootstrap;
 use KiwiSuite\ServiceManager\ServiceManagerConfig;
 use PHPUnit\Framework\TestCase;
 

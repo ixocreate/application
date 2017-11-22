@@ -12,8 +12,6 @@ declare(strict_types=1);
 namespace KiwiSuite\Application\Bootstrap;
 
 use KiwiSuite\Application\ApplicationConfig;
-use KiwiSuite\Application\Http\Pipe\PipeConfig;
-use KiwiSuite\Application\Http\Pipe\PipeConfigurator;
 use KiwiSuite\Application\Http\Route\RouteConfig;
 use KiwiSuite\Application\Http\Route\RouteConfigurator;
 use KiwiSuite\Application\IncludeHelper;
