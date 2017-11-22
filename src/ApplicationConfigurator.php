@@ -51,10 +51,7 @@ final class ApplicationConfigurator
     {
         $this->bootstrapQueue = new \SplPriorityQueue();
 
-        if (empty($bootstrapDirectory)) {
-            $bootstrapDirectory = ".";
-        }
-        $this->bootstrapDirectory = \rtrim($bootstrapDirectory, '/') . '/';
+        $this->bootstrapDirectory = IncludeHelper::normalizePath($bootstrapDirectory);
     }
 
     /**
@@ -70,11 +67,7 @@ final class ApplicationConfigurator
      */
     public function setPersistCacheDirectory(string $persistCacheDirectory): void
     {
-        if (empty($persistCacheDirectory)) {
-            $persistCacheDirectory = ".";
-        }
-
-        $this->persistCacheDirectory = \rtrim($persistCacheDirectory, '/') . '/';
+        $this->persistCacheDirectory = IncludeHelper::normalizePath($persistCacheDirectory);
     }
 
     /**
@@ -82,11 +75,7 @@ final class ApplicationConfigurator
      */
     public function setCacheDirectory(string $cacheDirectory): void
     {
-        if (empty($cacheDirectory)) {
-            $cacheDirectory = ".";
-        }
-
-        $this->cacheDirectory = \rtrim($cacheDirectory, '/') . '/';
+        $this->cacheDirectory = IncludeHelper::normalizePath($cacheDirectory);
     }
 
     /**
@@ -94,11 +83,7 @@ final class ApplicationConfigurator
      */
     public function setConfigDirectory(string $configDirectory): void
     {
-        if (empty($configDirectory)) {
-            $configDirectory = ".";
-        }
-
-        $this->configDirectory = \rtrim($configDirectory, '/') . '/';
+        $this->configDirectory = IncludeHelper::normalizePath($configDirectory);
     }
 
     /**

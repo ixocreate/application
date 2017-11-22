@@ -62,10 +62,7 @@ final class HttpApplication implements ApplicationInterface
      */
     public function __construct(string $bootstrapDirectory)
     {
-        if (empty($bootstrapDirectory)) {
-            $bootstrapDirectory = ".";
-        }
-        $this->bootstrapDirectory = \rtrim($bootstrapDirectory, '/') . '/';
+        $this->bootstrapDirectory = IncludeHelper::normalizePath($bootstrapDirectory);
     }
 
     /**

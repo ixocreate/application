@@ -43,11 +43,7 @@ final class ApplicationConfig implements \Serializable
                 throw new InvalidArgumentException(\sprintf("'%' must be a string", "persistCacheDirectory"));
             }
 
-            if (empty($config['persistCacheDirectory'])) {
-                $config['persistCacheDirectory'] = ".";
-            }
-
-            $this->config['persistCacheDirectory'] = \rtrim($config['persistCacheDirectory'], '/') . '/';
+            $this->config['persistCacheDirectory'] = IncludeHelper::normalizePath($config['persistCacheDirectory']);
         }
 
         if (\array_key_exists('cacheDirectory', $config)) {
@@ -55,11 +51,7 @@ final class ApplicationConfig implements \Serializable
                 throw new InvalidArgumentException(\sprintf("'%' must be a string", "cacheDirectory"));
             }
 
-            if (empty($config['cacheDirectory'])) {
-                $config['cacheDirectory'] = ".";
-            }
-
-            $this->config['cacheDirectory'] = \rtrim($config['cacheDirectory'], '/') . '/';
+            $this->config['cacheDirectory'] = IncludeHelper::normalizePath($config['cacheDirectory']);
         }
 
         if (\array_key_exists('bootstrapDirectory', $config)) {
@@ -67,11 +59,7 @@ final class ApplicationConfig implements \Serializable
                 throw new InvalidArgumentException(\sprintf("'%' must be a string", "bootstrapDirectory"));
             }
 
-            if (empty($config['bootstrapDirectory'])) {
-                $config['bootstrapDirectory'] = ".";
-            }
-
-            $this->config['bootstrapDirectory'] = \rtrim($config['bootstrapDirectory'], '/') . '/';
+            $this->config['bootstrapDirectory'] = IncludeHelper::normalizePath($config['bootstrapDirectory']);
         }
 
         if (\array_key_exists('configDirectory', $config)) {
@@ -79,11 +67,7 @@ final class ApplicationConfig implements \Serializable
                 throw new InvalidArgumentException(\sprintf("'%' must be a string", "configDirectory"));
             }
 
-            if (empty($config['configDirectory'])) {
-                $config['configDirectory'] = ".";
-            }
-
-            $this->config['configDirectory'] = \rtrim($config['configDirectory'], '/') . '/';
+            $this->config['configDirectory'] = IncludeHelper::normalizePath($config['configDirectory']);
         }
 
         if (\array_key_exists('bootstrapQueue', $config)) {
