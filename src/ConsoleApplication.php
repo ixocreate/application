@@ -11,26 +11,19 @@
 declare(strict_types=1);
 namespace KiwiSuite\Application;
 
-use KiwiSuite\Application\Bootstrap\BootstrapItemResult;
 use KiwiSuite\Application\Bootstrap\ConfigBootstrap;
+use KiwiSuite\Application\Bootstrap\ConsoleBootstrap;
 use KiwiSuite\Application\Bootstrap\MiddlewareBootstrap;
 use KiwiSuite\Application\Bootstrap\PipeBootstrap;
 use KiwiSuite\Application\Bootstrap\RouteBootstrap;
 use KiwiSuite\Application\Bootstrap\ServiceManagerBootstrap;
-use KiwiSuite\Application\Http\Pipe\PipeConfig;
 use KiwiSuite\Application\Http\Route\RouteConfig;
-use KiwiSuite\ServiceManager\Resolver\CacheResolver;
-use KiwiSuite\ServiceManager\Resolver\InMemoryResolver;
-use KiwiSuite\ServiceManager\ServiceManager;
-use KiwiSuite\ServiceManager\ServiceManagerConfig;
-use KiwiSuite\ServiceManager\ServiceManagerSetup;
-use Zend\Diactoros\Response\SapiEmitter;
-use Zend\Expressive\Application;
-use Zend\Expressive\Emitter\EmitterStack;
-use Zend\Expressive\Router\FastRouteRouter;
+use KiwiSuite\ServiceManager\SubManager\SubManager;
+use Symfony\Component\Console\Application;
 
-final class HttpApplication extends AbstractApplication
+final class ConsoleApplication extends AbstractApplication
 {
+
     /**
      *
      */
@@ -38,25 +31,18 @@ final class HttpApplication extends AbstractApplication
     {
         $this->init();
 
-        $emitter = new EmitterStack();
-        $emitter->push(new SapiEmitter());
+        $application = new Application('kiwi', '0.0.1');
 
-        $app = new Application(
-            new FastRouteRouter(),
-            $this->serviceManager->get('MiddlewareSubManager'),
-            null,
-            $emitter
-        );
+        /** @var SubManager $serverManager */
+        $serverManager = $this->serviceManager->get('ConsoleCommandSubManager');
 
-        $this->addPipes($app);
-        $this->addRoutes($app);
+        foreach ($serverManager->getServiceManagerConfig()->getFactories() as $class => $factory) {
+            $application->add($serverManager->get($class));
+        }
 
-        $app->run();
+        $application->run();
     }
 
-    /**
-     * @param ApplicationConfigurator $applicationConfigurator
-     */
     protected function configureDefaultBootstrap(ApplicationConfigurator $applicationConfigurator): void
     {
         $applicationConfigurator->addBootstrapItem(ConfigBootstrap::class, 10);
@@ -64,28 +50,7 @@ final class HttpApplication extends AbstractApplication
         $applicationConfigurator->addBootstrapItem(MiddlewareBootstrap::class, 100);
         $applicationConfigurator->addBootstrapItem(PipeBootstrap::class, 200);
         $applicationConfigurator->addBootstrapItem(RouteBootstrap::class, 300);
-    }
-
-    /**
-     * @param Application $app
-     */
-    private function addPipes(Application $app): void
-    {
-        /** @var PipeConfig $pipeConfig */
-        $pipeConfig = $this->bootstrapRegistry->get(PipeConfig::class);
-        foreach ($pipeConfig->getGlobalPipe() as $globalPipe) {
-            $app->pipe($globalPipe);
-        }
-
-        $app->pipeRoutingMiddleware();
-        foreach ($pipeConfig->getRoutingPipe() as $routingPipe) {
-            $app->pipe($routingPipe);
-        }
-
-        $app->pipeDispatchMiddleware();
-        foreach ($pipeConfig->getDispatchPipe() as $dispatchPipe) {
-            $app->pipe($dispatchPipe);
-        }
+        $applicationConfigurator->addBootstrapItem(ConsoleBootstrap::class, 400);
     }
 
     /**

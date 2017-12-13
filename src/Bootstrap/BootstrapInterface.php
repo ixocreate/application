@@ -15,5 +15,9 @@ use KiwiSuite\Application\ApplicationConfig;
 
 interface BootstrapInterface
 {
-    public function bootstrap(ApplicationConfig $applicationConfig): BootstrapItemResult;
+    /**
+     * @param ApplicationConfig $applicationConfig
+     * @param BootstrapRegistry $bootstrapCollection
+     */
+    public function bootstrap(ApplicationConfig $applicationConfig, BootstrapRegistry $bootstrapCollection): void;
 }

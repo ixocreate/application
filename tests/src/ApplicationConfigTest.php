@@ -20,7 +20,7 @@ class ApplicationConfigTest extends TestCase
 {
     public function testDefaults()
     {
-        $applicationConfig = new ApplicationConfig([]);
+        $applicationConfig = new ApplicationConfig();
 
         $this->assertSame(true, $applicationConfig->isDevelopment());
         $this->assertSame("resources/application/", $applicationConfig->getPersistCacheDirectory());
@@ -32,130 +32,82 @@ class ApplicationConfigTest extends TestCase
 
     public function testDevelopment()
     {
-        $applicationConfig = new ApplicationConfig([
-            'development' => true,
-        ]);
+        $applicationConfig = new ApplicationConfig(true);
         $this->assertTrue($applicationConfig->isDevelopment());
 
-        $applicationConfig = new ApplicationConfig([
-            'development' => false,
-        ]);
+        $applicationConfig = new ApplicationConfig(false);
         $this->assertFalse($applicationConfig->isDevelopment());
-
-        $this->expectException(InvalidArgumentException::class);
-        new ApplicationConfig([
-            'development' => "string",
-        ]);
     }
 
     public function testPersistCacheDirectory()
     {
-        $applicationConfig = new ApplicationConfig([
-            'persistCacheDirectory' => 'testDirectory',
-        ]);
+        $applicationConfig = new ApplicationConfig(null, null, null, null, 'testDirectory');
         $this->assertSame("testDirectory/", $applicationConfig->getPersistCacheDirectory());
 
-        $applicationConfig = new ApplicationConfig([
-            'persistCacheDirectory' => "testDirectory/",
-        ]);
+        $applicationConfig = new ApplicationConfig(null, null, null, null, 'testDirectory/');
         $this->assertSame("testDirectory/", $applicationConfig->getPersistCacheDirectory());
 
-        $applicationConfig = new ApplicationConfig([
-            'persistCacheDirectory' => "",
-        ]);
+        $applicationConfig = new ApplicationConfig(null, null, null, null, '');
         $this->assertSame("./", $applicationConfig->getPersistCacheDirectory());
-
-        $this->expectException(InvalidArgumentException::class);
-        new ApplicationConfig([
-            'persistCacheDirectory' => [],
-        ]);
     }
 
     public function testBootstrapDirectory()
     {
-        $applicationConfig = new ApplicationConfig([
-            'bootstrapDirectory' => 'testDirectory',
-        ]);
+        $applicationConfig = new ApplicationConfig(null, null,  'testDirectory');
         $this->assertSame("testDirectory/", $applicationConfig->getBootstrapDirectory());
 
-        $applicationConfig = new ApplicationConfig([
-            'bootstrapDirectory' => "testDirectory/",
-        ]);
+        $applicationConfig = new ApplicationConfig(null, null,  'testDirectory/');
         $this->assertSame("testDirectory/", $applicationConfig->getBootstrapDirectory());
 
-        $applicationConfig = new ApplicationConfig([
-            'bootstrapDirectory' => "",
-        ]);
+        $applicationConfig = new ApplicationConfig(null, null,  '');
         $this->assertSame("./", $applicationConfig->getBootstrapDirectory());
-
-        $this->expectException(InvalidArgumentException::class);
-        new ApplicationConfig([
-            'bootstrapDirectory' => [],
-        ]);
     }
 
     public function testConfigDirectory()
     {
-        $applicationConfig = new ApplicationConfig([
-            'configDirectory' => 'testDirectory',
-        ]);
+        $applicationConfig = new ApplicationConfig(null, 'testDirectory');
         $this->assertSame("testDirectory/", $applicationConfig->getConfigDirectory());
 
-        $applicationConfig = new ApplicationConfig([
-            'configDirectory' => "testDirectory/",
-        ]);
+        $applicationConfig = new ApplicationConfig(null, 'testDirectory/');
         $this->assertSame("testDirectory/", $applicationConfig->getConfigDirectory());
 
-        $applicationConfig = new ApplicationConfig([
-            'configDirectory' => "",
-        ]);
+        $applicationConfig = new ApplicationConfig(null, '');
         $this->assertSame("./", $applicationConfig->getConfigDirectory());
-
-        $this->expectException(InvalidArgumentException::class);
-        new ApplicationConfig([
-            'configDirectory' => [],
-        ]);
     }
 
     public function testCacheDirectory()
     {
-        $applicationConfig = new ApplicationConfig([
-            'cacheDirectory' => 'testDirectory',
-        ]);
+        $applicationConfig = new ApplicationConfig(null, null, null,'testDirectory');
         $this->assertSame("testDirectory/", $applicationConfig->getCacheDirectory());
 
-        $applicationConfig = new ApplicationConfig([
-            'cacheDirectory' => "testDirectory/",
-        ]);
+        $applicationConfig = new ApplicationConfig(null, null, null,'testDirectory/');
         $this->assertSame("testDirectory/", $applicationConfig->getCacheDirectory());
 
-        $applicationConfig = new ApplicationConfig([
-            'cacheDirectory' => "",
-        ]);
+        $applicationConfig = new ApplicationConfig(null, null, null,'');
         $this->assertSame("./", $applicationConfig->getCacheDirectory());
-
-        $this->expectException(InvalidArgumentException::class);
-        new ApplicationConfig([
-            'cacheDirectory' => [],
-        ]);
     }
 
     public function testBootstrapQueue()
     {
-        $applicationConfig = new ApplicationConfig([
-            'bootstrapQueue' => [ServiceManagerBootstrap::class],
-        ]);
+        $applicationConfig = new ApplicationConfig(
+            null,
+            null,
+            null,
+            null,
+            null,
+            [ServiceManagerBootstrap::class]
+        );
         $this->assertSame([ServiceManagerBootstrap::class], $applicationConfig->getBootstrapQueue());
 
-        $applicationConfig = new ApplicationConfig([
-            'bootstrapQueue' => ["test" => ServiceManagerBootstrap::class],
-        ]);
+        $applicationConfig = new ApplicationConfig(
+            null,
+            null,
+            null,
+            null,
+            null,
+            ['test' => ServiceManagerBootstrap::class]
+        );
         $this->assertSame([ServiceManagerBootstrap::class], $applicationConfig->getBootstrapQueue());
-
-        $this->expectException(InvalidArgumentException::class);
-        new ApplicationConfig([
-            'bootstrapQueue' => "string",
-        ]);
     }
 
     public function testSerialize()
@@ -169,7 +121,14 @@ class ApplicationConfigTest extends TestCase
             'bootstrapQueue'                => [ServiceManagerBootstrap::class],
         ];
 
-        $applicationConfig = new ApplicationConfig($config);
+        $applicationConfig = new ApplicationConfig(
+            $config['development'],
+            $config['configDirectory'],
+            $config['bootstrapDirectory'],
+            $config['cacheDirectory'],
+            $config['persistCacheDirectory'],
+            $config['bootstrapQueue']
+        );
 
         $this->assertSame(\serialize($config), $applicationConfig->serialize());
     }
@@ -185,7 +144,7 @@ class ApplicationConfigTest extends TestCase
             'bootstrapQueue'                => [ServiceManagerBootstrap::class],
         ];
 
-        $applicationConfig = new ApplicationConfig([]);
+        $applicationConfig = new ApplicationConfig();
         $applicationConfig->unserialize(\serialize($config));
 
         $this->assertSame($config['development'], $applicationConfig->isDevelopment());

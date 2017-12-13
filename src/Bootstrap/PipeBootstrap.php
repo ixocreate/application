@@ -15,6 +15,7 @@ use KiwiSuite\Application\ApplicationConfig;
 use KiwiSuite\Application\Http\Pipe\PipeConfig;
 use KiwiSuite\Application\Http\Pipe\PipeConfigurator;
 use KiwiSuite\Application\IncludeHelper;
+use KiwiSuite\Application\Module\ModuleInterface;
 
 final class PipeBootstrap implements BootstrapInterface
 {
@@ -25,21 +26,31 @@ final class PipeBootstrap implements BootstrapInterface
 
     /**
      * @param ApplicationConfig $applicationConfig
-     * @return BootstrapItemResult
+     * @param BootstrapRegistry $bootstrapRegistry
      */
-    public function bootstrap(ApplicationConfig $applicationConfig): BootstrapItemResult
+    public function bootstrap(ApplicationConfig $applicationConfig, BootstrapRegistry $bootstrapRegistry): void
     {
         $pipeConfigurator = new PipeConfigurator();
         $this->addDefaults($pipeConfigurator);
 
-        if (\file_exists($applicationConfig->getBootstrapDirectory() . $this->bootstrapFilename)) {
-            IncludeHelper::include(
-                $applicationConfig->getBootstrapDirectory() . $this->bootstrapFilename,
-                ['pipeConfigurator' => $pipeConfigurator]
-            );
+        $bootstrapDirectories = [
+            $applicationConfig->getBootstrapDirectory(),
+        ];
+
+        foreach ($bootstrapRegistry->getModules() as $module) {
+            $bootstrapDirectories[] = $module->getBootstrapDirectory();
         }
 
-        return new BootstrapItemResult([], [PipeConfig::class => $pipeConfigurator->getPipeConfig()]);
+        foreach ($bootstrapDirectories as $directory) {
+            if (\file_exists($directory . $this->bootstrapFilename)) {
+                IncludeHelper::include(
+                    $directory . $this->bootstrapFilename,
+                    ['pipeConfigurator' => $pipeConfigurator]
+                );
+            }
+        }
+
+        $bootstrapRegistry->add(PipeConfig::class, $pipeConfigurator->getPipeConfig());
     }
 
     private function addDefaults(PipeConfigurator $pipeConfigurator)

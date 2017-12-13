@@ -15,6 +15,7 @@ use KiwiSuite\Application\ApplicationConfig;
 use KiwiSuite\Application\Http\Route\RouteConfig;
 use KiwiSuite\Application\Http\Route\RouteConfigurator;
 use KiwiSuite\Application\IncludeHelper;
+use KiwiSuite\Application\Module\ModuleInterface;
 
 final class RouteBootstrap implements BootstrapInterface
 {
@@ -25,19 +26,29 @@ final class RouteBootstrap implements BootstrapInterface
 
     /**
      * @param ApplicationConfig $applicationConfig
-     * @return BootstrapItemResult
+     * @param BootstrapRegistry $bootstrapRegistry
      */
-    public function bootstrap(ApplicationConfig $applicationConfig): BootstrapItemResult
+    public function bootstrap(ApplicationConfig $applicationConfig, BootstrapRegistry $bootstrapRegistry): void
     {
         $routeConfigurator = new RouteConfigurator();
 
-        if (\file_exists($applicationConfig->getBootstrapDirectory() . $this->bootstrapFilename)) {
-            IncludeHelper::include(
-                $applicationConfig->getBootstrapDirectory() . $this->bootstrapFilename,
-                ['routeConfigurator' => $routeConfigurator]
-            );
+        $bootstrapDirectories = [
+            $applicationConfig->getBootstrapDirectory(),
+        ];
+
+        foreach ($bootstrapRegistry->getModules() as $module) {
+            $bootstrapDirectories[] = $module->getBootstrapDirectory();
         }
 
-        return new BootstrapItemResult([], [RouteConfig::class => $routeConfigurator->getRouteConfig()]);
+        foreach ($bootstrapDirectories as $directory) {
+            if (\file_exists($directory . $this->bootstrapFilename)) {
+                IncludeHelper::include(
+                    $directory . $this->bootstrapFilename,
+                    ['routeConfigurator' => $routeConfigurator]
+                );
+            }
+        }
+
+        $bootstrapRegistry->add(RouteConfig::class, $routeConfigurator->getRouteConfig());
     }
 }

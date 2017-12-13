@@ -13,6 +13,7 @@ namespace KiwiSuite\Application\Bootstrap;
 
 use KiwiSuite\Application\ApplicationConfig;
 use KiwiSuite\Application\Config\Config;
+use KiwiSuite\Application\Module\ModuleInterface;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Stdlib\Glob;
 
@@ -21,16 +22,21 @@ final class ConfigBootstrap implements BootstrapInterface
 
     /**
      * @param ApplicationConfig $applicationConfig
-     * @return BootstrapItemResult
+     * @param BootstrapRegistry $bootstrapRegistry
      */
-    public function bootstrap(ApplicationConfig $applicationConfig): BootstrapItemResult
+    public function bootstrap(ApplicationConfig $applicationConfig, BootstrapRegistry $bootstrapRegistry): void
     {
         $mergedConfig = [];
 
         $configDirectories = [
             $applicationConfig->getConfigDirectory(),
-            $applicationConfig->getConfigDirectory() . 'local/',
         ];
+
+        foreach ($bootstrapRegistry->getModules() as $module) {
+            $configDirectories[] = $module->getConfigDirectory();
+        }
+
+        $configDirectories[] = $applicationConfig->getConfigDirectory() . 'local/';
 
         foreach ($configDirectories as $directory) {
             if (!\is_dir($directory)) {
@@ -51,6 +57,6 @@ final class ConfigBootstrap implements BootstrapInterface
             }
         }
 
-        return new BootstrapItemResult([Config::class => new Config($mergedConfig)]);
+        $bootstrapRegistry->addService(Config::class, new Config($mergedConfig));
     }
 }

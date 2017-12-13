@@ -12,16 +12,19 @@ declare(strict_types=1);
 namespace KiwiSuite\Application\Bootstrap;
 
 use KiwiSuite\Application\ApplicationConfig;
+use KiwiSuite\Application\Console\ConsoleConfigurator;
+use KiwiSuite\Application\Console\ConsoleServiceManagerConfig;
+use KiwiSuite\Application\Http\Route\RouteConfig;
 use KiwiSuite\Application\IncludeHelper;
 use KiwiSuite\Application\Module\ModuleInterface;
 use KiwiSuite\ServiceManager\ServiceManagerConfigurator;
 
-final class MiddlewareBootstrap implements BootstrapInterface
+final class ConsoleBootstrap implements BootstrapInterface
 {
     /**
      * @var string
      */
-    private $bootstrapFilename = 'middleware.php';
+    private $bootstrapFilename = 'console.php';
 
     /**
      * @param ApplicationConfig $applicationConfig
@@ -29,8 +32,7 @@ final class MiddlewareBootstrap implements BootstrapInterface
      */
     public function bootstrap(ApplicationConfig $applicationConfig, BootstrapRegistry $bootstrapRegistry): void
     {
-        $serviceManagerConfigurator = new ServiceManagerConfigurator();
-        $this->addDefaults($serviceManagerConfigurator);
+        $serviceManagerConfigurator = new ServiceManagerConfigurator(ConsoleServiceManagerConfig::class);
 
         $bootstrapDirectories = [
             $applicationConfig->getBootstrapDirectory(),
@@ -44,16 +46,11 @@ final class MiddlewareBootstrap implements BootstrapInterface
             if (\file_exists($directory . $this->bootstrapFilename)) {
                 IncludeHelper::include(
                     $directory . $this->bootstrapFilename,
-                    ['middlewareConfigurator' => $serviceManagerConfigurator]
+                    ['serviceManagerConfigurator' => $serviceManagerConfigurator]
                 );
             }
         }
 
-        $bootstrapRegistry->addService('MiddlewareConfig', $serviceManagerConfigurator->getServiceManagerConfig());
-    }
-
-    private function addDefaults(ServiceManagerConfigurator $serviceManagerConfigurator)
-    {
-        //TODO set defaults
+        $bootstrapRegistry->add(ConsoleServiceManagerConfig::class, $serviceManagerConfigurator->getServiceManagerConfig());
     }
 }

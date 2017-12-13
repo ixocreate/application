@@ -11,8 +11,6 @@
 declare(strict_types=1);
 namespace KiwiSuite\Application;
 
-use KiwiSuite\Application\Exception\InvalidArgumentException;
-
 final class ApplicationConfig implements \Serializable
 {
     private $config = [
@@ -22,60 +20,48 @@ final class ApplicationConfig implements \Serializable
         'bootstrapDirectory'            => 'bootstrap/',
         'configDirectory'               => 'config/',
         'bootstrapQueue'                => [],
+        'modules'                       => [],
     ];
 
     /**
      * ApplicationConfig constructor.
-     * @param array $config
+     * @param bool|null $development
+     * @param null|string $configDirectory
+     * @param null|string $bootstrapDirectory
+     * @param null|string $cacheDirectory
+     * @param null|string $persistCacheDirectory
+     * @param array|null $bootstrapQueue
      */
-    public function __construct(array $config)
+    public function __construct(?bool $development = null,
+                                ?string $configDirectory = null,
+                                ?string $bootstrapDirectory = null,
+                                ?string $cacheDirectory = null,
+                                ?string $persistCacheDirectory = null,
+                                ?array $bootstrapQueue = null
+    )
     {
-        if (\array_key_exists('development', $config)) {
-            if (!\is_bool($config['development'])) {
-                throw new InvalidArgumentException(\sprintf("'%' must be boolean", "development"));
-            }
-
-            $this->config['development'] = $config['development'];
+        if ($development !== null) {
+            $this->config['development'] = $development;
         }
 
-        if (\array_key_exists('persistCacheDirectory', $config)) {
-            if (!\is_string($config['persistCacheDirectory'])) {
-                throw new InvalidArgumentException(\sprintf("'%' must be a string", "persistCacheDirectory"));
-            }
-
-            $this->config['persistCacheDirectory'] = IncludeHelper::normalizePath($config['persistCacheDirectory']);
+        if ($persistCacheDirectory !== null) {
+            $this->config['persistCacheDirectory'] = IncludeHelper::normalizePath($persistCacheDirectory);
         }
 
-        if (\array_key_exists('cacheDirectory', $config)) {
-            if (!\is_string($config['cacheDirectory'])) {
-                throw new InvalidArgumentException(\sprintf("'%' must be a string", "cacheDirectory"));
-            }
-
-            $this->config['cacheDirectory'] = IncludeHelper::normalizePath($config['cacheDirectory']);
+        if ($cacheDirectory !== null) {
+            $this->config['cacheDirectory'] = IncludeHelper::normalizePath($cacheDirectory);
         }
 
-        if (\array_key_exists('bootstrapDirectory', $config)) {
-            if (!\is_string($config['bootstrapDirectory'])) {
-                throw new InvalidArgumentException(\sprintf("'%' must be a string", "bootstrapDirectory"));
-            }
-
-            $this->config['bootstrapDirectory'] = IncludeHelper::normalizePath($config['bootstrapDirectory']);
+        if ($bootstrapDirectory !== null) {
+            $this->config['bootstrapDirectory'] = IncludeHelper::normalizePath($bootstrapDirectory);
         }
 
-        if (\array_key_exists('configDirectory', $config)) {
-            if (!\is_string($config['configDirectory'])) {
-                throw new InvalidArgumentException(\sprintf("'%' must be a string", "configDirectory"));
-            }
-
-            $this->config['configDirectory'] = IncludeHelper::normalizePath($config['configDirectory']);
+        if ($configDirectory !== null) {
+            $this->config['configDirectory'] = IncludeHelper::normalizePath($configDirectory);
         }
 
-        if (\array_key_exists('bootstrapQueue', $config)) {
-            if (!\is_array($config['bootstrapQueue'])) {
-                throw new InvalidArgumentException(\sprintf("'%' must be an array", "bootstrapQueue"));
-            }
-
-            $this->config['bootstrapQueue'] = \array_values($config['bootstrapQueue']);
+        if ($bootstrapQueue !== null) {
+            $this->config['bootstrapQueue'] = \array_values($bootstrapQueue);
         }
     }
 
@@ -125,6 +111,14 @@ final class ApplicationConfig implements \Serializable
     public function getBootstrapQueue(): array
     {
         return $this->config['bootstrapQueue'];
+    }
+
+    /**
+     * @return array
+     */
+    public function getModules(): array
+    {
+        return $this->config['modules'];
     }
 
     /**

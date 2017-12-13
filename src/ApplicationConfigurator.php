@@ -44,6 +44,11 @@ final class ApplicationConfigurator
     private $configDirectory = "config/";
 
     /**
+     * @var array
+     */
+    private $modules = [];
+
+    /**
      * ApplicationConfigurator constructor.
      * @param string $bootstrapDirectory
      */
@@ -97,26 +102,49 @@ final class ApplicationConfigurator
     }
 
     /**
+     * @return array
+     */
+    public function getModules(): array
+    {
+        return $this->modules;
+    }
+
+    /**
+     * @param string $module
+     */
+    public function addModule(string $module)
+    {
+        $this->modules[] = $module;
+    }
+
+    /**
+     * @param array $modules
+     */
+    public function setModules(array $modules)
+    {
+        $this->modules = $modules;
+    }
+
+    /**
      * @return ApplicationConfig
      */
     public function getApplicationConfig(): ApplicationConfig
     {
         $bootstrapQueue = [];
         if ($this->bootstrapQueue->count() > 0) {
-            $this->bootstrapQueue->top();
+            $this->bootstrapQueue->rewind();
             while ($this->bootstrapQueue->valid()) {
                 $bootstrapQueue[] = $this->bootstrapQueue->extract();
             }
         }
 
-
-        return new ApplicationConfig([
-            'development'               => $this->development,
-            'persistCacheDirectory'     => $this->persistCacheDirectory,
-            'cacheDirectory'            => $this->cacheDirectory,
-            'bootstrapQueue'            => $bootstrapQueue,
-            'bootstrapDirectory'        => $this->bootstrapDirectory,
-            'configDirectory'           => $this->configDirectory,
-        ]);
+        return new ApplicationConfig(
+            $this->development,
+            $this->configDirectory,
+            $this->bootstrapDirectory,
+            $this->cacheDirectory,
+            $this->persistCacheDirectory,
+            $bootstrapQueue
+        );
     }
 }

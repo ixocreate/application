@@ -14,6 +14,7 @@ namespace KiwiSuite\Application\Bootstrap;
 use KiwiSuite\Application\ApplicationConfig;
 use KiwiSuite\Application\Http\Middleware\Factory\MiddlewareSubManagerFactory;
 use KiwiSuite\Application\IncludeHelper;
+use KiwiSuite\Application\Module\ModuleInterface;
 use KiwiSuite\ServiceManager\ServiceManagerConfig;
 use KiwiSuite\ServiceManager\ServiceManagerConfigurator;
 
@@ -26,21 +27,31 @@ final class ServiceManagerBootstrap implements BootstrapInterface
 
     /**
      * @param ApplicationConfig $applicationConfig
-     * @return BootstrapItemResult
+     * @param BootstrapRegistry $bootstrapRegistry
      */
-    public function bootstrap(ApplicationConfig $applicationConfig): BootstrapItemResult
+    public function bootstrap(ApplicationConfig $applicationConfig, BootstrapRegistry $bootstrapRegistry): void
     {
         $serviceManagerConfigurator = new ServiceManagerConfigurator();
         $this->addDefaults($serviceManagerConfigurator);
 
-        if (\file_exists($applicationConfig->getBootstrapDirectory() . $this->bootstrapFilename)) {
-            IncludeHelper::include(
-                $applicationConfig->getBootstrapDirectory() . $this->bootstrapFilename,
-                ['serviceManagerConfigurator' => $serviceManagerConfigurator]
-            );
+        $bootstrapDirectories = [
+            $applicationConfig->getBootstrapDirectory(),
+        ];
+
+        foreach ($bootstrapRegistry->getModules() as $module) {
+            $bootstrapDirectories[] = $module->getBootstrapDirectory();
         }
 
-        return new BootstrapItemResult([], [ServiceManagerConfig::class => $serviceManagerConfigurator->getServiceManagerConfig()]);
+        foreach ($bootstrapDirectories as $directory) {
+            if (\file_exists($directory . $this->bootstrapFilename)) {
+                IncludeHelper::include(
+                    $directory . $this->bootstrapFilename,
+                    ['serviceManagerConfigurator' => $serviceManagerConfigurator]
+                );
+            }
+        }
+
+        $bootstrapRegistry->add(ServiceManagerConfig::class, $serviceManagerConfigurator->getServiceManagerConfig());
     }
 
     private function addDefaults(ServiceManagerConfigurator $serviceManagerConfigurator)
