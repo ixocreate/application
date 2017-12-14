@@ -77,7 +77,7 @@ class BootstrapRegistry
             return $this->services[$name];
         }
 
-        throw new ArgumentNotFoundException(sprintf("Service with name '%s' not found", $name));
+        throw new ArgumentNotFoundException(\sprintf("Service with name '%s' not found", $name));
     }
 
     /**
@@ -126,6 +126,6 @@ class BootstrapRegistry
             return $this->registry[$name];
         }
 
-        throw new ArgumentNotFoundException(sprintf("Item with name '%s' not found", $name));
+        throw new ArgumentNotFoundException(\sprintf("Item with name '%s' not found", $name));
     }
 }

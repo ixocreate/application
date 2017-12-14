@@ -12,9 +12,6 @@ declare(strict_types=1);
 namespace KiwiSuiteTest\Application;
 
 use KiwiSuite\Application\ApplicationConfig;
-use KiwiSuite\Application\Bootstrap\BootstrapInterface;
-use KiwiSuite\Application\Bootstrap\ServiceManagerBootstrap;
-use KiwiSuite\Application\Module\ModuleInterface;
 use KiwiSuiteMisc\Application\BootstrapTest;
 use KiwiSuiteMisc\Application\ModuleTest;
 use PHPUnit\Framework\TestCase;
@@ -148,7 +145,7 @@ class ApplicationConfigTest extends TestCase
             'bootstrapDirectory'            => 'bootstrap_test/',
             'configDirectory'               => 'config_test/',
             'bootstrapQueue'                => [BootstrapTest::class],
-            'modules'                       => [ModuleTest::class]
+            'modules'                       => [ModuleTest::class],
         ];
 
         $applicationConfig = new ApplicationConfig(
@@ -173,7 +170,7 @@ class ApplicationConfigTest extends TestCase
             'bootstrapDirectory'            => 'bootstrap_test/',
             'configDirectory'               => 'config_test/',
             'bootstrapQueue'                => [BootstrapTest::class],
-            'modules'                       => [ModuleTest::class]
+            'modules'                       => [ModuleTest::class],
         ];
 
         $applicationConfig = new ApplicationConfig();

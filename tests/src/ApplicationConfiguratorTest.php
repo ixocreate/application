@@ -61,7 +61,6 @@ class ApplicationConfiguratorTest extends TestCase
         $applicationConfigurator->setCacheDirectory("directory");
         $applicationConfig = $applicationConfigurator->getApplicationConfig();
         $this->assertSame("directory/", $applicationConfig->getCacheDirectory());
-
     }
 
     public function testConfigDirectory()
@@ -70,7 +69,6 @@ class ApplicationConfiguratorTest extends TestCase
         $applicationConfigurator->setConfigDirectory("directory");
         $applicationConfig = $applicationConfigurator->getApplicationConfig();
         $this->assertSame("directory/", $applicationConfig->getConfigDirectory());
-
     }
 
     public function testAddModules()
@@ -79,7 +77,6 @@ class ApplicationConfiguratorTest extends TestCase
         $applicationConfigurator->addModule(ModuleTest::class);
         $applicationConfig = $applicationConfigurator->getApplicationConfig();
         $this->assertInstanceOf(ModuleTest::class, $applicationConfig->getModules()[0]);
-
     }
 
     public function testAddBootstrapItem()
