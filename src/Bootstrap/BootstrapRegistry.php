@@ -1,8 +1,17 @@
 <?php
+/**
+ * kiwi-suite/application (https://github.com/kiwi-suite/application)
+ *
+ * @package kiwi-suite/application
+ * @see https://github.com/kiwi-suite/application
+ * @copyright Copyright (c) 2010 - 2017 kiwi suite GmbH
+ * @license MIT License
+ */
 
 declare(strict_types=1);
 namespace KiwiSuite\Application\Bootstrap;
 
+use KiwiSuite\Application\Exception\ArgumentNotFoundException;
 use KiwiSuite\Application\Module\ModuleInterface;
 
 class BootstrapRegistry
@@ -21,6 +30,7 @@ class BootstrapRegistry
      * @var array
      */
     private $registry = [];
+
 
     /**
      * BootstrapCollection constructor.
@@ -54,6 +64,20 @@ class BootstrapRegistry
     public function getServices(): array
     {
         return $this->services;
+    }
+
+    /**
+     * @param string $name
+     * @throws ArgumentNotFoundException
+     * @return mixed
+     */
+    public function getService(string $name)
+    {
+        if ($this->hasService($name)) {
+            return $this->services[$name];
+        }
+
+        throw new ArgumentNotFoundException(sprintf("Service with name '%s' not found", $name));
     }
 
     /**
@@ -93,15 +117,15 @@ class BootstrapRegistry
 
     /**
      * @param string $name
+     * @throws ArgumentNotFoundException
      * @return mixed
-     * @throws \Exception
      */
     public function get(string $name)
     {
         if ($this->has($name)) {
             return $this->registry[$name];
         }
-        //TODO: create application exception and improve text
-        throw new \Exception('Registry Item not found: ' . $name);
+
+        throw new ArgumentNotFoundException(sprintf("Item with name '%s' not found", $name));
     }
 }

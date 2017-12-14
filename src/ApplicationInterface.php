@@ -13,5 +13,5 @@ namespace KiwiSuite\Application;
 
 interface ApplicationInterface
 {
-    public function run(): void;
+    public function run() : void;
 }

@@ -11,6 +11,9 @@
 declare(strict_types=1);
 namespace KiwiSuite\Application;
 
+use KiwiSuite\Application\Bootstrap\BootstrapInterface;
+use KiwiSuite\Application\Module\ModuleInterface;
+
 final class ApplicationConfig implements \Serializable
 {
     private $config = [
@@ -24,6 +27,16 @@ final class ApplicationConfig implements \Serializable
     ];
 
     /**
+     * @var ModuleInterface[]
+     */
+    private $modules;
+
+    /**
+     * @var BootstrapInterface[]
+     */
+    private $bootstrapQueue;
+
+    /**
      * ApplicationConfig constructor.
      * @param bool|null $development
      * @param null|string $configDirectory
@@ -31,15 +44,17 @@ final class ApplicationConfig implements \Serializable
      * @param null|string $cacheDirectory
      * @param null|string $persistCacheDirectory
      * @param array|null $bootstrapQueue
+     * @param array|null $modules
      */
-    public function __construct(?bool $development = null,
-                                ?string $configDirectory = null,
-                                ?string $bootstrapDirectory = null,
-                                ?string $cacheDirectory = null,
-                                ?string $persistCacheDirectory = null,
-                                ?array $bootstrapQueue = null
-    )
-    {
+    public function __construct(
+        ?bool $development = null,
+        ?string $configDirectory = null,
+        ?string $bootstrapDirectory = null,
+        ?string $cacheDirectory = null,
+        ?string $persistCacheDirectory = null,
+        ?array $bootstrapQueue = null,
+        ?array $modules = null
+    ) {
         if ($development !== null) {
             $this->config['development'] = $development;
         }
@@ -63,12 +78,16 @@ final class ApplicationConfig implements \Serializable
         if ($bootstrapQueue !== null) {
             $this->config['bootstrapQueue'] = \array_values($bootstrapQueue);
         }
+
+        if ($modules !== null) {
+            $this->config['modules'] = \array_values($modules);
+        }
     }
 
     /**
      * @return bool
      */
-    public function isDevelopment(): bool
+    public function isDevelopment() : bool
     {
         return $this->config['development'];
     }
@@ -76,7 +95,7 @@ final class ApplicationConfig implements \Serializable
     /**
      * @return string
      */
-    public function getPersistCacheDirectory(): string
+    public function getPersistCacheDirectory() : string
     {
         return $this->config['persistCacheDirectory'];
     }
@@ -84,7 +103,7 @@ final class ApplicationConfig implements \Serializable
     /**
      * @return string
      */
-    public function getCacheDirectory(): string
+    public function getCacheDirectory() : string
     {
         return $this->config['cacheDirectory'];
     }
@@ -92,7 +111,7 @@ final class ApplicationConfig implements \Serializable
     /**
      * @return string
      */
-    public function getBootstrapDirectory(): string
+    public function getBootstrapDirectory() : string
     {
         return $this->config['bootstrapDirectory'];
     }
@@ -100,25 +119,40 @@ final class ApplicationConfig implements \Serializable
     /**
      * @return string
      */
-    public function getConfigDirectory(): string
+    public function getConfigDirectory() : string
     {
         return $this->config['configDirectory'];
     }
 
     /**
-     * @return array
+     * @return BootstrapInterface[]
      */
-    public function getBootstrapQueue(): array
+    public function getBootstrapQueue() : array
     {
-        return $this->config['bootstrapQueue'];
+        if ($this->bootstrapQueue === null) {
+            $this->bootstrapQueue = [];
+
+            foreach ($this->config['bootstrapQueue'] as $bootstrapClass) {
+                $this->bootstrapQueue[] = new $bootstrapClass();
+            }
+        }
+        return $this->bootstrapQueue;
     }
 
     /**
-     * @return array
+     * @return ModuleInterface[]
      */
-    public function getModules(): array
+    public function getModules() : array
     {
-        return $this->config['modules'];
+        if ($this->modules === null) {
+            $this->modules = [];
+
+            foreach ($this->config['modules'] as $moduleClass) {
+                $this->modules[] = new $moduleClass();
+            }
+        }
+
+        return $this->modules;
     }
 
     /**
@@ -135,5 +169,7 @@ final class ApplicationConfig implements \Serializable
     public function unserialize($serialized)
     {
         $this->config = \unserialize($serialized);
+        $this->bootstrapQueue = null;
+        $this->modules = null;
     }
 }

@@ -102,27 +102,12 @@ final class ApplicationConfigurator
     }
 
     /**
-     * @return array
-     */
-    public function getModules(): array
-    {
-        return $this->modules;
-    }
-
-    /**
      * @param string $module
      */
-    public function addModule(string $module)
+    public function addModule(string $module) : void
     {
+        //TODO check Interface
         $this->modules[] = $module;
-    }
-
-    /**
-     * @param array $modules
-     */
-    public function setModules(array $modules)
-    {
-        $this->modules = $modules;
     }
 
     /**
@@ -144,7 +129,8 @@ final class ApplicationConfigurator
             $this->bootstrapDirectory,
             $this->cacheDirectory,
             $this->persistCacheDirectory,
-            $bootstrapQueue
+            $bootstrapQueue,
+            $this->modules
         );
     }
 }

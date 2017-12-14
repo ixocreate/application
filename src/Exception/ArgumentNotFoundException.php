@@ -9,7 +9,8 @@
  */
 
 declare(strict_types=1);
-return [
-    'user' => "myuser",
-    'pass' => "mynewpass",
-];
+namespace KiwiSuite\Application\Exception;
+
+class ArgumentNotFoundException extends \InvalidArgumentException
+{
+}

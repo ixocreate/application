@@ -12,8 +12,11 @@ declare(strict_types=1);
 namespace KiwiSuiteTest\Application;
 
 use KiwiSuite\Application\ApplicationConfig;
+use KiwiSuite\Application\Bootstrap\BootstrapInterface;
 use KiwiSuite\Application\Bootstrap\ServiceManagerBootstrap;
-use KiwiSuite\Application\Exception\InvalidArgumentException;
+use KiwiSuite\Application\Module\ModuleInterface;
+use KiwiSuiteMisc\Application\BootstrapTest;
+use KiwiSuiteMisc\Application\ModuleTest;
 use PHPUnit\Framework\TestCase;
 
 class ApplicationConfigTest extends TestCase
@@ -25,6 +28,7 @@ class ApplicationConfigTest extends TestCase
         $this->assertSame(true, $applicationConfig->isDevelopment());
         $this->assertSame("resources/application/", $applicationConfig->getPersistCacheDirectory());
         $this->assertSame([], $applicationConfig->getBootstrapQueue());
+        $this->assertSame([], $applicationConfig->getModules());
         $this->assertSame("bootstrap/", $applicationConfig->getBootstrapDirectory());
         $this->assertSame("config/", $applicationConfig->getConfigDirectory());
         $this->assertSame("data/cache/application/", $applicationConfig->getCacheDirectory());
@@ -53,13 +57,13 @@ class ApplicationConfigTest extends TestCase
 
     public function testBootstrapDirectory()
     {
-        $applicationConfig = new ApplicationConfig(null, null,  'testDirectory');
+        $applicationConfig = new ApplicationConfig(null, null, 'testDirectory');
         $this->assertSame("testDirectory/", $applicationConfig->getBootstrapDirectory());
 
-        $applicationConfig = new ApplicationConfig(null, null,  'testDirectory/');
+        $applicationConfig = new ApplicationConfig(null, null, 'testDirectory/');
         $this->assertSame("testDirectory/", $applicationConfig->getBootstrapDirectory());
 
-        $applicationConfig = new ApplicationConfig(null, null,  '');
+        $applicationConfig = new ApplicationConfig(null, null, '');
         $this->assertSame("./", $applicationConfig->getBootstrapDirectory());
     }
 
@@ -77,13 +81,13 @@ class ApplicationConfigTest extends TestCase
 
     public function testCacheDirectory()
     {
-        $applicationConfig = new ApplicationConfig(null, null, null,'testDirectory');
+        $applicationConfig = new ApplicationConfig(null, null, null, 'testDirectory');
         $this->assertSame("testDirectory/", $applicationConfig->getCacheDirectory());
 
-        $applicationConfig = new ApplicationConfig(null, null, null,'testDirectory/');
+        $applicationConfig = new ApplicationConfig(null, null, null, 'testDirectory/');
         $this->assertSame("testDirectory/", $applicationConfig->getCacheDirectory());
 
-        $applicationConfig = new ApplicationConfig(null, null, null,'');
+        $applicationConfig = new ApplicationConfig(null, null, null, '');
         $this->assertSame("./", $applicationConfig->getCacheDirectory());
     }
 
@@ -95,9 +99,9 @@ class ApplicationConfigTest extends TestCase
             null,
             null,
             null,
-            [ServiceManagerBootstrap::class]
+            [BootstrapTest::class]
         );
-        $this->assertSame([ServiceManagerBootstrap::class], $applicationConfig->getBootstrapQueue());
+        $this->assertInstanceOf(BootstrapTest::class, $applicationConfig->getBootstrapQueue()[0]);
 
         $applicationConfig = new ApplicationConfig(
             null,
@@ -105,9 +109,34 @@ class ApplicationConfigTest extends TestCase
             null,
             null,
             null,
-            ['test' => ServiceManagerBootstrap::class]
+            ['test' => BootstrapTest::class]
         );
-        $this->assertSame([ServiceManagerBootstrap::class], $applicationConfig->getBootstrapQueue());
+        $this->assertInstanceOf(BootstrapTest::class, $applicationConfig->getBootstrapQueue()[0]);
+    }
+
+    public function testModules()
+    {
+        $applicationConfig = new ApplicationConfig(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            [ModuleTest::class]
+        );
+        $this->assertInstanceOf(ModuleTest::class, $applicationConfig->getModules()[0]);
+
+        $applicationConfig = new ApplicationConfig(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            [ModuleTest::class]
+        );
+        $this->assertInstanceOf(ModuleTest::class, $applicationConfig->getModules()[0]);
     }
 
     public function testSerialize()
@@ -118,7 +147,8 @@ class ApplicationConfigTest extends TestCase
             'cacheDirectory'                => 'data/cache/application_test/',
             'bootstrapDirectory'            => 'bootstrap_test/',
             'configDirectory'               => 'config_test/',
-            'bootstrapQueue'                => [ServiceManagerBootstrap::class],
+            'bootstrapQueue'                => [BootstrapTest::class],
+            'modules'                       => [ModuleTest::class]
         ];
 
         $applicationConfig = new ApplicationConfig(
@@ -127,7 +157,8 @@ class ApplicationConfigTest extends TestCase
             $config['bootstrapDirectory'],
             $config['cacheDirectory'],
             $config['persistCacheDirectory'],
-            $config['bootstrapQueue']
+            $config['bootstrapQueue'],
+            $config['modules']
         );
 
         $this->assertSame(\serialize($config), $applicationConfig->serialize());
@@ -141,7 +172,8 @@ class ApplicationConfigTest extends TestCase
             'cacheDirectory'                => 'data/cache/application_test/',
             'bootstrapDirectory'            => 'bootstrap_test/',
             'configDirectory'               => 'config_test/',
-            'bootstrapQueue'                => [ServiceManagerBootstrap::class],
+            'bootstrapQueue'                => [BootstrapTest::class],
+            'modules'                       => [ModuleTest::class]
         ];
 
         $applicationConfig = new ApplicationConfig();
@@ -151,7 +183,9 @@ class ApplicationConfigTest extends TestCase
         $this->assertSame($config['persistCacheDirectory'], $applicationConfig->getPersistCacheDirectory());
         $this->assertSame($config['cacheDirectory'], $applicationConfig->getCacheDirectory());
         $this->assertSame($config['bootstrapDirectory'], $applicationConfig->getBootstrapDirectory());
-        $this->assertSame($config['bootstrapQueue'], $applicationConfig->getBootstrapQueue());
         $this->assertSame($config['configDirectory'], $applicationConfig->getConfigDirectory());
+
+        $this->assertInstanceOf(BootstrapTest::class, $applicationConfig->getBootstrapQueue()[0]);
+        $this->assertInstanceOf(ModuleTest::class, $applicationConfig->getModules()[0]);
     }
 }
