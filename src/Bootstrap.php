@@ -21,11 +21,12 @@ final class Bootstrap
 {
     /**
      * @param string $bootstrapDirectory
+     * @param ApplicationInterface $application
      * @return ServiceManager
      */
-    public function bootstrap(string $bootstrapDirectory): ServiceManager
+    public function bootstrap(string $bootstrapDirectory, ApplicationInterface $application): ServiceManager
     {
-        $applicationConfig = $this->createApplicationConfig($bootstrapDirectory);
+        $applicationConfig = $this->createApplicationConfig($bootstrapDirectory, $application);
         $bootstrapRegistry = new BootstrapRegistry($applicationConfig->getModules());
         $bootstrapRegistry->addService(ApplicationConfig::class, $applicationConfig);
 
@@ -35,19 +36,22 @@ final class Bootstrap
 
 
         return $this->createServiceManager(
-            $this->createServiceManagerConfig($applicationConfig),
+            $this->createServiceManagerConfig($applicationConfig, $application),
             $bootstrapRegistry
         );
     }
 
     /**
      * @param string $bootstrapDirectory
+     * @param ApplicationInterface $application
      * @return ApplicationConfig
      */
-    private function createApplicationConfig(string $bootstrapDirectory) : ApplicationConfig
+    private function createApplicationConfig(string $bootstrapDirectory, ApplicationInterface $application) : ApplicationConfig
     {
         $bootstrapDirectory = IncludeHelper::normalizePath($bootstrapDirectory);
         $applicationConfigurator = new ApplicationConfigurator($bootstrapDirectory);
+
+        $application->configureApplicationConfig($applicationConfigurator);
 
         if (\file_exists($bootstrapDirectory . 'application.php')) {
             IncludeHelper::include(
@@ -61,11 +65,14 @@ final class Bootstrap
 
     /**
      * @param ApplicationConfig $applicationConfig
+     * @param ApplicationInterface $application
      * @return ServiceManagerConfig
      */
-    private function createServiceManagerConfig(ApplicationConfig $applicationConfig) : ServiceManagerConfig
+    private function createServiceManagerConfig(ApplicationConfig $applicationConfig, ApplicationInterface $application) : ServiceManagerConfig
     {
         $serviceManagerConfigurator = new ServiceManagerConfigurator();
+
+        $application->configureServiceManager($serviceManagerConfigurator);
 
         foreach ($applicationConfig->getBootstrapQueue() as $bootstrapItem) {
             $bootstrapItem->configureServiceManager($serviceManagerConfigurator);
