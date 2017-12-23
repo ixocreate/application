@@ -37,17 +37,4 @@ class BootstrapRegistryTest extends TestCase
         $this->expectException(ArgumentNotFoundException::class);
         $bootstrapRegistry->getService(BootstrapTest::class);
     }
-
-    public function testRegistry()
-    {
-        $bootstrapRegistry = new BootstrapRegistry([]);
-        $bootstrapRegistry->add(ModuleTest::class, new ModuleTest());
-        $this->assertArrayHasKey(ModuleTest::class, $bootstrapRegistry->getRegistry());
-        $this->assertTrue($bootstrapRegistry->has(ModuleTest::class));
-        $this->assertFalse($bootstrapRegistry->has(BootstrapTest::class));
-        $this->assertInstanceOf(ModuleTest::class, $bootstrapRegistry->get(ModuleTest::class));
-
-        $this->expectException(ArgumentNotFoundException::class);
-        $bootstrapRegistry->get(BootstrapTest::class);
-    }
 }

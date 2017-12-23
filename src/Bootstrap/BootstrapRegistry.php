@@ -26,11 +26,6 @@ class BootstrapRegistry
      */
     private $services = [];
 
-    /**
-     * @var array
-     */
-    private $registry = [];
-
 
     /**
      * BootstrapCollection constructor.
@@ -87,45 +82,5 @@ class BootstrapRegistry
     public function hasService(string $name): bool
     {
         return \array_key_exists($name, $this->services);
-    }
-
-    /**
-     * @param string $name
-     * @param $item
-     */
-    public function add(string $name, $item): void
-    {
-        $this->registry[$name] = $item;
-    }
-
-    /**
-     * @return array
-     */
-    public function getRegistry(): array
-    {
-        return $this->registry;
-    }
-
-    /**
-     * @param string $name
-     * @return bool
-     */
-    public function has(string $name): bool
-    {
-        return \array_key_exists($name, $this->registry);
-    }
-
-    /**
-     * @param string $name
-     * @throws ArgumentNotFoundException
-     * @return mixed
-     */
-    public function get(string $name)
-    {
-        if ($this->has($name)) {
-            return $this->registry[$name];
-        }
-
-        throw new ArgumentNotFoundException(\sprintf("Item with name '%s' not found", $name));
     }
 }
