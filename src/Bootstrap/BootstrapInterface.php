@@ -20,7 +20,7 @@ interface BootstrapInterface
 
     /**
      * @param ApplicationConfig $applicationConfig
-     * @param BootstrapRegistry $bootstrapCollection
+     * @param BootstrapRegistry $bootstrapRegistry
      */
-    public function bootstrap(ApplicationConfig $applicationConfig, BootstrapRegistry $bootstrapCollection) : void;
+    public function bootstrap(ApplicationConfig $applicationConfig, BootstrapRegistry $bootstrapRegistry) : void;
 }
