@@ -72,14 +72,18 @@ final class Bootstrap
     {
         $serviceManagerConfigurator = new ServiceManagerConfigurator();
 
+        foreach ($applicationConfig->getModules() as $module) {
+            $module->configureServiceManager($serviceManagerConfigurator);
+        }
+
         $application->configureServiceManager($serviceManagerConfigurator);
 
         foreach ($applicationConfig->getBootstrapQueue() as $bootstrapItem) {
             $bootstrapItem->configureServiceManager($serviceManagerConfigurator);
         }
 
-        foreach ($applicationConfig->getModules() as $module) {
-            $module->configureServiceManager($serviceManagerConfigurator);
+        foreach ($applicationConfig->getBundles() as $bundle) {
+            $bundle->configureServiceManager($serviceManagerConfigurator);
         }
 
         $includeFile = IncludeHelper::normalizePath($applicationConfig->getBootstrapDirectory()) . 'servicemanager.php';

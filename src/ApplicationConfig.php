@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace KiwiSuite\Application;
 
 use KiwiSuite\Application\Bootstrap\BootstrapInterface;
+use KiwiSuite\Application\Bundle\BundleInterface;
 use KiwiSuite\Application\Module\ModuleInterface;
 
 final class ApplicationConfig implements \Serializable
@@ -24,6 +25,7 @@ final class ApplicationConfig implements \Serializable
         'configDirectory'               => 'config/',
         'bootstrapQueue'                => [],
         'modules'                       => [],
+        'bundles'                       => [],
     ];
 
     /**
@@ -37,6 +39,11 @@ final class ApplicationConfig implements \Serializable
     private $bootstrapQueue;
 
     /**
+     * @var BundleInterface[]
+     */
+    private $bundles;
+
+    /**
      * ApplicationConfig constructor.
      * @param bool|null $development
      * @param null|string $configDirectory
@@ -45,6 +52,7 @@ final class ApplicationConfig implements \Serializable
      * @param null|string $persistCacheDirectory
      * @param array|null $bootstrapQueue
      * @param array|null $modules
+     * @param array|null $bundles
      */
     public function __construct(
         ?bool $development = null,
@@ -53,7 +61,8 @@ final class ApplicationConfig implements \Serializable
         ?string $cacheDirectory = null,
         ?string $persistCacheDirectory = null,
         ?array $bootstrapQueue = null,
-        ?array $modules = null
+        ?array $modules = null,
+        ?array $bundles = null
     ) {
         if ($development !== null) {
             $this->config['development'] = $development;
@@ -80,7 +89,11 @@ final class ApplicationConfig implements \Serializable
         }
 
         if ($modules !== null) {
-            $this->config['modules'] = \array_values($modules);
+            $this->config['modules'] = \array_values(\array_unique($modules));
+        }
+
+        if ($bundles !== null) {
+            $this->config['bundles'] = \array_values(\array_unique($bundles));
         }
     }
 
@@ -156,6 +169,22 @@ final class ApplicationConfig implements \Serializable
     }
 
     /**
+     * @return BundleInterface[]
+     */
+    public function getBundles() : array
+    {
+        if ($this->bundles === null) {
+            $this->bundles = [];
+
+            foreach ($this->config['bundles'] as $bundleClass) {
+                $this->bundles[] = new $bundleClass();
+            }
+        }
+
+        return $this->bundles;
+    }
+
+    /**
      *
      */
     public function serialize()
@@ -171,5 +200,6 @@ final class ApplicationConfig implements \Serializable
         $this->config = \unserialize($serialized);
         $this->bootstrapQueue = null;
         $this->modules = null;
+        $this->bundles = null;
     }
 }

@@ -14,7 +14,7 @@ namespace KiwiSuite\Application\Bootstrap;
 use KiwiSuite\Application\Exception\ArgumentNotFoundException;
 use KiwiSuite\Application\Module\ModuleInterface;
 
-class BootstrapRegistry
+final class BootstrapRegistry
 {
     /**
      * @var array

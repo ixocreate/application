@@ -9,11 +9,11 @@
  */
 
 declare(strict_types=1);
-namespace KiwiSuite\Application\Module;
+namespace KiwiSuite\Application\Bundle;
 
 use KiwiSuite\ServiceManager\ServiceManagerConfigurator;
 
-interface ModuleInterface
+interface BundleInterface
 {
     /**
      * @param ServiceManagerConfigurator $serviceManagerConfigurator
@@ -21,7 +21,12 @@ interface ModuleInterface
     public function configureServiceManager(ServiceManagerConfigurator $serviceManagerConfigurator) : void;
 
     /**
-     * @return array|null
+     * @return string
      */
-    public function getDefaultConfig() : ?array;
+    public function getConfigDirectory() : string;
+
+    /**
+     * @return string
+     */
+    public function getBootstrapDirectory() : string;
 }

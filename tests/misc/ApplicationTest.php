@@ -36,5 +36,6 @@ class ApplicationTest implements ApplicationInterface
     public function configureApplicationConfig(ApplicationConfigurator $applicationConfigurator)
     {
         $applicationConfigurator->addModule(ModuleTest::class);
+        $applicationConfigurator->addBundle(BundleTest::class);
     }
 }
