@@ -30,6 +30,5 @@ class ModuleTest implements ModuleInterface
      */
     public function getDefaultConfig(): ?array
     {
-
     }
 }
