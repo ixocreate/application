@@ -13,6 +13,7 @@ namespace KiwiSuiteTest\Application;
 
 use KiwiSuite\Application\ApplicationConfig;
 use KiwiSuiteMisc\Application\BootstrapTest;
+use KiwiSuiteMisc\Application\BundleTest;
 use KiwiSuiteMisc\Application\ModuleTest;
 use PHPUnit\Framework\TestCase;
 
@@ -26,6 +27,7 @@ class ApplicationConfigTest extends TestCase
         $this->assertSame("resources/application/", $applicationConfig->getPersistCacheDirectory());
         $this->assertSame([], $applicationConfig->getBootstrapQueue());
         $this->assertSame([], $applicationConfig->getModules());
+        $this->assertSame([], $applicationConfig->getBundles());
         $this->assertSame("bootstrap/", $applicationConfig->getBootstrapDirectory());
         $this->assertSame("config/", $applicationConfig->getConfigDirectory());
         $this->assertSame("data/cache/application/", $applicationConfig->getCacheDirectory());
@@ -136,6 +138,33 @@ class ApplicationConfigTest extends TestCase
         $this->assertInstanceOf(ModuleTest::class, $applicationConfig->getModules()[0]);
     }
 
+    public function testBundles()
+    {
+        $applicationConfig = new ApplicationConfig(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            [],
+            [BundleTest::class]
+        );
+        $this->assertInstanceOf(BundleTest::class, $applicationConfig->getBundles()[0]);
+
+        $applicationConfig = new ApplicationConfig(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            [],
+            [BundleTest::class]
+        );
+        $this->assertInstanceOf(BundleTest::class, $applicationConfig->getBundles()[0]);
+    }
+
     public function testSerialize()
     {
         $config = [
@@ -146,6 +175,7 @@ class ApplicationConfigTest extends TestCase
             'configDirectory'               => 'config_test/',
             'bootstrapQueue'                => [BootstrapTest::class],
             'modules'                       => [ModuleTest::class],
+            'bundles'                       => [BundleTest::class],
         ];
 
         $applicationConfig = new ApplicationConfig(
@@ -155,7 +185,8 @@ class ApplicationConfigTest extends TestCase
             $config['cacheDirectory'],
             $config['persistCacheDirectory'],
             $config['bootstrapQueue'],
-            $config['modules']
+            $config['modules'],
+            $config['bundles']
         );
 
         $this->assertSame(\serialize($config), $applicationConfig->serialize());
@@ -171,6 +202,7 @@ class ApplicationConfigTest extends TestCase
             'configDirectory'               => 'config_test/',
             'bootstrapQueue'                => [BootstrapTest::class],
             'modules'                       => [ModuleTest::class],
+            'bundles'                       => [BundleTest::class],
         ];
 
         $applicationConfig = new ApplicationConfig();
@@ -184,5 +216,6 @@ class ApplicationConfigTest extends TestCase
 
         $this->assertInstanceOf(BootstrapTest::class, $applicationConfig->getBootstrapQueue()[0]);
         $this->assertInstanceOf(ModuleTest::class, $applicationConfig->getModules()[0]);
+        $this->assertInstanceOf(BundleTest::class, $applicationConfig->getBundles()[0]);
     }
 }

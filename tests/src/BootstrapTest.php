@@ -28,5 +28,6 @@ class BootstrapTest extends TestCase
         $this->assertArrayHasKey(\DateTimeZone::class, $serviceManager->getServiceManagerConfig()->getFactories());
         $this->assertArrayHasKey(\DateInterval::class, $serviceManager->getServiceManagerConfig()->getFactories());
         $this->assertArrayHasKey(\DatePeriod::class, $serviceManager->getServiceManagerConfig()->getFactories());
+        $this->assertArrayHasKey(\SplQueue::class, $serviceManager->getServiceManagerConfig()->getFactories());
     }
 }

@@ -21,12 +21,7 @@ interface ModuleInterface
     public function configureServiceManager(ServiceManagerConfigurator $serviceManagerConfigurator) : void;
 
     /**
-     * @return string
+     * @return array|null
      */
-    public function getConfigDirectory() : string;
-
-    /**
-     * @return string
-     */
-    public function getBootstrapDirectory() : string;
+    public function getDefaultConfig() : ?array;
 }

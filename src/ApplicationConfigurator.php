@@ -49,6 +49,11 @@ final class ApplicationConfigurator
     private $modules = [];
 
     /**
+     * @var array
+     */
+    private $bundles = [];
+
+    /**
      * ApplicationConfigurator constructor.
      * @param string $bootstrapDirectory
      */
@@ -110,6 +115,12 @@ final class ApplicationConfigurator
         $this->modules[] = $module;
     }
 
+    public function addBundle(string $bundle) : void
+    {
+        //TODO check Interface
+        $this->bundles[] = $bundle;
+    }
+
     /**
      * @return ApplicationConfig
      */
@@ -130,7 +141,8 @@ final class ApplicationConfigurator
             $this->cacheDirectory,
             $this->persistCacheDirectory,
             $bootstrapQueue,
-            $this->modules
+            $this->modules,
+            $this->bundles
         );
     }
 }

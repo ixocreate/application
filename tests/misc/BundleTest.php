@@ -11,10 +11,10 @@
 declare(strict_types=1);
 namespace KiwiSuiteMisc\Application;
 
-use KiwiSuite\Application\Module\ModuleInterface;
+use KiwiSuite\Application\Bundle\BundleInterface;
 use KiwiSuite\ServiceManager\ServiceManagerConfigurator;
 
-class ModuleTest implements ModuleInterface
+class BundleTest implements BundleInterface
 {
 
     /**
@@ -22,14 +22,22 @@ class ModuleTest implements ModuleInterface
      */
     public function configureServiceManager(ServiceManagerConfigurator $serviceManagerConfigurator): void
     {
-        $serviceManagerConfigurator->addFactory(\DateTimeZone::class);
+        $serviceManagerConfigurator->addFactory(\SplQueue::class);
     }
 
     /**
-     * @return array|null
+     * @return string
      */
-    public function getDefaultConfig(): ?array
+    public function getConfigDirectory(): string
     {
+        return "";
+    }
 
+    /**
+     * @return string
+     */
+    public function getBootstrapDirectory(): string
+    {
+        return "";
     }
 }

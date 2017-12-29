@@ -9,27 +9,24 @@
  */
 
 declare(strict_types=1);
-namespace KiwiSuiteMisc\Application;
+namespace KiwiSuite\Application\Bundle;
 
-use KiwiSuite\Application\Module\ModuleInterface;
 use KiwiSuite\ServiceManager\ServiceManagerConfigurator;
 
-class ModuleTest implements ModuleInterface
+interface BundleInterface
 {
-
     /**
      * @param ServiceManagerConfigurator $serviceManagerConfigurator
      */
-    public function configureServiceManager(ServiceManagerConfigurator $serviceManagerConfigurator): void
-    {
-        $serviceManagerConfigurator->addFactory(\DateTimeZone::class);
-    }
+    public function configureServiceManager(ServiceManagerConfigurator $serviceManagerConfigurator) : void;
 
     /**
-     * @return array|null
+     * @return string
      */
-    public function getDefaultConfig(): ?array
-    {
+    public function getConfigDirectory() : string;
 
-    }
+    /**
+     * @return string
+     */
+    public function getBootstrapDirectory() : string;
 }

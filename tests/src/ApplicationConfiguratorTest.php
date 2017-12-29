@@ -13,6 +13,7 @@ namespace KiwiSuiteTest\Application;
 
 use KiwiSuite\Application\ApplicationConfigurator;
 use KiwiSuiteMisc\Application\BootstrapTest;
+use KiwiSuiteMisc\Application\BundleTest;
 use KiwiSuiteMisc\Application\ModuleTest;
 use PHPUnit\Framework\TestCase;
 
@@ -77,6 +78,14 @@ class ApplicationConfiguratorTest extends TestCase
         $applicationConfigurator->addModule(ModuleTest::class);
         $applicationConfig = $applicationConfigurator->getApplicationConfig();
         $this->assertInstanceOf(ModuleTest::class, $applicationConfig->getModules()[0]);
+    }
+
+    public function testAddBundles()
+    {
+        $applicationConfigurator = new ApplicationConfigurator("bootstrap");
+        $applicationConfigurator->addBundle(BundleTest::class);
+        $applicationConfig = $applicationConfigurator->getApplicationConfig();
+        $this->assertInstanceOf(BundleTest::class, $applicationConfig->getBundles()[0]);
     }
 
     public function testAddBootstrapItem()
