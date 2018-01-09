@@ -24,6 +24,11 @@ final class ApplicationConfigurator
     private $bootstrapQueue;
 
     /**
+     * @var array
+     */
+    private $configurators = [];
+
+    /**
      * @var string
      */
     private $persistCacheDirectory = "resource/application/";
@@ -47,11 +52,6 @@ final class ApplicationConfigurator
      * @var array
      */
     private $modules = [];
-
-    /**
-     * @var array
-     */
-    private $bundles = [];
 
     /**
      * ApplicationConfigurator constructor.
@@ -106,6 +106,12 @@ final class ApplicationConfigurator
         $this->bootstrapQueue->insert($bootstrapItem, $priority);
     }
 
+    public function addConfiguratorItem(string $configuratorItem) : void
+    {
+        //TODO interface check
+        $this->configurators[] = $configuratorItem;
+    }
+
     /**
      * @param string $module
      */
@@ -113,12 +119,6 @@ final class ApplicationConfigurator
     {
         //TODO check Interface
         $this->modules[] = $module;
-    }
-
-    public function addBundle(string $bundle) : void
-    {
-        //TODO check Interface
-        $this->bundles[] = $bundle;
     }
 
     /**
@@ -141,8 +141,8 @@ final class ApplicationConfigurator
             $this->cacheDirectory,
             $this->persistCacheDirectory,
             $bootstrapQueue,
-            $this->modules,
-            $this->bundles
+            $this->configurators,
+            $this->modules
         );
     }
 }

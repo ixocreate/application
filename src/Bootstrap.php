@@ -11,10 +11,10 @@
 declare(strict_types=1);
 namespace KiwiSuite\Application;
 
-use KiwiSuite\Application\Bootstrap\BootstrapRegistry;
+use KiwiSuite\Application\Service\ServiceHandler;
+use KiwiSuite\Application\Service\ServiceRegistry;
 use KiwiSuite\ServiceManager\ServiceManager;
 use KiwiSuite\ServiceManager\ServiceManagerConfig;
-use KiwiSuite\ServiceManager\ServiceManagerConfigurator;
 use KiwiSuite\ServiceManager\ServiceManagerSetup;
 
 final class Bootstrap
@@ -27,18 +27,23 @@ final class Bootstrap
     public function bootstrap(string $bootstrapDirectory, ApplicationInterface $application): ServiceManager
     {
         $applicationConfig = $this->createApplicationConfig($bootstrapDirectory, $application);
-        $bootstrapRegistry = new BootstrapRegistry($applicationConfig->getModules());
-        $bootstrapRegistry->addService(ApplicationConfig::class, $applicationConfig);
+        $serviceRegistry = (new ServiceHandler())->loadFromCache($application, $applicationConfig);
+        $serviceRegistry->addService(ApplicationConfig::class, $applicationConfig);
+
+        $serviceManager = $this->createServiceManager(
+            $serviceRegistry->getService(ServiceManagerConfig::class),
+            $serviceRegistry
+        );
 
         foreach ($applicationConfig->getBootstrapQueue() as $bootstrapItem) {
-            (new $bootstrapItem())->bootstrap($applicationConfig, $bootstrapRegistry);
+            $bootstrapItem->boot($serviceManager);
         }
 
+        foreach ($applicationConfig->getModules() as $module) {
+            $module->boot($serviceManager);
+        }
 
-        return $this->createServiceManager(
-            $this->createServiceManagerConfig($applicationConfig, $application),
-            $bootstrapRegistry
-        );
+        return $serviceManager;
     }
 
     /**
@@ -64,53 +69,19 @@ final class Bootstrap
     }
 
     /**
-     * @param ApplicationConfig $applicationConfig
-     * @param ApplicationInterface $application
-     * @return ServiceManagerConfig
-     */
-    private function createServiceManagerConfig(ApplicationConfig $applicationConfig, ApplicationInterface $application) : ServiceManagerConfig
-    {
-        $serviceManagerConfigurator = new ServiceManagerConfigurator();
-
-        foreach ($applicationConfig->getModules() as $module) {
-            $module->configureServiceManager($serviceManagerConfigurator);
-        }
-
-        $application->configureServiceManager($serviceManagerConfigurator);
-
-        foreach ($applicationConfig->getBootstrapQueue() as $bootstrapItem) {
-            $bootstrapItem->configureServiceManager($serviceManagerConfigurator);
-        }
-
-        foreach ($applicationConfig->getBundles() as $bundle) {
-            $bundle->configureServiceManager($serviceManagerConfigurator);
-        }
-
-        $includeFile = IncludeHelper::normalizePath($applicationConfig->getBootstrapDirectory()) . 'servicemanager.php';
-        if (\file_exists($includeFile)) {
-            IncludeHelper::include(
-                $includeFile,
-                ['serviceManagerConfigurator' => $serviceManagerConfigurator]
-            );
-        }
-
-        return $serviceManagerConfigurator->getServiceManagerConfig();
-    }
-
-    /**
      * @param ServiceManagerConfig $serviceManagerConfig
-     * @param BootstrapRegistry $bootstrapRegistry
+     * @param ServiceRegistry $serviceRegistry
      * @return ServiceManager
      */
-    private function createServiceManager(ServiceManagerConfig $serviceManagerConfig, BootstrapRegistry $bootstrapRegistry): ServiceManager
+    private function createServiceManager(ServiceManagerConfig $serviceManagerConfig, ServiceRegistry $serviceRegistry): ServiceManager
     {
         return new ServiceManager(
             $serviceManagerConfig,
             new ServiceManagerSetup(
-                $bootstrapRegistry->getService(ApplicationConfig::class)->getPersistCacheDirectory() . 'servicemanager/',
-                !$bootstrapRegistry->getService(ApplicationConfig::class)->isDevelopment()
+                $serviceRegistry->getService(ApplicationConfig::class)->getPersistCacheDirectory() . 'servicemanager/',
+                !$serviceRegistry->getService(ApplicationConfig::class)->isDevelopment()
             ),
-            $bootstrapRegistry->getServices()
+            $serviceRegistry->getServices()
         );
     }
 }

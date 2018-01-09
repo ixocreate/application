@@ -11,8 +11,6 @@
 declare(strict_types=1);
 namespace KiwiSuite\Application;
 
-use KiwiSuite\ServiceManager\ServiceManagerConfigurator;
-
 interface ApplicationInterface
 {
     /**
@@ -25,9 +23,4 @@ interface ApplicationInterface
      * @return mixed
      */
     public function configureApplicationConfig(ApplicationConfigurator $applicationConfigurator);
-
-    /**
-     * @param ServiceManagerConfigurator $serviceManagerConfigurator
-     */
-    public function configureServiceManager(ServiceManagerConfigurator $serviceManagerConfigurator) : void;
 }

@@ -10,5 +10,3 @@
 
 declare(strict_types=1);
 /** @var \KiwiSuite\Application\ApplicationConfigurator $applicationConfigurator */
-$applicationConfigurator->setConfigDirectory("something");
-$applicationConfigurator->addBootstrapItem(\KiwiSuiteMisc\Application\BootstrapTest::class);

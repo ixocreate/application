@@ -12,9 +12,9 @@ declare(strict_types=1);
 namespace KiwiSuiteTest\Application;
 
 use KiwiSuite\Application\ApplicationConfigurator;
-use KiwiSuiteMisc\Application\BootstrapTest;
-use KiwiSuiteMisc\Application\BundleTest;
-use KiwiSuiteMisc\Application\ModuleTest;
+use KiwiSuiteMisc\Application\BootstrapDummy;
+use KiwiSuiteMisc\Application\ConfiguratorItemDummy;
+use KiwiSuiteMisc\Application\ModuleDummy;
 use PHPUnit\Framework\TestCase;
 
 class ApplicationConfiguratorTest extends TestCase
@@ -31,6 +31,7 @@ class ApplicationConfiguratorTest extends TestCase
         $this->assertSame("resource/application/", $applicationConfig->getPersistCacheDirectory());
         $this->assertSame("config/", $applicationConfig->getConfigDirectory());
         $this->assertSame([], $applicationConfig->getModules());
+        $this->assertSame([], $applicationConfig->getConfiguratorItems());
     }
 
     public function testBootstrapDirectory()
@@ -75,26 +76,24 @@ class ApplicationConfiguratorTest extends TestCase
     public function testAddModules()
     {
         $applicationConfigurator = new ApplicationConfigurator("bootstrap");
-        $applicationConfigurator->addModule(ModuleTest::class);
+        $applicationConfigurator->addModule(ModuleDummy::class);
         $applicationConfig = $applicationConfigurator->getApplicationConfig();
-        $this->assertInstanceOf(ModuleTest::class, $applicationConfig->getModules()[0]);
+        $this->assertInstanceOf(ModuleDummy::class, $applicationConfig->getModules()[0]);
     }
 
-    public function testAddBundles()
+    public function testAddConfiguratorItems()
     {
         $applicationConfigurator = new ApplicationConfigurator("bootstrap");
-        $applicationConfigurator->addBundle(BundleTest::class);
+        $applicationConfigurator->addConfiguratorItem(ConfiguratorItemDummy::class);
         $applicationConfig = $applicationConfigurator->getApplicationConfig();
-        $this->assertInstanceOf(BundleTest::class, $applicationConfig->getBundles()[0]);
+        $this->assertInstanceOf(ConfiguratorItemDummy::class, $applicationConfig->getConfiguratorItems()[0]);
     }
 
     public function testAddBootstrapItem()
     {
         $applicationConfigurator = new ApplicationConfigurator("bootstrap");
-        $applicationConfigurator->addBootstrapItem(BootstrapTest::class, 50);
+        $applicationConfigurator->addBootstrapItem(BootstrapDummy::class, 50);
         $applicationConfig = $applicationConfigurator->getApplicationConfig();
-        $this->assertInstanceOf(BootstrapTest::class, $applicationConfig->getBootstrapQueue()[0]);
-
-        //TODO check priority
+        $this->assertInstanceOf(BootstrapDummy::class, $applicationConfig->getBootstrapQueue()[0]);
     }
 }

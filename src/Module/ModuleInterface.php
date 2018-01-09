@@ -11,17 +11,17 @@
 declare(strict_types=1);
 namespace KiwiSuite\Application\Module;
 
-use KiwiSuite\ServiceManager\ServiceManagerConfigurator;
+use KiwiSuite\Application\Bootstrap\BootstrapInterface;
 
-interface ModuleInterface
+interface ModuleInterface extends BootstrapInterface
 {
     /**
-     * @param ServiceManagerConfigurator $serviceManagerConfigurator
+     * @return null|string
      */
-    public function configureServiceManager(ServiceManagerConfigurator $serviceManagerConfigurator) : void;
+    public function getBootstrapDirectory() : ?string;
 
     /**
-     * @return array|null
+     * @return null|string
      */
-    public function getDefaultConfig() : ?array;
+    public function getConfigDirectory() : ?string;
 }
