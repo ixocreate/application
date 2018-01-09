@@ -11,6 +11,8 @@
 declare(strict_types=1);
 namespace KiwiSuite\Application;
 
+use KiwiSuite\Application\ConfiguratorItem\ConfiguratorRegistry;
+
 interface ApplicationInterface
 {
     /**
@@ -22,5 +24,10 @@ interface ApplicationInterface
      * @param ApplicationConfigurator $applicationConfigurator
      * @return mixed
      */
-    public function configureApplicationConfig(ApplicationConfigurator $applicationConfigurator);
+    public function configureApplicationConfig(ApplicationConfigurator $applicationConfigurator) : void;
+
+    /**
+     * @param ConfiguratorRegistry $configuratorRegistry
+     */
+    public function configure(ConfiguratorRegistry $configuratorRegistry) : void;
 }

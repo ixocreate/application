@@ -32,11 +32,11 @@ final class ServiceHandler
     public function loadFromCache(ApplicationInterface $application, ApplicationConfig $applicationConfig) : ServiceRegistry
     {
         if ($applicationConfig->isDevelopment()) {
-            return $this->load($applicationConfig);
+            return $this->load($application, $applicationConfig);
         }
 
         if (!\file_exists($this->getCacheFileName($application, $applicationConfig))) {
-            return $this->load($applicationConfig);
+            return $this->load($application, $applicationConfig);
         }
 
         $serviceRegistry = @\unserialize(
@@ -44,13 +44,13 @@ final class ServiceHandler
         );
 
         if (!($serviceRegistry instanceof ServiceRegistry)) {
-            return $this->load($applicationConfig);
+            return $this->load($application, $applicationConfig);
         }
 
         return $serviceRegistry;
     }
 
-    public function load(ApplicationConfig $applicationConfig) : ServiceRegistry
+    public function load(ApplicationInterface $application, ApplicationConfig $applicationConfig) : ServiceRegistry
     {
         $configuratorRegistry = new ConfiguratorRegistry();
 
@@ -59,6 +59,8 @@ final class ServiceHandler
         foreach ($applicationConfig->getConfiguratorItems() as $configuratorItem) {
             $this->handleConfiguratorItem($applicationConfig, $configuratorItem, $configuratorRegistry);
         }
+
+        $application->configure($configuratorRegistry);
 
         foreach ($applicationConfig->getBootstrapQueue() as $bootstrapItem) {
             $bootstrapItem->configure($configuratorRegistry);
@@ -85,7 +87,7 @@ final class ServiceHandler
 
     public function save(ApplicationInterface $application, ApplicationConfig $applicationConfig) : void
     {
-        $serviceRegistry = $this->load($applicationConfig);
+        $serviceRegistry = $this->load($application, $applicationConfig);
 
         \file_put_contents(
             $this->getCacheFileName($application, $applicationConfig),
