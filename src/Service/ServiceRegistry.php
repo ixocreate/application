@@ -4,51 +4,27 @@
  *
  * @package kiwi-suite/application
  * @see https://github.com/kiwi-suite/application
- * @copyright Copyright (c) 2010 - 2017 kiwi suite GmbH
+ * @copyright Copyright (c) 2010 - 2018 kiwi suite GmbH
  * @license MIT License
  */
 
 declare(strict_types=1);
-namespace KiwiSuite\Application\Bootstrap;
+namespace KiwiSuite\Application\Service;
 
 use KiwiSuite\Application\Exception\ArgumentNotFoundException;
-use KiwiSuite\Application\Module\ModuleInterface;
 
-final class BootstrapRegistry
+final class ServiceRegistry
 {
-    /**
-     * @var array
-     */
-    private $modules;
-
     /**
      * @var array
      */
     private $services = [];
 
-
-    /**
-     * BootstrapCollection constructor.
-     * @param array $modules
-     */
-    public function __construct(array $modules)
-    {
-        $this->modules = $modules;
-    }
-
-    /**
-     * @return ModuleInterface[]
-     */
-    public function getModules(): array
-    {
-        return $this->modules;
-    }
-
     /**
      * @param string $name
-     * @param $service
+     * @param \Serializable $service
      */
-    public function addService(string $name, $service): void
+    public function addService(string $name, \Serializable $service): void
     {
         $this->services[$name] = $service;
     }
@@ -66,7 +42,7 @@ final class BootstrapRegistry
      * @throws ArgumentNotFoundException
      * @return mixed
      */
-    public function getService(string $name)
+    public function getService(string $name): \Serializable
     {
         if ($this->hasService($name)) {
             return $this->services[$name];

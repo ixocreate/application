@@ -4,7 +4,7 @@
  *
  * @package kiwi-suite/application
  * @see https://github.com/kiwi-suite/application
- * @copyright Copyright (c) 2010 - 2017 kiwi suite GmbH
+ * @copyright Copyright (c) 2010 - 2018 kiwi suite GmbH
  * @license MIT License
  */
 
@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace KiwiSuite\Application;
 
 use KiwiSuite\Application\Bootstrap\BootstrapInterface;
-use KiwiSuite\Application\Bundle\BundleInterface;
+use KiwiSuite\Application\ConfiguratorItem\ConfiguratorItemInterface;
 use KiwiSuite\Application\Module\ModuleInterface;
 
 final class ApplicationConfig implements \Serializable
@@ -24,8 +24,8 @@ final class ApplicationConfig implements \Serializable
         'bootstrapDirectory'            => 'bootstrap/',
         'configDirectory'               => 'config/',
         'bootstrapQueue'                => [],
+        'configurators'                 => [],
         'modules'                       => [],
-        'bundles'                       => [],
     ];
 
     /**
@@ -39,9 +39,10 @@ final class ApplicationConfig implements \Serializable
     private $bootstrapQueue;
 
     /**
-     * @var BundleInterface[]
+     * @var ConfiguratorItemInterface[]
      */
-    private $bundles;
+    private $configurators;
+
 
     /**
      * ApplicationConfig constructor.
@@ -51,8 +52,8 @@ final class ApplicationConfig implements \Serializable
      * @param null|string $cacheDirectory
      * @param null|string $persistCacheDirectory
      * @param array|null $bootstrapQueue
+     * @param array|null $configurators
      * @param array|null $modules
-     * @param array|null $bundles
      */
     public function __construct(
         ?bool $development = null,
@@ -61,8 +62,8 @@ final class ApplicationConfig implements \Serializable
         ?string $cacheDirectory = null,
         ?string $persistCacheDirectory = null,
         ?array $bootstrapQueue = null,
-        ?array $modules = null,
-        ?array $bundles = null
+        ?array $configurators = null,
+        ?array $modules = null
     ) {
         if ($development !== null) {
             $this->config['development'] = $development;
@@ -88,12 +89,12 @@ final class ApplicationConfig implements \Serializable
             $this->config['bootstrapQueue'] = \array_values($bootstrapQueue);
         }
 
-        if ($modules !== null) {
-            $this->config['modules'] = \array_values(\array_unique($modules));
+        if ($configurators !== null) {
+            $this->config['configurators'] = \array_values($configurators);
         }
 
-        if ($bundles !== null) {
-            $this->config['bundles'] = \array_values(\array_unique($bundles));
+        if ($modules !== null) {
+            $this->config['modules'] = \array_values(\array_unique($modules));
         }
     }
 
@@ -153,6 +154,21 @@ final class ApplicationConfig implements \Serializable
     }
 
     /**
+     * @return ConfiguratorItemInterface[]
+     */
+    public function getConfiguratorItems() : array
+    {
+        if ($this->configurators === null) {
+            $this->configurators = [];
+
+            foreach ($this->config['configurators'] as $configuratorItem) {
+                $this->configurators[] = new $configuratorItem();
+            }
+        }
+        return $this->configurators;
+    }
+
+    /**
      * @return ModuleInterface[]
      */
     public function getModules() : array
@@ -166,22 +182,6 @@ final class ApplicationConfig implements \Serializable
         }
 
         return $this->modules;
-    }
-
-    /**
-     * @return BundleInterface[]
-     */
-    public function getBundles() : array
-    {
-        if ($this->bundles === null) {
-            $this->bundles = [];
-
-            foreach ($this->config['bundles'] as $bundleClass) {
-                $this->bundles[] = new $bundleClass();
-            }
-        }
-
-        return $this->bundles;
     }
 
     /**
@@ -200,6 +200,6 @@ final class ApplicationConfig implements \Serializable
         $this->config = \unserialize($serialized);
         $this->bootstrapQueue = null;
         $this->modules = null;
-        $this->bundles = null;
+        $this->configurators = null;
     }
 }

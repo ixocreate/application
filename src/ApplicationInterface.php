@@ -4,14 +4,14 @@
  *
  * @package kiwi-suite/application
  * @see https://github.com/kiwi-suite/application
- * @copyright Copyright (c) 2010 - 2017 kiwi suite GmbH
+ * @copyright Copyright (c) 2010 - 2018 kiwi suite GmbH
  * @license MIT License
  */
 
 declare(strict_types=1);
 namespace KiwiSuite\Application;
 
-use KiwiSuite\ServiceManager\ServiceManagerConfigurator;
+use KiwiSuite\Application\ConfiguratorItem\ConfiguratorRegistry;
 
 interface ApplicationInterface
 {
@@ -24,10 +24,10 @@ interface ApplicationInterface
      * @param ApplicationConfigurator $applicationConfigurator
      * @return mixed
      */
-    public function configureApplicationConfig(ApplicationConfigurator $applicationConfigurator);
+    public function configureApplicationConfig(ApplicationConfigurator $applicationConfigurator) : void;
 
     /**
-     * @param ServiceManagerConfigurator $serviceManagerConfigurator
+     * @param ConfiguratorRegistry $configuratorRegistry
      */
-    public function configureServiceManager(ServiceManagerConfigurator $serviceManagerConfigurator) : void;
+    public function configure(ConfiguratorRegistry $configuratorRegistry) : void;
 }

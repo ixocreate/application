@@ -4,7 +4,7 @@
  *
  * @package kiwi-suite/application
  * @see https://github.com/kiwi-suite/application
- * @copyright Copyright (c) 2010 - 2017 kiwi suite GmbH
+ * @copyright Copyright (c) 2010 - 2018 kiwi suite GmbH
  * @license MIT License
  */
 
@@ -12,9 +12,9 @@ declare(strict_types=1);
 namespace KiwiSuiteTest\Application;
 
 use KiwiSuite\Application\ApplicationConfig;
-use KiwiSuiteMisc\Application\BootstrapTest;
-use KiwiSuiteMisc\Application\BundleTest;
-use KiwiSuiteMisc\Application\ModuleTest;
+use KiwiSuiteMisc\Application\BootstrapDummy;
+use KiwiSuiteMisc\Application\ConfiguratorItemDummy;
+use KiwiSuiteMisc\Application\ModuleDummy;
 use PHPUnit\Framework\TestCase;
 
 class ApplicationConfigTest extends TestCase
@@ -27,7 +27,7 @@ class ApplicationConfigTest extends TestCase
         $this->assertSame("resources/application/", $applicationConfig->getPersistCacheDirectory());
         $this->assertSame([], $applicationConfig->getBootstrapQueue());
         $this->assertSame([], $applicationConfig->getModules());
-        $this->assertSame([], $applicationConfig->getBundles());
+        $this->assertSame([], $applicationConfig->getConfiguratorItems());
         $this->assertSame("bootstrap/", $applicationConfig->getBootstrapDirectory());
         $this->assertSame("config/", $applicationConfig->getConfigDirectory());
         $this->assertSame("data/cache/application/", $applicationConfig->getCacheDirectory());
@@ -98,9 +98,9 @@ class ApplicationConfigTest extends TestCase
             null,
             null,
             null,
-            [BootstrapTest::class]
+            [BootstrapDummy::class]
         );
-        $this->assertInstanceOf(BootstrapTest::class, $applicationConfig->getBootstrapQueue()[0]);
+        $this->assertInstanceOf(BootstrapDummy::class, $applicationConfig->getBootstrapQueue()[0]);
 
         $applicationConfig = new ApplicationConfig(
             null,
@@ -108,9 +108,9 @@ class ApplicationConfigTest extends TestCase
             null,
             null,
             null,
-            ['test' => BootstrapTest::class]
+            ['test' => BootstrapDummy::class]
         );
-        $this->assertInstanceOf(BootstrapTest::class, $applicationConfig->getBootstrapQueue()[0]);
+        $this->assertInstanceOf(BootstrapDummy::class, $applicationConfig->getBootstrapQueue()[0]);
     }
 
     public function testModules()
@@ -122,35 +122,10 @@ class ApplicationConfigTest extends TestCase
             null,
             null,
             null,
-            [ModuleTest::class]
-        );
-        $this->assertInstanceOf(ModuleTest::class, $applicationConfig->getModules()[0]);
-
-        $applicationConfig = new ApplicationConfig(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            [ModuleTest::class]
-        );
-        $this->assertInstanceOf(ModuleTest::class, $applicationConfig->getModules()[0]);
-    }
-
-    public function testBundles()
-    {
-        $applicationConfig = new ApplicationConfig(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
             [],
-            [BundleTest::class]
+            [ModuleDummy::class]
         );
-        $this->assertInstanceOf(BundleTest::class, $applicationConfig->getBundles()[0]);
+        $this->assertInstanceOf(ModuleDummy::class, $applicationConfig->getModules()[0]);
 
         $applicationConfig = new ApplicationConfig(
             null,
@@ -160,10 +135,11 @@ class ApplicationConfigTest extends TestCase
             null,
             null,
             [],
-            [BundleTest::class]
+            [ModuleDummy::class]
         );
-        $this->assertInstanceOf(BundleTest::class, $applicationConfig->getBundles()[0]);
+        $this->assertInstanceOf(ModuleDummy::class, $applicationConfig->getModules()[0]);
     }
+
 
     public function testSerialize()
     {
@@ -173,9 +149,9 @@ class ApplicationConfigTest extends TestCase
             'cacheDirectory'                => 'data/cache/application_test/',
             'bootstrapDirectory'            => 'bootstrap_test/',
             'configDirectory'               => 'config_test/',
-            'bootstrapQueue'                => [BootstrapTest::class],
-            'modules'                       => [ModuleTest::class],
-            'bundles'                       => [BundleTest::class],
+            'bootstrapQueue'                => [BootstrapDummy::class],
+            'configurators'                 => [ConfiguratorItemDummy::class],
+            'modules'                       => [ModuleDummy::class],
         ];
 
         $applicationConfig = new ApplicationConfig(
@@ -185,8 +161,8 @@ class ApplicationConfigTest extends TestCase
             $config['cacheDirectory'],
             $config['persistCacheDirectory'],
             $config['bootstrapQueue'],
-            $config['modules'],
-            $config['bundles']
+            $config['configurators'],
+            $config['modules']
         );
 
         $this->assertSame(\serialize($config), $applicationConfig->serialize());
@@ -200,9 +176,9 @@ class ApplicationConfigTest extends TestCase
             'cacheDirectory'                => 'data/cache/application_test/',
             'bootstrapDirectory'            => 'bootstrap_test/',
             'configDirectory'               => 'config_test/',
-            'bootstrapQueue'                => [BootstrapTest::class],
-            'modules'                       => [ModuleTest::class],
-            'bundles'                       => [BundleTest::class],
+            'bootstrapQueue'                => [BootstrapDummy::class],
+            'configurators'                 => [ConfiguratorItemDummy::class],
+            'modules'                       => [ModuleDummy::class],
         ];
 
         $applicationConfig = new ApplicationConfig();
@@ -214,8 +190,8 @@ class ApplicationConfigTest extends TestCase
         $this->assertSame($config['bootstrapDirectory'], $applicationConfig->getBootstrapDirectory());
         $this->assertSame($config['configDirectory'], $applicationConfig->getConfigDirectory());
 
-        $this->assertInstanceOf(BootstrapTest::class, $applicationConfig->getBootstrapQueue()[0]);
-        $this->assertInstanceOf(ModuleTest::class, $applicationConfig->getModules()[0]);
-        $this->assertInstanceOf(BundleTest::class, $applicationConfig->getBundles()[0]);
+        $this->assertInstanceOf(BootstrapDummy::class, $applicationConfig->getBootstrapQueue()[0]);
+        $this->assertInstanceOf(ModuleDummy::class, $applicationConfig->getModules()[0]);
+        $this->assertInstanceOf(ConfiguratorItemDummy::class, $applicationConfig->getConfiguratorItems()[0]);
     }
 }

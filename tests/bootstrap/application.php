@@ -4,11 +4,9 @@
  *
  * @package kiwi-suite/application
  * @see https://github.com/kiwi-suite/application
- * @copyright Copyright (c) 2010 - 2017 kiwi suite GmbH
+ * @copyright Copyright (c) 2010 - 2018 kiwi suite GmbH
  * @license MIT License
  */
 
 declare(strict_types=1);
 /** @var \KiwiSuite\Application\ApplicationConfigurator $applicationConfigurator */
-$applicationConfigurator->setConfigDirectory("something");
-$applicationConfigurator->addBootstrapItem(\KiwiSuiteMisc\Application\BootstrapTest::class);
