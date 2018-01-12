@@ -10,8 +10,8 @@
     ],
     "require": {
         "php": "^7.1",
-        "kiwi-suite/servicemanager": "^0",
-        "kiwi-suite/config": "^0"
+        "kiwi-suite/servicemanager": "dev-develop",
+        "kiwi-suite/config": "dev-develop"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0.6",
