@@ -63,4 +63,12 @@ class ModuleDummy implements ModuleInterface
     {
 
     }
+
+    /**
+     * @return array|null
+     */
+    public function getConfiguratorItems(): ?array
+    {
+        return null;
+    }
 }

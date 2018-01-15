@@ -30,6 +30,11 @@ interface BootstrapInterface
     /**
      * @return array|null
      */
+    public function getConfiguratorItems() : ?array;
+
+    /**
+     * @return array|null
+     */
     public function getDefaultConfig() : ?array;
 
     /**

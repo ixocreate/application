@@ -11,6 +11,9 @@
 declare(strict_types=1);
 namespace KiwiSuite\Application;
 
+use KiwiSuite\Application\Bootstrap\BootstrapInterface;
+use KiwiSuite\Application\Module\ModuleInterface;
+
 final class ApplicationConfigurator
 {
     /**
@@ -130,7 +133,32 @@ final class ApplicationConfigurator
         if ($this->bootstrapQueue->count() > 0) {
             $this->bootstrapQueue->rewind();
             while ($this->bootstrapQueue->valid()) {
-                $bootstrapQueue[] = $this->bootstrapQueue->extract();
+                $bootstrapClass = $this->bootstrapQueue->extract();
+                $bootstrapQueue[] = $bootstrapClass;
+
+                /** @var BootstrapInterface $bootstrap */
+                $bootstrap = new $bootstrapClass();
+                $configurators = $bootstrap->getConfiguratorItems();
+                if (empty($configurators)) {
+                    continue;
+                }
+
+                foreach ($configurators as $configurator) {
+                    $this->addConfiguratorItem($configurator);
+                }
+            }
+        }
+
+        foreach ($this->modules as $moduleClass) {
+            /** @var ModuleInterface $module */
+            $module = new $moduleClass();
+            $configurators = $module->getConfiguratorItems();
+            if (empty($configurators)) {
+                continue;
+            }
+
+            foreach ($configurators as $configurator) {
+                $this->addConfiguratorItem($configurator);
             }
         }
 
