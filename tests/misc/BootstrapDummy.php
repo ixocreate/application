@@ -46,4 +46,12 @@ class BootstrapDummy implements BootstrapInterface
     public function addServices(ServiceRegistry $serviceRegistry): void
     {
     }
+
+    /**
+     * @return array|null
+     */
+    public function getConfiguratorItems(): ?array
+    {
+        return null;
+    }
 }
