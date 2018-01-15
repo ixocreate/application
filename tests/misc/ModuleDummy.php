@@ -61,6 +61,5 @@ class ModuleDummy implements ModuleInterface
      */
     public function addServices(ServiceRegistry $serviceRegistry): void
     {
-
     }
 }
