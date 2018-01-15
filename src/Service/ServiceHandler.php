@@ -180,6 +180,6 @@ final class ServiceHandler
             }
         }
 
-        $configuratorRegistry->addConfigurator(\get_class($configurator), $configurator, \get_class($configuratorItem));
+        $configuratorRegistry->addConfigurator($configuratorItem->getConfiguratorName(), $configurator, \get_class($configuratorItem));
     }
 }
