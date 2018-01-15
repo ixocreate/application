@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace KiwiSuiteMisc\Application;
 
 use KiwiSuite\Application\Module\ModuleInterface;
+use KiwiSuite\Application\Service\ServiceRegistry;
 use KiwiSuite\ServiceManager\ServiceManager;
 
 class ModuleDummy implements ModuleInterface
@@ -53,5 +54,13 @@ class ModuleDummy implements ModuleInterface
     public function getConfigDirectory(): ?string
     {
         return null;
+    }
+
+    /**
+     * @param ServiceRegistry $serviceRegistry
+     */
+    public function addServices(ServiceRegistry $serviceRegistry): void
+    {
+
     }
 }

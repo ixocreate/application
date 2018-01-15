@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace KiwiSuite\Application\Bootstrap;
 
 use KiwiSuite\Application\ConfiguratorItem\ConfiguratorRegistry;
+use KiwiSuite\Application\Service\ServiceRegistry;
 use KiwiSuite\ServiceManager\ServiceManager;
 
 interface BootstrapInterface
@@ -20,6 +21,11 @@ interface BootstrapInterface
      * @param ConfiguratorRegistry $configuratorRegistry
      */
     public function configure(ConfiguratorRegistry $configuratorRegistry) : void;
+
+    /**
+     * @param ServiceRegistry $serviceRegistry
+     */
+    public function addServices(ServiceRegistry $serviceRegistry) : void;
 
     /**
      * @return array|null

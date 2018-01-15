@@ -82,6 +82,14 @@ final class ServiceHandler
             $serviceRegistry->addService(\get_class($service), $service);
         }
 
+        foreach ($applicationConfig->getBootstrapQueue() as $bootstrapItem) {
+            $bootstrapItem->addServices($serviceRegistry);
+        }
+
+        foreach ($applicationConfig->getModules() as $module) {
+            $module->addServices($serviceRegistry);
+        }
+
         return $serviceRegistry;
     }
 

@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace KiwiSuiteMisc\Application;
 
 use KiwiSuite\Application\Bootstrap\BootstrapInterface;
+use KiwiSuite\Application\Service\ServiceRegistry;
 use KiwiSuite\ServiceManager\ServiceManager;
 
 class BootstrapDummy implements BootstrapInterface
@@ -36,6 +37,13 @@ class BootstrapDummy implements BootstrapInterface
      * @param ServiceManager $serviceManager
      */
     public function boot(ServiceManager $serviceManager): void
+    {
+    }
+
+    /**
+     * @param ServiceRegistry $serviceRegistry
+     */
+    public function addServices(ServiceRegistry $serviceRegistry): void
     {
     }
 }
