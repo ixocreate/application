@@ -70,4 +70,12 @@ class ModuleDummy implements ModuleInterface
     {
         return null;
     }
+
+    /**
+     * @return array|null
+     */
+    public function getBootstrapItems(): ?array
+    {
+        return null;
+    }
 }
