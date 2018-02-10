@@ -27,7 +27,7 @@ final class Bootstrap
     public function bootstrap(string $bootstrapDirectory, ApplicationInterface $application): ServiceManager
     {
         $applicationConfig = $this->createApplicationConfig($bootstrapDirectory, $application);
-        $serviceRegistry = (new ServiceHandler())->loadFromCache($application, $applicationConfig);
+        $serviceRegistry = (new ServiceHandler())->loadFromCache($applicationConfig);
         $serviceRegistry->addService(ApplicationConfig::class, $applicationConfig);
 
         $serviceManager = $this->createServiceManager(
@@ -55,8 +55,6 @@ final class Bootstrap
     {
         $bootstrapDirectory = IncludeHelper::normalizePath($bootstrapDirectory);
         $applicationConfigurator = new ApplicationConfigurator($bootstrapDirectory);
-
-        $application->configureApplicationConfig($applicationConfigurator);
 
         if (\file_exists($bootstrapDirectory . 'application.php')) {
             IncludeHelper::include(

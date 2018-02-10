@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace KiwiSuite\Application\Service;
 
 use KiwiSuite\Application\ApplicationConfig;
-use KiwiSuite\Application\ApplicationInterface;
 use KiwiSuite\Application\ConfiguratorItem\ConfiguratorItemInterface;
 use KiwiSuite\Application\ConfiguratorItem\ConfiguratorRegistry;
 use KiwiSuite\Application\ConfiguratorItem\ServiceManagerConfiguratorItem;
@@ -25,32 +24,31 @@ use Zend\Stdlib\Glob;
 final class ServiceHandler
 {
     /**
-     * @param ApplicationInterface $application
      * @param ApplicationConfig $applicationConfig
      * @return ServiceRegistry
      */
-    public function loadFromCache(ApplicationInterface $application, ApplicationConfig $applicationConfig) : ServiceRegistry
+    public function loadFromCache(ApplicationConfig $applicationConfig) : ServiceRegistry
     {
         if ($applicationConfig->isDevelopment()) {
-            return $this->load($application, $applicationConfig);
+            return $this->load($applicationConfig);
         }
 
-        if (!\file_exists($this->getCacheFileName($application, $applicationConfig))) {
-            return $this->load($application, $applicationConfig);
+        if (!\file_exists($this->getCacheFileName($applicationConfig))) {
+            return $this->load($applicationConfig);
         }
 
         $serviceRegistry = @\unserialize(
-            \file_get_contents($this->getCacheFileName($application, $applicationConfig))
+            \file_get_contents($this->getCacheFileName($applicationConfig))
         );
 
         if (!($serviceRegistry instanceof ServiceRegistry)) {
-            return $this->load($application, $applicationConfig);
+            return $this->load($applicationConfig);
         }
 
         return $serviceRegistry;
     }
 
-    public function load(ApplicationInterface $application, ApplicationConfig $applicationConfig) : ServiceRegistry
+    public function load(ApplicationConfig $applicationConfig) : ServiceRegistry
     {
         $configuratorRegistry = new ConfiguratorRegistry();
 
@@ -59,8 +57,6 @@ final class ServiceHandler
         foreach ($applicationConfig->getConfiguratorItems() as $configuratorItem) {
             $this->handleConfiguratorItem($applicationConfig, $configuratorItem, $configuratorRegistry);
         }
-
-        $application->configure($configuratorRegistry);
 
         foreach ($applicationConfig->getBootstrapQueue() as $bootstrapItem) {
             $bootstrapItem->configure($configuratorRegistry);
@@ -93,24 +89,23 @@ final class ServiceHandler
         return $serviceRegistry;
     }
 
-    public function save(ApplicationInterface $application, ApplicationConfig $applicationConfig) : void
+    public function save(ApplicationConfig $applicationConfig) : void
     {
-        $serviceRegistry = $this->load($application, $applicationConfig);
+        $serviceRegistry = $this->load($applicationConfig);
 
         \file_put_contents(
-            $this->getCacheFileName($application, $applicationConfig),
+            $this->getCacheFileName($applicationConfig),
             \serialize($serviceRegistry)
         );
     }
 
     /**
-     * @param ApplicationInterface $application
      * @param ApplicationConfig $applicationConfig
      * @return string
      */
-    private function getCacheFileName(ApplicationInterface $application, ApplicationConfig $applicationConfig) : string
+    private function getCacheFileName(ApplicationConfig $applicationConfig) : string
     {
-        return $applicationConfig->getPersistCacheDirectory() . "application/services." . \md5(\get_class($application)) . ".cache";
+        return $applicationConfig->getPersistCacheDirectory() . "application/services.cache";
     }
 
     private function createConfig(ApplicationConfig $applicationConfig) : Config
