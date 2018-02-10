@@ -22,9 +22,9 @@ final class ApplicationConfigurator
     private $development = true;
 
     /**
-     * @var \SplPriorityQueue
+     * @var array
      */
-    private $bootstrapQueue;
+    private $bootstrapQueue = [];
 
     /**
      * @var array
@@ -62,8 +62,6 @@ final class ApplicationConfigurator
      */
     public function __construct(string $bootstrapDirectory)
     {
-        $this->bootstrapQueue = new \SplPriorityQueue();
-
         $this->bootstrapDirectory = IncludeHelper::normalizePath($bootstrapDirectory);
     }
 
@@ -101,12 +99,11 @@ final class ApplicationConfigurator
 
     /**
      * @param string $bootstrapItem
-     * @param int $priority
      */
-    public function addBootstrapItem(string $bootstrapItem, int $priority = 100): void
+    public function addBootstrapItem(string $bootstrapItem): void
     {
         //TODO interface check
-        $this->bootstrapQueue->insert($bootstrapItem, $priority);
+        $this->bootstrapQueue[] = $bootstrapItem;
     }
 
     public function addConfiguratorItem(string $configuratorItem) : void
@@ -129,30 +126,32 @@ final class ApplicationConfigurator
      */
     public function getApplicationConfig(): ApplicationConfig
     {
-        $bootstrapQueue = [];
-        if ($this->bootstrapQueue->count() > 0) {
-            $this->bootstrapQueue->rewind();
-            while ($this->bootstrapQueue->valid()) {
-                $bootstrapClass = $this->bootstrapQueue->extract();
-                $bootstrapQueue[] = $bootstrapClass;
+        foreach ($this->modules as $moduleClass) {
+            /** @var ModuleInterface $module */
+            $module = new $moduleClass();
 
-                /** @var BootstrapInterface $bootstrap */
-                $bootstrap = new $bootstrapClass();
-                $configurators = $bootstrap->getConfiguratorItems();
-                if (empty($configurators)) {
-                    continue;
-                }
-
+            $configurators = $module->getConfiguratorItems();
+            if (!empty($configurators)) {
                 foreach ($configurators as $configurator) {
                     $this->addConfiguratorItem($configurator);
                 }
             }
+
+            $bootstrapItems = $module->getBootstrapItems();
+            if (!empty($bootstrapItems)) {
+                foreach ($bootstrapItems as $bootstrapItem) {
+                    $this->addBootstrapItem($bootstrapItem);
+                }
+            }
         }
 
-        foreach ($this->modules as $moduleClass) {
-            /** @var ModuleInterface $module */
-            $module = new $moduleClass();
-            $configurators = $module->getConfiguratorItems();
+        $bootstrapQueue = [];
+        foreach ($this->bootstrapQueue as $bootstrapClass) {
+            $bootstrapQueue[] = $bootstrapClass;
+
+            /** @var BootstrapInterface $bootstrap */
+            $bootstrap = new $bootstrapClass();
+            $configurators = $bootstrap->getConfiguratorItems();
             if (empty($configurators)) {
                 continue;
             }

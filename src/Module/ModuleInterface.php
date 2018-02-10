@@ -18,10 +18,15 @@ interface ModuleInterface extends BootstrapInterface
     /**
      * @return null|string
      */
-    public function getBootstrapDirectory() : ?string;
+    public function getBootstrapDirectory(): ?string;
 
     /**
      * @return null|string
      */
-    public function getConfigDirectory() : ?string;
+    public function getConfigDirectory(): ?string;
+
+    /**
+     * @return array|null
+     */
+    public function getBootstrapItems(): ?array;
 }
