@@ -11,6 +11,7 @@
 declare(strict_types=1);
 namespace KiwiSuite\Application\Service;
 
+use function FastRoute\TestFixtures\empty_options_cached;
 use KiwiSuite\Application\ApplicationConfig;
 use KiwiSuite\Application\ConfiguratorItem\ConfiguratorItemInterface;
 use KiwiSuite\Application\ConfiguratorItem\ConfiguratorRegistry;
@@ -127,6 +128,9 @@ final class ServiceHandler
 
         $configDirectories = [];
         foreach ($applicationConfig->getModules() as $module) {
+            if (empty($module->getConfigDirectory())) {
+                continue;
+            }
             $configDirectories[] = $module->getConfigDirectory();
         }
 
