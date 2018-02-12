@@ -56,6 +56,8 @@ final class Bootstrap
         $bootstrapDirectory = IncludeHelper::normalizePath($bootstrapDirectory);
         $applicationConfigurator = new ApplicationConfigurator($bootstrapDirectory);
 
+        $application->configure($applicationConfigurator);
+
         if (\file_exists($bootstrapDirectory . 'application.php')) {
             IncludeHelper::include(
                 $bootstrapDirectory . 'application.php',
