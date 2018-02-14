@@ -22,19 +22,12 @@ final class ConfiguratorRegistry
     private $configurators = [];
 
     /**
-     * @var array
-     */
-    private $configuratorInterfaces = [];
-
-    /**
-     * @param string $name
-     * @param $configurator
      * @param string $configuratorInterface
+     * @param $configurator
      */
-    public function addConfigurator(string $name, $configurator, string $configuratorInterface): void
+    public function add(string $configuratorInterface, $configurator): void
     {
-        $this->configurators[$name] = $configurator;
-        $this->configuratorInterfaces[$configuratorInterface] = $name;
+        $this->configurators[$configuratorInterface] = $configurator;
     }
 
     /**
@@ -50,9 +43,9 @@ final class ConfiguratorRegistry
      * @throws ArgumentNotFoundException
      * @return mixed
      */
-    public function getConfigurator(string $name)
+    public function get(string $name)
     {
-        if ($this->hasConfigurator($name)) {
+        if ($this->has($name)) {
             return $this->configurators[$name];
         }
 
@@ -61,36 +54,10 @@ final class ConfiguratorRegistry
 
     /**
      * @param string $name
-     * @return mixed
-     */
-    public function getConfiguratorByConfiguratorInterface(string $name)
-    {
-        if ($this->hasConfiguratorByConfiguratorInterface($name)) {
-            return $this->getConfigurator($this->configuratorInterfaces[$name]);
-        }
-
-        throw new ArgumentNotFoundException(\sprintf("configurator from configurator interface with name '%s' not found", $name));
-    }
-
-    /**
-     * @param string $name
      * @return bool
      */
-    public function hasConfigurator(string $name): bool
+    public function has(string $name): bool
     {
         return \array_key_exists($name, $this->configurators);
-    }
-
-    /**
-     * @param string $name
-     * @return bool
-     */
-    public function hasConfiguratorByConfiguratorInterface(string $name) : bool
-    {
-        if (!\array_key_exists($name, $this->configuratorInterfaces)) {
-            return false;
-        }
-
-        return $this->hasConfigurator($this->configuratorInterfaces[$name]);
     }
 }

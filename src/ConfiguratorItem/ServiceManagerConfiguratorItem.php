@@ -27,7 +27,7 @@ final class ServiceManagerConfiguratorItem implements ConfiguratorItemInterface
     /**
      * @return string
      */
-    public function getConfiguratorName(): string
+    public function getVariableName(): string
     {
         return 'serviceManagerConfigurator';
     }
@@ -35,7 +35,7 @@ final class ServiceManagerConfiguratorItem implements ConfiguratorItemInterface
     /**
      * @return string
      */
-    public function getConfiguratorFileName(): string
+    public function getFileName(): string
     {
         return 'servicemanager.php';
     }

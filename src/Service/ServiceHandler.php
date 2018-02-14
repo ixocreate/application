@@ -70,11 +70,11 @@ final class ServiceHandler
         $serviceRegistry->addService(Config::class, $this->createConfig($applicationConfig));
         $serviceRegistry->addService(
             ServiceManagerConfig::class,
-            (new ServiceManagerConfiguratorItem())->getService($configuratorRegistry->getConfiguratorByConfiguratorInterface(ServiceManagerConfiguratorItem::class))
+            (new ServiceManagerConfiguratorItem())->getService($configuratorRegistry->get(ServiceManagerConfiguratorItem::class))
         );
 
         foreach ($applicationConfig->getConfiguratorItems() as $configuratorItem) {
-            $service = $configuratorItem->getService($configuratorRegistry->getConfiguratorByConfiguratorInterface(\get_class($configuratorItem)));
+            $service = $configuratorItem->getService($configuratorRegistry->get(\get_class($configuratorItem)));
             $serviceRegistry->addService(\get_class($service), $service);
         }
 
@@ -154,8 +154,11 @@ final class ServiceHandler
         return new Config($mergedConfig);
     }
 
-    private function handleConfiguratorItem(ApplicationConfig $applicationConfig, ConfiguratorItemInterface $configuratorItem, ConfiguratorRegistry $configuratorRegistry)
-    {
+    private function handleConfiguratorItem(
+        ApplicationConfig $applicationConfig,
+        ConfiguratorItemInterface $configuratorItem,
+        ConfiguratorRegistry $configuratorRegistry
+    ): void {
         $configurator = $configuratorItem->getConfigurator();
 
         $bootstrapFiles = [];
@@ -164,20 +167,20 @@ final class ServiceHandler
                 continue;
             }
 
-            $bootstrapFiles[] = IncludeHelper::normalizePath($module->getBootstrapDirectory()) . $configuratorItem->getConfiguratorFileName();
+            $bootstrapFiles[] = IncludeHelper::normalizePath($module->getBootstrapDirectory()) . $configuratorItem->getFileName();
         }
 
-        $bootstrapFiles[] = IncludeHelper::normalizePath($applicationConfig->getBootstrapDirectory()) . $configuratorItem->getConfiguratorFileName();
+        $bootstrapFiles[] = IncludeHelper::normalizePath($applicationConfig->getBootstrapDirectory()) . $configuratorItem->getFileName();
 
         foreach ($bootstrapFiles as $file) {
             if (\file_exists($file)) {
                 IncludeHelper::include(
                     $file,
-                    [$configuratorItem->getConfiguratorName() => $configurator]
+                    [$configuratorItem->getVariableName() => $configurator]
                 );
             }
         }
 
-        $configuratorRegistry->addConfigurator($configuratorItem->getConfiguratorName(), $configurator, \get_class($configuratorItem));
+        $configuratorRegistry->add(\get_class($configuratorItem), $configurator);
     }
 }

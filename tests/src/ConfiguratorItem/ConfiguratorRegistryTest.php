@@ -22,14 +22,12 @@ class ConfiguratorRegistryTest extends TestCase
     public function testConfigurators()
     {
         $configuratorRegistry = new ConfiguratorRegistry();
-        $configuratorRegistry->addConfigurator(ModuleDummy::class, new ModuleDummy(), ConfiguratorRegistryTest::class);
-        $this->assertArrayHasKey(ModuleDummy::class, $configuratorRegistry->getConfigurators());
-        $this->assertTrue($configuratorRegistry->hasConfigurator(ModuleDummy::class));
-        $this->assertFalse($configuratorRegistry->hasConfigurator(BootstrapDummy::class));
-        $this->assertTrue($configuratorRegistry->hasConfiguratorByConfiguratorInterface(ConfiguratorRegistryTest::class));
-        $this->assertFalse($configuratorRegistry->hasConfiguratorByConfiguratorInterface(BootstrapDummy::class));
-        $this->assertInstanceOf(ModuleDummy::class, $configuratorRegistry->getConfigurator(ModuleDummy::class));
-        $this->assertInstanceOf(ModuleDummy::class, $configuratorRegistry->getConfiguratorByConfiguratorInterface(ConfiguratorRegistryTest::class));
+        $configuratorRegistry->add(ConfiguratorRegistryTest::class, new ModuleDummy());
+
+        $this->assertArrayHasKey(ConfiguratorRegistryTest::class, $configuratorRegistry->getConfigurators());
+        $this->assertTrue($configuratorRegistry->has(ConfiguratorRegistryTest::class));
+        $this->assertFalse($configuratorRegistry->has(BootstrapDummy::class));
+        $this->assertInstanceOf(ModuleDummy::class, $configuratorRegistry->get(ConfiguratorRegistryTest::class));
     }
 
     public function testGetConfiguratorException()
@@ -37,14 +35,6 @@ class ConfiguratorRegistryTest extends TestCase
         $configuratorRegistry = new ConfiguratorRegistry();
 
         $this->expectException(ArgumentNotFoundException::class);
-        $configuratorRegistry->getConfigurator(BootstrapDummy::class);
-    }
-
-    public function testGetConfiguratorByConfiguratorInterface()
-    {
-        $configuratorRegistry = new ConfiguratorRegistry();
-
-        $this->expectException(ArgumentNotFoundException::class);
-        $configuratorRegistry->getConfiguratorByConfiguratorInterface(BootstrapDummy::class);
+        $configuratorRegistry->get(BootstrapDummy::class);
     }
 }
