@@ -10,6 +10,7 @@
     ],
     "require": {
         "php": "^7.1",
+        "kiwi-suite/contract": "dev-develop",
         "kiwi-suite/servicemanager": "dev-develop",
         "kiwi-suite/config": "dev-develop"
     },
