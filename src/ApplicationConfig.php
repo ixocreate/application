@@ -35,7 +35,8 @@ final class ApplicationConfig implements SerializableServiceInterface
      * ApplicationConfig constructor.
      * @param ApplicationConfigurator $applicationConfigurator
      */
-    public function __construct(ApplicationConfigurator $applicationConfigurator) {
+    public function __construct(ApplicationConfigurator $applicationConfigurator)
+    {
         $this->config = [
             'development'                   => $applicationConfigurator->isDevelopment(),
             'persistCacheDirectory'         => $applicationConfigurator->getPersistCacheDirectory(),

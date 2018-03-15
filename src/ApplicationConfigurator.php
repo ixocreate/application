@@ -133,7 +133,7 @@ final class ApplicationConfigurator
         //TODO interface check
         $this->bootstrapItems[] = $bootstrapItem;
 
-        $this->bootstrapItems = array_unique($this->bootstrapItems);
+        $this->bootstrapItems = \array_unique($this->bootstrapItems);
     }
 
     public function getBootstrapItems(): array
@@ -149,7 +149,7 @@ final class ApplicationConfigurator
         //TODO check Interface
         $this->packages[] = $package;
 
-        $this->packages = array_unique($this->packages);
+        $this->packages = \array_unique($this->packages);
     }
 
     public function getPackages(): array
