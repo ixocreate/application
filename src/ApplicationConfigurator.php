@@ -11,8 +11,7 @@
 declare(strict_types=1);
 namespace KiwiSuite\Application;
 
-use KiwiSuite\Application\Bootstrap\BootstrapInterface;
-use KiwiSuite\Application\Module\ModuleInterface;
+use KiwiSuite\Contract\Application\PackageInterface;
 
 final class ApplicationConfigurator
 {
@@ -24,12 +23,7 @@ final class ApplicationConfigurator
     /**
      * @var array
      */
-    private $bootstrapQueue = [];
-
-    /**
-     * @var array
-     */
-    private $configurators = [];
+    private $bootstrapItems = [];
 
     /**
      * @var string
@@ -54,7 +48,7 @@ final class ApplicationConfigurator
     /**
      * @var array
      */
-    private $modules = [];
+    private $packages = [];
 
     /**
      * ApplicationConfigurator constructor.
@@ -63,6 +57,11 @@ final class ApplicationConfigurator
     public function __construct(string $bootstrapDirectory)
     {
         $this->bootstrapDirectory = IncludeHelper::normalizePath($bootstrapDirectory);
+    }
+
+    public function getBootstrapDirectory(): string
+    {
+        return $this->bootstrapDirectory;
     }
 
     /**
@@ -74,11 +73,27 @@ final class ApplicationConfigurator
     }
 
     /**
+     * @return bool
+     */
+    public function isDevelopment(): bool
+    {
+        return $this->development;
+    }
+
+    /**
      * @param string $persistCacheDirectory
      */
     public function setPersistCacheDirectory(string $persistCacheDirectory): void
     {
         $this->persistCacheDirectory = IncludeHelper::normalizePath($persistCacheDirectory);
+    }
+
+    /**
+     * @return string
+     */
+    public function getPersistCacheDirectory(): string
+    {
+        return $this->persistCacheDirectory;
     }
 
     /**
@@ -90,11 +105,24 @@ final class ApplicationConfigurator
     }
 
     /**
+     * @return string
+     */
+    public function getCacheDirectory(): string
+    {
+        return $this->cacheDirectory;
+    }
+
+    /**
      * @param string $configDirectory
      */
     public function setConfigDirectory(string $configDirectory): void
     {
         $this->configDirectory = IncludeHelper::normalizePath($configDirectory);
+    }
+
+    public function getConfigDirectory(): string
+    {
+        return $this->configDirectory;
     }
 
     /**
@@ -103,41 +131,39 @@ final class ApplicationConfigurator
     public function addBootstrapItem(string $bootstrapItem): void
     {
         //TODO interface check
-        $this->bootstrapQueue[] = $bootstrapItem;
+        $this->bootstrapItems[] = $bootstrapItem;
+
+        $this->bootstrapItems = array_unique($this->bootstrapItems);
     }
 
-    public function addConfiguratorItem(string $configuratorItem) : void
+    public function getBootstrapItems(): array
     {
-        //TODO interface check
-        $this->configurators[] = $configuratorItem;
+        return $this->bootstrapItems;
     }
 
     /**
-     * @param string $module
+     * @param string $package
      */
-    public function addModule(string $module) : void
+    public function addPackage(string $package) : void
     {
         //TODO check Interface
-        $this->modules[] = $module;
+        $this->packages[] = $package;
+
+        $this->packages = array_unique($this->packages);
     }
 
-    /**
-     * @return ApplicationConfig
-     */
+    public function getPackages(): array
+    {
+        return $this->packages;
+    }
+
     public function getApplicationConfig(): ApplicationConfig
     {
-        foreach ($this->modules as $moduleClass) {
-            /** @var ModuleInterface $module */
-            $module = new $moduleClass();
+        foreach ($this->packages as $packageClass) {
+            /** @var PackageInterface $package */
+            $package = new $packageClass();
 
-            $configurators = $module->getConfiguratorItems();
-            if (!empty($configurators)) {
-                foreach ($configurators as $configurator) {
-                    $this->addConfiguratorItem($configurator);
-                }
-            }
-
-            $bootstrapItems = $module->getBootstrapItems();
+            $bootstrapItems = $package->getBootstrapItems();
             if (!empty($bootstrapItems)) {
                 foreach ($bootstrapItems as $bootstrapItem) {
                     $this->addBootstrapItem($bootstrapItem);
@@ -145,31 +171,6 @@ final class ApplicationConfigurator
             }
         }
 
-        $bootstrapQueue = [];
-        foreach ($this->bootstrapQueue as $bootstrapClass) {
-            $bootstrapQueue[] = $bootstrapClass;
-
-            /** @var BootstrapInterface $bootstrap */
-            $bootstrap = new $bootstrapClass();
-            $configurators = $bootstrap->getConfiguratorItems();
-            if (empty($configurators)) {
-                continue;
-            }
-
-            foreach ($configurators as $configurator) {
-                $this->addConfiguratorItem($configurator);
-            }
-        }
-
-        return new ApplicationConfig(
-            $this->development,
-            $this->configDirectory,
-            $this->bootstrapDirectory,
-            $this->cacheDirectory,
-            $this->persistCacheDirectory,
-            $bootstrapQueue,
-            $this->configurators,
-            $this->modules
-        );
+        return new ApplicationConfig($this);
     }
 }

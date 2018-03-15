@@ -9,15 +9,12 @@
  */
 
 declare(strict_types=1);
-namespace KiwiSuite\Application\Service;
+namespace KiwiSuite\Application;
 
-use KiwiSuite\Application\ApplicationConfig;
-use KiwiSuite\Application\ConfiguratorItem\ConfiguratorItemInterface;
-use KiwiSuite\Application\ConfiguratorItem\ConfiguratorRegistry;
-use KiwiSuite\Application\ConfiguratorItem\ServiceManagerConfiguratorItem;
-use KiwiSuite\Application\IncludeHelper;
 use KiwiSuite\Config\Config;
-use KiwiSuite\ServiceManager\ServiceManagerConfig;
+use KiwiSuite\Contract\Application\BootstrapItemInterface;
+use KiwiSuite\Contract\Application\PackageInterface;
+use KiwiSuite\ServiceManager\BootstrapItem\ServiceManagerBootstrapItem;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Stdlib\Glob;
 
@@ -52,38 +49,26 @@ final class ServiceHandler
     {
         $configuratorRegistry = new ConfiguratorRegistry();
 
-        $this->handleConfiguratorItem($applicationConfig, new ServiceManagerConfiguratorItem(), $configuratorRegistry);
+        $this->handleBootstrapItem($applicationConfig, new ServiceManagerBootstrapItem(), $configuratorRegistry);
 
-        foreach ($applicationConfig->getConfiguratorItems() as $configuratorItem) {
-            $this->handleConfiguratorItem($applicationConfig, $configuratorItem, $configuratorRegistry);
+        foreach ($applicationConfig->getBootstrapItems() as $bootstrapItem) {
+            $this->handleBootstrapItem($applicationConfig, $bootstrapItem, $configuratorRegistry);
         }
 
-        foreach ($applicationConfig->getBootstrapQueue() as $bootstrapItem) {
-            $bootstrapItem->configure($configuratorRegistry);
-        }
-
-        foreach ($applicationConfig->getModules() as $module) {
-            $module->configure($configuratorRegistry);
+        foreach ($applicationConfig->getPackages() as $package) {
+            $package->configure($configuratorRegistry);
         }
 
         $serviceRegistry = new ServiceRegistry();
-        $serviceRegistry->addService(Config::class, $this->createConfig($applicationConfig));
-        $serviceRegistry->addService(
-            ServiceManagerConfig::class,
-            (new ServiceManagerConfiguratorItem())->getService($configuratorRegistry->get(ServiceManagerConfiguratorItem::class))
-        );
+        $serviceRegistry->add(Config::class, $this->createConfig($applicationConfig));
+        $configuratorRegistry->get(ServiceManagerBootstrapItem::class)->registerService($serviceRegistry);
 
-        foreach ($applicationConfig->getConfiguratorItems() as $configuratorItem) {
-            $service = $configuratorItem->getService($configuratorRegistry->get(\get_class($configuratorItem)));
-            $serviceRegistry->addService(\get_class($service), $service);
+        foreach ($applicationConfig->getBootstrapItems() as $bootstrapItem) {
+            $configuratorRegistry->get(\get_class($bootstrapItem))->registerService($serviceRegistry);
         }
 
-        foreach ($applicationConfig->getBootstrapQueue() as $bootstrapItem) {
-            $bootstrapItem->addServices($serviceRegistry);
-        }
-
-        foreach ($applicationConfig->getModules() as $module) {
-            $module->addServices($serviceRegistry);
+        foreach ($applicationConfig->getPackages() as $package) {
+            $package->addServices($serviceRegistry);
         }
 
         return $serviceRegistry;
@@ -111,26 +96,16 @@ final class ServiceHandler
     private function createConfig(ApplicationConfig $applicationConfig) : Config
     {
         $mergedConfig = [];
-        foreach ($applicationConfig->getBootstrapQueue() as $bootstrapItem) {
-            if (empty($bootstrapItem->getDefaultConfig())) {
-                continue;
-            }
-            $mergedConfig = ArrayUtils::merge($mergedConfig, $bootstrapItem->getDefaultConfig());
-        }
-
-        foreach ($applicationConfig->getModules() as $module) {
-            if (empty($module->getDefaultConfig())) {
-                continue;
-            }
-            $mergedConfig = ArrayUtils::merge($mergedConfig, $module->getDefaultConfig());
-        }
-
         $configDirectories = [];
-        foreach ($applicationConfig->getModules() as $module) {
-            if (empty($module->getConfigDirectory())) {
-                continue;
+        foreach ($applicationConfig->getPackages() as $package) {
+            if (!empty($package->getConfigProvider())) {
+                foreach ($package->getConfigProvider() as $provider) {
+                    $mergedConfig = ArrayUtils::merge($mergedConfig, (new $provider())());
+                }
             }
-            $configDirectories[] = $module->getConfigDirectory();
+            if (!empty($package->getConfigDirectory())) {
+                $configDirectories[] = $package->getConfigDirectory();
+            }
         }
 
         $configDirectories[] = $applicationConfig->getConfigDirectory();
@@ -154,33 +129,34 @@ final class ServiceHandler
         return new Config($mergedConfig);
     }
 
-    private function handleConfiguratorItem(
+    private function handleBootstrapItem(
         ApplicationConfig $applicationConfig,
-        ConfiguratorItemInterface $configuratorItem,
+        BootstrapItemInterface $bootstrapItem,
         ConfiguratorRegistry $configuratorRegistry
     ): void {
-        $configurator = $configuratorItem->getConfigurator();
+        $configurator = $bootstrapItem->getConfigurator();
 
         $bootstrapFiles = [];
-        foreach ($applicationConfig->getModules() as $module) {
-            if (empty($module->getBootstrapDirectory())) {
+        /** @var PackageInterface $package */
+        foreach ($applicationConfig->getPackages() as $package) {
+            if (empty($package->getBootstrapDirectory())) {
                 continue;
             }
 
-            $bootstrapFiles[] = IncludeHelper::normalizePath($module->getBootstrapDirectory()) . $configuratorItem->getFileName();
+            $bootstrapFiles[] = IncludeHelper::normalizePath($package->getBootstrapDirectory()) . $bootstrapItem->getFileName();
         }
 
-        $bootstrapFiles[] = IncludeHelper::normalizePath($applicationConfig->getBootstrapDirectory()) . $configuratorItem->getFileName();
+        $bootstrapFiles[] = IncludeHelper::normalizePath($applicationConfig->getBootstrapDirectory()) . $bootstrapItem->getFileName();
 
         foreach ($bootstrapFiles as $file) {
             if (\file_exists($file)) {
                 IncludeHelper::include(
                     $file,
-                    [$configuratorItem->getVariableName() => $configurator]
+                    [$bootstrapItem->getVariableName() => $configurator]
                 );
             }
         }
 
-        $configuratorRegistry->add(\get_class($configuratorItem), $configurator);
+        $configuratorRegistry->add(\get_class($bootstrapItem), $configurator);
     }
 }

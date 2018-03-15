@@ -9,11 +9,13 @@
  */
 
 declare(strict_types=1);
-namespace KiwiSuite\Application\ConfiguratorItem;
+namespace KiwiSuite\Application;
 
 use KiwiSuite\Application\Exception\ArgumentNotFoundException;
+use KiwiSuite\Contract\Application\ConfiguratorInterface;
+use KiwiSuite\Contract\Application\ConfiguratorRegistryInterface;
 
-final class ConfiguratorRegistry
+final class ConfiguratorRegistry implements ConfiguratorRegistryInterface
 {
 
     /**
@@ -23,17 +25,17 @@ final class ConfiguratorRegistry
 
     /**
      * @param string $configuratorInterface
-     * @param $configurator
+     * @param ConfiguratorInterface $configurator
      */
-    public function add(string $configuratorInterface, $configurator): void
+    public function add(string $configuratorInterface, ConfiguratorInterface $configurator): void
     {
         $this->configurators[$configuratorInterface] = $configurator;
     }
 
     /**
-     * @return array
+     * @return ConfiguratorInterface[]
      */
-    public function getConfigurators(): array
+    public function all(): array
     {
         return $this->configurators;
     }
@@ -41,9 +43,9 @@ final class ConfiguratorRegistry
     /**
      * @param string $name
      * @throws ArgumentNotFoundException
-     * @return mixed
+     * @return ConfiguratorInterface
      */
-    public function get(string $name)
+    public function get(string $name): ConfiguratorInterface
     {
         if ($this->has($name)) {
             return $this->configurators[$name];

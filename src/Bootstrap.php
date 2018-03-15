@@ -11,8 +11,6 @@
 declare(strict_types=1);
 namespace KiwiSuite\Application;
 
-use KiwiSuite\Application\Service\ServiceHandler;
-use KiwiSuite\Application\Service\ServiceRegistry;
 use KiwiSuite\ServiceManager\ServiceManager;
 use KiwiSuite\ServiceManager\ServiceManagerConfig;
 use KiwiSuite\ServiceManager\ServiceManagerSetup;
@@ -28,19 +26,15 @@ final class Bootstrap
     {
         $applicationConfig = $this->createApplicationConfig($bootstrapDirectory, $application);
         $serviceRegistry = (new ServiceHandler())->loadFromCache($applicationConfig);
-        $serviceRegistry->addService(ApplicationConfig::class, $applicationConfig);
+        $serviceRegistry->add(ApplicationConfig::class, $applicationConfig);
 
         $serviceManager = $this->createServiceManager(
-            $serviceRegistry->getService(ServiceManagerConfig::class),
+            $serviceRegistry->get(ServiceManagerConfig::class),
             $serviceRegistry
         );
 
-        foreach ($applicationConfig->getBootstrapQueue() as $bootstrapItem) {
-            $bootstrapItem->boot($serviceManager);
-        }
-
-        foreach ($applicationConfig->getModules() as $module) {
-            $module->boot($serviceManager);
+        foreach ($applicationConfig->getPackages() as $package) {
+            $package->boot($serviceManager);
         }
 
         return $serviceManager;
@@ -53,14 +47,13 @@ final class Bootstrap
      */
     private function createApplicationConfig(string $bootstrapDirectory, ApplicationInterface $application) : ApplicationConfig
     {
-        $bootstrapDirectory = IncludeHelper::normalizePath($bootstrapDirectory);
         $applicationConfigurator = new ApplicationConfigurator($bootstrapDirectory);
 
         $application->configure($applicationConfigurator);
 
-        if (\file_exists($bootstrapDirectory . 'application.php')) {
+        if (\file_exists($applicationConfigurator->getBootstrapDirectory() . 'application.php')) {
             IncludeHelper::include(
-                $bootstrapDirectory . 'application.php',
+                $applicationConfigurator->getBootstrapDirectory() . 'application.php',
                 ['applicationConfigurator' => $applicationConfigurator]
             );
         }
@@ -78,10 +71,10 @@ final class Bootstrap
         return new ServiceManager(
             $serviceManagerConfig,
             new ServiceManagerSetup(
-                $serviceRegistry->getService(ApplicationConfig::class)->getPersistCacheDirectory() . 'servicemanager/',
-                !$serviceRegistry->getService(ApplicationConfig::class)->isDevelopment()
+                $serviceRegistry->get(ApplicationConfig::class)->getPersistCacheDirectory() . 'servicemanager/',
+                !$serviceRegistry->get(ApplicationConfig::class)->isDevelopment()
             ),
-            $serviceRegistry->getServices()
+            $serviceRegistry->all()
         );
     }
 }

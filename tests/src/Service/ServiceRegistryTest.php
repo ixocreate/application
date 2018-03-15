@@ -39,13 +39,13 @@ class ServiceRegistryTest extends TestCase
         };
 
         $serviceRegistry = new ServiceRegistry();
-        $serviceRegistry->addService("test", $class);
-        $this->assertArrayHasKey("test", $serviceRegistry->getServices());
-        $this->assertTrue($serviceRegistry->hasService("test"));
-        $this->assertFalse($serviceRegistry->hasService(\DateTime::class));
-        $this->assertSame($class, $serviceRegistry->getService("test"));
+        $serviceRegistry->add("test", $class);
+        $this->assertArrayHasKey("test", $serviceRegistry->all());
+        $this->assertTrue($serviceRegistry->has("test"));
+        $this->assertFalse($serviceRegistry->has(\DateTime::class));
+        $this->assertSame($class, $serviceRegistry->get("test"));
 
         $this->expectException(ArgumentNotFoundException::class);
-        $serviceRegistry->getService(\DateTime::class);
+        $serviceRegistry->get(\DateTime::class);
     }
 }

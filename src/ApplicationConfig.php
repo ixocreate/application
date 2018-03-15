@@ -11,11 +11,11 @@
 declare(strict_types=1);
 namespace KiwiSuite\Application;
 
-use KiwiSuite\Application\Bootstrap\BootstrapInterface;
-use KiwiSuite\Application\ConfiguratorItem\ConfiguratorItemInterface;
-use KiwiSuite\Application\Module\ModuleInterface;
+use KiwiSuite\Contract\Application\BootstrapItemInterface;
+use KiwiSuite\Contract\Application\PackageInterface;
+use KiwiSuite\Contract\Application\SerializableServiceInterface;
 
-final class ApplicationConfig implements \Serializable
+final class ApplicationConfig implements SerializableServiceInterface
 {
     private $config = [
         'development'                   => true,
@@ -23,79 +23,28 @@ final class ApplicationConfig implements \Serializable
         'cacheDirectory'                => 'data/cache/application/',
         'bootstrapDirectory'            => 'bootstrap/',
         'configDirectory'               => 'config/',
-        'bootstrapQueue'                => [],
-        'configurators'                 => [],
-        'modules'                       => [],
+        'bootstrapItems'                => [],
+        'packages'                      => [],
     ];
 
-    /**
-     * @var ModuleInterface[]
-     */
-    private $modules;
+    private $bootstrapItems = null;
 
-    /**
-     * @var BootstrapInterface[]
-     */
-    private $bootstrapQueue;
-
-    /**
-     * @var ConfiguratorItemInterface[]
-     */
-    private $configurators;
-
+    private $packages = null;
 
     /**
      * ApplicationConfig constructor.
-     * @param bool|null $development
-     * @param null|string $configDirectory
-     * @param null|string $bootstrapDirectory
-     * @param null|string $cacheDirectory
-     * @param null|string $persistCacheDirectory
-     * @param array|null $bootstrapQueue
-     * @param array|null $configurators
-     * @param array|null $modules
+     * @param ApplicationConfigurator $applicationConfigurator
      */
-    public function __construct(
-        ?bool $development = null,
-        ?string $configDirectory = null,
-        ?string $bootstrapDirectory = null,
-        ?string $cacheDirectory = null,
-        ?string $persistCacheDirectory = null,
-        ?array $bootstrapQueue = null,
-        ?array $configurators = null,
-        ?array $modules = null
-    ) {
-        if ($development !== null) {
-            $this->config['development'] = $development;
-        }
-
-        if ($persistCacheDirectory !== null) {
-            $this->config['persistCacheDirectory'] = IncludeHelper::normalizePath($persistCacheDirectory);
-        }
-
-        if ($cacheDirectory !== null) {
-            $this->config['cacheDirectory'] = IncludeHelper::normalizePath($cacheDirectory);
-        }
-
-        if ($bootstrapDirectory !== null) {
-            $this->config['bootstrapDirectory'] = IncludeHelper::normalizePath($bootstrapDirectory);
-        }
-
-        if ($configDirectory !== null) {
-            $this->config['configDirectory'] = IncludeHelper::normalizePath($configDirectory);
-        }
-
-        if ($bootstrapQueue !== null) {
-            $this->config['bootstrapQueue'] = \array_values($bootstrapQueue);
-        }
-
-        if ($configurators !== null) {
-            $this->config['configurators'] = \array_values($configurators);
-        }
-
-        if ($modules !== null) {
-            $this->config['modules'] = \array_values(\array_unique($modules));
-        }
+    public function __construct(ApplicationConfigurator $applicationConfigurator) {
+        $this->config = [
+            'development'                   => $applicationConfigurator->isDevelopment(),
+            'persistCacheDirectory'         => $applicationConfigurator->getPersistCacheDirectory(),
+            'cacheDirectory'                => $applicationConfigurator->getCacheDirectory(),
+            'bootstrapDirectory'            => $applicationConfigurator->getBootstrapDirectory(),
+            'configDirectory'               => $applicationConfigurator->getConfigDirectory(),
+            'bootstrapItems'                => $applicationConfigurator->getBootstrapItems(),
+            'packages'                      => $applicationConfigurator->getPackages(),
+        ];
     }
 
     /**
@@ -139,49 +88,34 @@ final class ApplicationConfig implements \Serializable
     }
 
     /**
-     * @return BootstrapInterface[]
+     * @return BootstrapItemInterface[]
      */
-    public function getBootstrapQueue() : array
+    public function getBootstrapItems() : array
     {
-        if ($this->bootstrapQueue === null) {
-            $this->bootstrapQueue = [];
+        if ($this->bootstrapItems === null) {
+            $this->bootstrapItems = [];
 
-            foreach ($this->config['bootstrapQueue'] as $bootstrapClass) {
-                $this->bootstrapQueue[] = new $bootstrapClass();
+            foreach ($this->config['bootstrapItems'] as $bootstrapItem) {
+                $this->bootstrapItems[] = new $bootstrapItem();
             }
         }
-        return $this->bootstrapQueue;
+        return $this->bootstrapItems;
     }
 
     /**
-     * @return ConfiguratorItemInterface[]
+     * @return PackageInterface[]
      */
-    public function getConfiguratorItems() : array
+    public function getPackages() : array
     {
-        if ($this->configurators === null) {
-            $this->configurators = [];
+        if ($this->packages === null) {
+            $this->packages = [];
 
-            foreach ($this->config['configurators'] as $configuratorItem) {
-                $this->configurators[] = new $configuratorItem();
-            }
-        }
-        return $this->configurators;
-    }
-
-    /**
-     * @return ModuleInterface[]
-     */
-    public function getModules() : array
-    {
-        if ($this->modules === null) {
-            $this->modules = [];
-
-            foreach ($this->config['modules'] as $moduleClass) {
-                $this->modules[] = new $moduleClass();
+            foreach ($this->config['packages'] as $packagesClass) {
+                $this->packages[] = new $packagesClass();
             }
         }
 
-        return $this->modules;
+        return $this->packages;
     }
 
     /**
@@ -198,8 +132,7 @@ final class ApplicationConfig implements \Serializable
     public function unserialize($serialized)
     {
         $this->config = \unserialize($serialized);
-        $this->bootstrapQueue = null;
-        $this->modules = null;
-        $this->configurators = null;
+        $this->bootstrapItems = null;
+        $this->packages = null;
     }
 }

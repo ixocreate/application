@@ -9,11 +9,13 @@
  */
 
 declare(strict_types=1);
-namespace KiwiSuite\Application\Service;
+namespace KiwiSuite\Application;
 
 use KiwiSuite\Application\Exception\ArgumentNotFoundException;
+use KiwiSuite\Contract\Application\SerializableServiceInterface;
+use KiwiSuite\Contract\Application\ServiceRegistryInterface;
 
-final class ServiceRegistry
+final class ServiceRegistry implements ServiceRegistryInterface
 {
     /**
      * @var array
@@ -22,17 +24,17 @@ final class ServiceRegistry
 
     /**
      * @param string $name
-     * @param \Serializable $service
+     * @param SerializableServiceInterface $service
      */
-    public function addService(string $name, \Serializable $service): void
+    public function add(string $name, SerializableServiceInterface $service): void
     {
         $this->services[$name] = $service;
     }
 
     /**
-     * @return array
+     * @return SerializableServiceInterface[]
      */
-    public function getServices(): array
+    public function all(): array
     {
         return $this->services;
     }
@@ -42,9 +44,9 @@ final class ServiceRegistry
      * @throws ArgumentNotFoundException
      * @return mixed
      */
-    public function getService(string $name): \Serializable
+    public function get(string $name): SerializableServiceInterface
     {
-        if ($this->hasService($name)) {
+        if ($this->has($name)) {
             return $this->services[$name];
         }
 
@@ -55,7 +57,7 @@ final class ServiceRegistry
      * @param string $name
      * @return bool
      */
-    public function hasService(string $name): bool
+    public function has(string $name): bool
     {
         return \array_key_exists($name, $this->services);
     }
