@@ -1,4 +1,13 @@
 <?php
+/**
+ * kiwi-suite/application (https://github.com/kiwi-suite/application)
+ *
+ * @package kiwi-suite/application
+ * @see https://github.com/kiwi-suite/application
+ * @copyright Copyright (c) 2010 - 2018 kiwi suite GmbH
+ * @license MIT License
+ */
+
 declare(strict_types=1);
 
 namespace KiwiSuite\Application\Console;
@@ -28,7 +37,6 @@ final class BootstrapListCommand extends Command implements CommandInterface
 
     public function configure()
     {
-
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -39,7 +47,7 @@ final class BootstrapListCommand extends Command implements CommandInterface
         foreach ($this->applicationConfig->getBootstrapItems() as $bootstrapItem) {
             $data[] = [
                 $bootstrapItem->getFileName(),
-                (file_exists($this->applicationConfig->getBootstrapDirectory() . $bootstrapItem->getFileName())) ? '<info>Used</info>' : '<comment>Unused</comment>',
+                (\file_exists($this->applicationConfig->getBootstrapDirectory() . $bootstrapItem->getFileName())) ? '<info>Used</info>' : '<comment>Unused</comment>',
             ];
         }
 
