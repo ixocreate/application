@@ -197,7 +197,7 @@ final class ApplicationConfigurator
         }
 
         foreach ($packages as $item) {
-            if (in_array($item, $this->packages)) {
+            if (\in_array($item, $this->packages)) {
                 continue;
             }
 

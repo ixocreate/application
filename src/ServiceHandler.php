@@ -115,7 +115,7 @@ final class ServiceHandler
                 continue;
             }
 
-            $directory = rtrim($directory, '/') . '/';
+            $directory = \rtrim($directory, '/') . '/';
 
             foreach (Glob::glob($directory . "*.config.php", Glob::GLOB_BRACE, true) as $file) {
                 $data = require $file;

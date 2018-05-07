@@ -78,7 +78,7 @@ final class PublishCommand extends Command implements CommandInterface
             }
         }
 
-        $rootStorage = new Filesystem(new Local(getcwd()));
+        $rootStorage = new Filesystem(new Local(\getcwd()));
 
         foreach ($definitions as $name => $definition) {
             /** @var FilesystemInterface $storage */
@@ -86,7 +86,7 @@ final class PublishCommand extends Command implements CommandInterface
 
             $mountManager = new MountManager([
                 'root' => $rootStorage,
-                'storage' => $storage
+                'storage' => $storage,
             ]);
 
             foreach ($definition['sources'] as $directory) {
@@ -95,7 +95,7 @@ final class PublishCommand extends Command implements CommandInterface
                         continue;
                     }
 
-                    $sourceFile = str_replace($directory . "/", "", $content['path']);
+                    $sourceFile = \str_replace($directory . "/", "", $content['path']);
 
                     if ((bool) $input->getOption("force") === false && $mountManager->has('storage://' . $sourceFile)) {
                         continue;
@@ -113,7 +113,7 @@ final class PublishCommand extends Command implements CommandInterface
                 }
             }
 
-            $output->writeln(sprintf("%s published", $name));
+            $output->writeln(\sprintf("%s published", $name));
         }
     }
 }
