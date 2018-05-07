@@ -152,13 +152,26 @@ final class ApplicationConfigurator
         $this->packages = \array_unique($this->packages);
     }
 
+    /**
+     * @return array
+     */
     public function getPackages(): array
     {
         return $this->packages;
     }
 
+    /**
+     * @return ApplicationConfig
+     */
     public function getApplicationConfig(): ApplicationConfig
     {
+        foreach ($this->packages as $packageClass) {
+            /** @var PackageInterface $package */
+            $package = new $packageClass();
+
+            $this->processPackages($package->getDependencies());
+        }
+
         foreach ($this->packages as $packageClass) {
             /** @var PackageInterface $package */
             $package = new $packageClass();
@@ -172,5 +185,27 @@ final class ApplicationConfigurator
         }
 
         return new ApplicationConfig($this);
+    }
+
+    /**
+     * @param array|null $packages
+     */
+    private function processPackages(?array $packages): void
+    {
+        if (empty($packages)) {
+            return;
+        }
+
+        foreach ($packages as $item) {
+            if (in_array($item, $this->packages)) {
+                continue;
+            }
+
+            /** @var PackageInterface $package */
+            $package = new $item();
+
+            $this->addPackage($item);
+            $this->processPackages($package->getDependencies());
+        }
     }
 }
