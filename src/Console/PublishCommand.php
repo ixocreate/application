@@ -78,7 +78,7 @@ final class PublishCommand extends Command implements CommandInterface
             }
         }
 
-        $rootStorage = new Filesystem(new Local(\getcwd()));
+        $rootStorage = new Filesystem(new Local(\getcwd(), LOCK_EX, Local::SKIP_LINKS));
 
         foreach ($definitions as $name => $definition) {
             /** @var FilesystemInterface $storage */
