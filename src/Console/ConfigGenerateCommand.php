@@ -1,10 +1,7 @@
 <?php
 /**
- * kiwi-suite/application (https://github.com/kiwi-suite/application)
- *
- * @package kiwi-suite/application
- * @see https://github.com/kiwi-suite/application
- * @copyright Copyright (c) 2010 - 2018 kiwi suite GmbH
+ * @link https://github.com/ixocreate
+ * @copyright IXOCREATE GmbH
  * @license MIT License
  */
 
@@ -19,7 +16,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class ConfigGenerateCommand extends Command implements CommandInterface
 {
@@ -48,12 +44,12 @@ final class ConfigGenerateCommand extends Command implements CommandInterface
         foreach ($this->applicationConfig->getPackages() as $package) {
             if (!empty($package->getConfigProvider())) {
                 foreach ($package->getConfigProvider() as $provider) {
-                    if (!is_subclass_of($provider, ConfigExampleInterface::class)) {
+                    if (!\is_subclass_of($provider, ConfigExampleInterface::class)) {
                         continue;
                     }
                     /** @var ConfigExampleInterface $provider */
                     $provider = new $provider();
-                    file_put_contents(
+                    \file_put_contents(
                         $this->applicationConfig->getConfigDirectory() . 'local/' . $provider->configName() . '.config.php',
                         $provider->configContent()
                     );

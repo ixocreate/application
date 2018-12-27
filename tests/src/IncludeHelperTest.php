@@ -1,14 +1,12 @@
 <?php
 /**
- * kiwi-suite/application (https://github.com/kiwi-suite/application)
- *
- * @package kiwi-suite/application
- * @see https://github.com/kiwi-suite/application
- * @copyright Copyright (c) 2010 - 2018 kiwi suite GmbH
+ * @link https://github.com/ixocreate
+ * @copyright IXOCREATE GmbH
  * @license MIT License
  */
 
 declare(strict_types=1);
+
 namespace IxocreateTest\Application;
 
 use Ixocreate\Application\IncludeHelper;
@@ -22,7 +20,6 @@ class IncludeHelperTest extends TestCase
     {
         $this->includeTestFile = \realpath(__DIR__ . '/../bootstrap/include_test.php');
     }
-
 
     public function testInclude()
     {

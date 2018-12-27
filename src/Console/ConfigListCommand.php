@@ -1,10 +1,7 @@
 <?php
 /**
- * kiwi-suite/application (https://github.com/kiwi-suite/application)
- *
- * @package kiwi-suite/application
- * @see https://github.com/kiwi-suite/application
- * @copyright Copyright (c) 2010 - 2018 kiwi suite GmbH
+ * @link https://github.com/ixocreate
+ * @copyright IXOCREATE GmbH
  * @license MIT License
  */
 
@@ -44,7 +41,7 @@ final class ConfigListCommand extends Command implements CommandInterface
         foreach ($this->applicationConfig->getPackages() as $package) {
             if (!empty($package->getConfigProvider())) {
                 foreach ($package->getConfigProvider() as $provider) {
-                    if (!is_subclass_of($provider, ConfigExampleInterface::class)) {
+                    if (!\is_subclass_of($provider, ConfigExampleInterface::class)) {
                         continue;
                     }
 

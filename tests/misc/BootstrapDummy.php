@@ -1,14 +1,12 @@
 <?php
 /**
- * kiwi-suite/application (https://github.com/kiwi-suite/application)
- *
- * @package kiwi-suite/application
- * @see https://github.com/kiwi-suite/application
- * @copyright Copyright (c) 2010 - 2018 kiwi suite GmbH
+ * @link https://github.com/ixocreate
+ * @copyright IXOCREATE GmbH
  * @license MIT License
  */
 
 declare(strict_types=1);
+
 namespace IxocreateMisc\Application;
 
 use Ixocreate\Application\Bootstrap\BootstrapInterface;
@@ -17,7 +15,6 @@ use Ixocreate\ServiceManager\ServiceManager;
 
 class BootstrapDummy implements BootstrapInterface
 {
-
     /**
      * @param \Ixocreate\Application\ConfiguratorItem\ConfiguratorRegistry $configuratorRegistry
      */
