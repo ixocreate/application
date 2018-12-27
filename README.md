@@ -1,21 +1,26 @@
-**This is a draft. Don't use in production**
+# IXOCREATE application
 
-# kiwi-suite/application
-
-[![Build Status](https://travis-ci.org/kiwi-suite/application.svg?branch=master)](https://travis-ci.org/kiwi-suite/application)
-[![Coverage Status](https://coveralls.io/repos/github/kiwi-suite/application/badge.svg?branch=develop)](https://coveralls.io/github/kiwi-suite/application?branch=develop)
-[![Packagist](https://img.shields.io/packagist/v/kiwi-suite/application.svg)](https://packagist.org/packages/kiwi-suite/application)
-[![Packagist Pre Release](https://img.shields.io/packagist/vpre/kiwi-suite/application.svg)](https://packagist.org/packages/kiwi-suite/application)
-[![Packagist](https://img.shields.io/packagist/l/kiwi-suite/application.svg)](https://packagist.org/packages/kiwi-suite/application)
+[![Build Status](https://travis-ci.org/ixocreate/application.svg?branch=master)](https://travis-ci.org/ixocreate/application)
+[![Coverage Status](https://coveralls.io/repos/github/ixocreate/application/badge.svg?branch=develop)](https://coveralls.io/github/ixocreate/application?branch=develop)
+[![Packagist](https://img.shields.io/packagist/v/ixocreate/application.svg)](https://packagist.org/packages/ixocreate/application)
+[![Packagist Pre Release](https://img.shields.io/packagist/vpre/ixocreate/application.svg)](https://packagist.org/packages/ixocreate/application)
+[![Packagist](https://img.shields.io/packagist/l/ixocreate/application.svg)](https://packagist.org/packages/ixocreate/application)
 
 ## Installation
 
-The suggested installation method is via [composer](https://getcomposer.org/):
+Install the package via composer:
 
 ```sh
-php composer.phar require kiwi-suite/application
+composer require ixocreate/application
+```
+
+## Testing
+
+```sh
+composer install --dev
+phpunit
 ```
 
 ## License
 
-kiwi-suite/application is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT) - see the `LICENSE` file for details
+The MIT License (MIT). Please see [LICENSE](LICENSE) for more information.
