@@ -9,12 +9,12 @@
  */
 
 declare(strict_types=1);
-namespace KiwiSuiteTest\Application;
+namespace IxocreateTest\Application;
 
-use KiwiSuite\Application\ApplicationConfig;
-use KiwiSuiteMisc\Application\BootstrapDummy;
-use KiwiSuiteMisc\Application\ConfiguratorItemDummy;
-use KiwiSuiteMisc\Application\ModuleDummy;
+use Ixocreate\Application\ApplicationConfig;
+use IxocreateMisc\Application\BootstrapDummy;
+use IxocreateMisc\Application\ConfiguratorItemDummy;
+use IxocreateMisc\Application\ModuleDummy;
 use PHPUnit\Framework\TestCase;
 
 class ApplicationConfigTest extends TestCase

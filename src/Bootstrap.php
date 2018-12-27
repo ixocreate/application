@@ -9,11 +9,11 @@
  */
 
 declare(strict_types=1);
-namespace KiwiSuite\Application;
+namespace Ixocreate\Application;
 
-use KiwiSuite\ServiceManager\ServiceManager;
-use KiwiSuite\ServiceManager\ServiceManagerConfig;
-use KiwiSuite\ServiceManager\ServiceManagerSetup;
+use Ixocreate\ServiceManager\ServiceManager;
+use Ixocreate\ServiceManager\ServiceManagerConfig;
+use Ixocreate\ServiceManager\ServiceManagerSetup;
 
 final class Bootstrap
 {

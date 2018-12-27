@@ -10,11 +10,11 @@
 
 declare(strict_types=1);
 
-namespace KiwiSuite\Application\BootstrapItem;
+namespace Ixocreate\Application\BootstrapItem;
 
-use KiwiSuite\Application\Publish\PublishDefinitionConfigurator;
-use KiwiSuite\Contract\Application\BootstrapItemInterface;
-use KiwiSuite\Contract\Application\ConfiguratorInterface;
+use Ixocreate\Application\Publish\PublishDefinitionConfigurator;
+use Ixocreate\Contract\Application\BootstrapItemInterface;
+use Ixocreate\Contract\Application\ConfiguratorInterface;
 
 final class PublishDefinitionBootstrapItem implements BootstrapItemInterface
 {

@@ -9,9 +9,9 @@
  */
 
 declare(strict_types=1);
-namespace KiwiSuiteTest\Application;
+namespace IxocreateTest\Application;
 
-use KiwiSuite\Application\IncludeHelper;
+use Ixocreate\Application\IncludeHelper;
 use PHPUnit\Framework\TestCase;
 
 class IncludeHelperTest extends TestCase

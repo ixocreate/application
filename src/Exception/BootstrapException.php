@@ -9,7 +9,7 @@
  */
 
 declare(strict_types=1);
-namespace KiwiSuite\Application\Exception;
+namespace Ixocreate\Application\Exception;
 
 class BootstrapException extends \LogicException
 {

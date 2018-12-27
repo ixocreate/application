@@ -10,10 +10,10 @@
 
 declare(strict_types=1);
 
-namespace KiwiSuite\Application\Publish;
+namespace Ixocreate\Application\Publish;
 
-use KiwiSuite\Contract\Application\ConfiguratorInterface;
-use KiwiSuite\Contract\Application\ServiceRegistryInterface;
+use Ixocreate\Contract\Application\ConfiguratorInterface;
+use Ixocreate\Contract\Application\ServiceRegistryInterface;
 
 final class PublishDefinitionConfigurator implements ConfiguratorInterface
 {

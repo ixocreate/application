@@ -10,12 +10,12 @@
 
 declare(strict_types=1);
 
-namespace KiwiSuite\Application\Console;
+namespace Ixocreate\Application\Console;
 
-use KiwiSuite\Application\Publish\PublishConfig;
-use KiwiSuite\Application\Publish\PublishDefinitionConfig;
-use KiwiSuite\Contract\Command\CommandInterface;
-use KiwiSuite\Filesystem\Storage\StorageSubManager;
+use Ixocreate\Application\Publish\PublishConfig;
+use Ixocreate\Application\Publish\PublishDefinitionConfig;
+use Ixocreate\Contract\Command\CommandInterface;
+use Ixocreate\Filesystem\Storage\StorageSubManager;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;

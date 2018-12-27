@@ -9,9 +9,9 @@
  */
 
 declare(strict_types=1);
-namespace KiwiSuiteMisc\Application;
+namespace IxocreateMisc\Application;
 
-use KiwiSuite\Application\ConfiguratorItem\ConfiguratorItemInterface;
+use Ixocreate\Application\ConfiguratorItem\ConfiguratorItemInterface;
 
 class ConfiguratorItemDummy implements ConfiguratorItemInterface
 {

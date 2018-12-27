@@ -9,11 +9,11 @@
  */
 
 declare(strict_types=1);
-namespace KiwiSuite\Application;
+namespace Ixocreate\Application;
 
-use KiwiSuite\Contract\Application\BootstrapItemInterface;
-use KiwiSuite\Contract\Application\PackageInterface;
-use KiwiSuite\Contract\Application\SerializableServiceInterface;
+use Ixocreate\Contract\Application\BootstrapItemInterface;
+use Ixocreate\Contract\Application\PackageInterface;
+use Ixocreate\Contract\Application\SerializableServiceInterface;
 
 final class ApplicationConfig implements SerializableServiceInterface
 {

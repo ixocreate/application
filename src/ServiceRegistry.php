@@ -9,11 +9,11 @@
  */
 
 declare(strict_types=1);
-namespace KiwiSuite\Application;
+namespace Ixocreate\Application;
 
-use KiwiSuite\Application\Exception\ArgumentNotFoundException;
-use KiwiSuite\Contract\Application\SerializableServiceInterface;
-use KiwiSuite\Contract\Application\ServiceRegistryInterface;
+use Ixocreate\Application\Exception\ArgumentNotFoundException;
+use Ixocreate\Contract\Application\SerializableServiceInterface;
+use Ixocreate\Contract\Application\ServiceRegistryInterface;
 
 final class ServiceRegistry implements ServiceRegistryInterface
 {

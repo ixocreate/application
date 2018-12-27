@@ -9,11 +9,11 @@
  */
 
 declare(strict_types=1);
-namespace KiwiSuite\Application;
+namespace Ixocreate\Application;
 
-use KiwiSuite\Application\Exception\ArgumentNotFoundException;
-use KiwiSuite\Contract\Application\ConfiguratorInterface;
-use KiwiSuite\Contract\Application\ConfiguratorRegistryInterface;
+use Ixocreate\Application\Exception\ArgumentNotFoundException;
+use Ixocreate\Contract\Application\ConfiguratorInterface;
+use Ixocreate\Contract\Application\ConfiguratorRegistryInterface;
 
 final class ConfiguratorRegistry implements ConfiguratorRegistryInterface
 {

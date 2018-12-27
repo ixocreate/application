@@ -10,9 +10,9 @@
 
 declare(strict_types=1);
 
-namespace KiwiSuite\Application\Publish;
+namespace Ixocreate\Application\Publish;
 
-use KiwiSuite\Contract\Application\SerializableServiceInterface;
+use Ixocreate\Contract\Application\SerializableServiceInterface;
 
 final class PublishConfig implements SerializableServiceInterface
 {

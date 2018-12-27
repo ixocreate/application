@@ -9,4 +9,4 @@
  */
 
 declare(strict_types=1);
-/** @var \KiwiSuite\Application\ApplicationConfigurator $applicationConfigurator */
+/** @var \Ixocreate\Application\ApplicationConfigurator $applicationConfigurator */

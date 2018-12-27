@@ -9,19 +9,19 @@
  */
 
 declare(strict_types=1);
-namespace KiwiSuiteMisc\Application;
+namespace IxocreateMisc\Application;
 
-use KiwiSuite\Application\Module\ModuleInterface;
-use KiwiSuite\Application\Service\ServiceRegistry;
-use KiwiSuite\ServiceManager\ServiceManager;
+use Ixocreate\Application\Module\ModuleInterface;
+use Ixocreate\Application\Service\ServiceRegistry;
+use Ixocreate\ServiceManager\ServiceManager;
 
 class ModuleDummy implements ModuleInterface
 {
 
     /**
-     * @param \KiwiSuite\Application\ConfiguratorItem\ConfiguratorRegistry $configuratorRegistry
+     * @param \Ixocreate\Application\ConfiguratorItem\ConfiguratorRegistry $configuratorRegistry
      */
-    public function configure(\KiwiSuite\Application\ConfiguratorItem\ConfiguratorRegistry $configuratorRegistry): void
+    public function configure(\Ixocreate\Application\ConfiguratorItem\ConfiguratorRegistry $configuratorRegistry): void
     {
     }
 

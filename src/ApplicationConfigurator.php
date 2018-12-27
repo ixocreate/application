@@ -9,9 +9,9 @@
  */
 
 declare(strict_types=1);
-namespace KiwiSuite\Application;
+namespace Ixocreate\Application;
 
-use KiwiSuite\Contract\Application\PackageInterface;
+use Ixocreate\Contract\Application\PackageInterface;
 
 final class ApplicationConfigurator
 {

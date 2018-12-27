@@ -9,5 +9,5 @@
  */
 
 declare(strict_types=1);
-/** @var \KiwiSuite\ServiceManager\ServiceManagerConfigurator $serviceManagerConfigurator */
+/** @var \Ixocreate\ServiceManager\ServiceManagerConfigurator $serviceManagerConfigurator */
 $serviceManagerConfigurator->addFactory(DateTime::class);

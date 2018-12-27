@@ -9,12 +9,12 @@
  */
 
 declare(strict_types=1);
-namespace KiwiSuiteTest\Application\ConfiguratorItem;
+namespace IxocreateTest\Application\ConfiguratorItem;
 
-use KiwiSuite\Application\ConfiguratorItem\ConfiguratorRegistry;
-use KiwiSuite\Application\Exception\ArgumentNotFoundException;
-use KiwiSuiteMisc\Application\BootstrapDummy;
-use KiwiSuiteMisc\Application\ModuleDummy;
+use Ixocreate\Application\ConfiguratorItem\ConfiguratorRegistry;
+use Ixocreate\Application\Exception\ArgumentNotFoundException;
+use IxocreateMisc\Application\BootstrapDummy;
+use IxocreateMisc\Application\ModuleDummy;
 use PHPUnit\Framework\TestCase;
 
 class ConfiguratorRegistryTest extends TestCase

@@ -9,10 +9,10 @@
  */
 
 declare(strict_types=1);
-namespace KiwiSuiteTest\Application\Service;
+namespace IxocreateTest\Application\Service;
 
-use KiwiSuite\Application\Exception\ArgumentNotFoundException;
-use KiwiSuite\Application\Service\ServiceRegistry;
+use Ixocreate\Application\Exception\ArgumentNotFoundException;
+use Ixocreate\Application\Service\ServiceRegistry;
 use PHPUnit\Framework\TestCase;
 
 class ServiceRegistryTest extends TestCase

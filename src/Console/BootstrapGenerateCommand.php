@@ -10,11 +10,11 @@
 
 declare(strict_types=1);
 
-namespace KiwiSuite\Application\Console;
+namespace Ixocreate\Application\Console;
 
-use KiwiSuite\Application\ApplicationConfig;
-use KiwiSuite\Contract\Application\BootstrapItemInterface;
-use KiwiSuite\Contract\Command\CommandInterface;
+use Ixocreate\Application\ApplicationConfig;
+use Ixocreate\Contract\Application\BootstrapItemInterface;
+use Ixocreate\Contract\Command\CommandInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
