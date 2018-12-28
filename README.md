@@ -1,6 +1,6 @@
 # IXOCREATE application
 
-[![Build Status](https://travis-ci.org/ixocreate/application.svg?branch=master)](https://travis-ci.org/ixocreate/application)
+[![Build Status](https://travis-ci.com/ixocreate/application.svg?branch=master)](https://travis-ci.com/ixocreate/application)
 [![Coverage Status](https://coveralls.io/repos/github/ixocreate/application/badge.svg?branch=develop)](https://coveralls.io/github/ixocreate/application?branch=develop)
 [![Packagist](https://img.shields.io/packagist/v/ixocreate/application.svg)](https://packagist.org/packages/ixocreate/application)
 [![Packagist Pre Release](https://img.shields.io/packagist/vpre/ixocreate/application.svg)](https://packagist.org/packages/ixocreate/application)
