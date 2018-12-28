@@ -7,12 +7,12 @@
 
 declare(strict_types=1);
 
-namespace KiwiSuite\Application;
+namespace Ixocreate\Application;
 
-use KiwiSuite\Config\Config;
-use KiwiSuite\Contract\Application\BootstrapItemInterface;
-use KiwiSuite\Contract\Application\PackageInterface;
-use KiwiSuite\ServiceManager\BootstrapItem\ServiceManagerBootstrapItem;
+use Ixocreate\Config\Config;
+use Ixocreate\Contract\Application\BootstrapItemInterface;
+use Ixocreate\Contract\Application\PackageInterface;
+use Ixocreate\ServiceManager\BootstrapItem\ServiceManagerBootstrapItem;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Stdlib\Glob;
 

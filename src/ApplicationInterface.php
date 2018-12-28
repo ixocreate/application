@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace KiwiSuite\Application;
+namespace Ixocreate\Application;
 
 interface ApplicationInterface
 {
