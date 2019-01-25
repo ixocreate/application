@@ -11,6 +11,7 @@ namespace Ixocreate\Application;
 
 use Ixocreate\Contract\Application\BootstrapItemInterface;
 use Ixocreate\Contract\Application\PackageInterface;
+use Ixocreate\ServiceManager\BootstrapItem\ServiceManagerBootstrapItem;
 
 final class ApplicationConfigurator
 {
@@ -200,6 +201,8 @@ final class ApplicationConfigurator
 
             $this->processPackages($package->getDependencies());
         }
+
+        $this->addBootstrapItem(ServiceManagerBootstrapItem::class);
 
         foreach ($this->packages as $packageClass) {
             /** @var PackageInterface $package */

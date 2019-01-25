@@ -47,8 +47,6 @@ final class ServiceHandler
     {
         $configuratorRegistry = new ConfiguratorRegistry();
 
-        $this->handleBootstrapItem($applicationConfig, new ServiceManagerBootstrapItem(), $configuratorRegistry);
-
         foreach ($applicationConfig->getBootstrapItems() as $bootstrapItem) {
             $this->handleBootstrapItem($applicationConfig, $bootstrapItem, $configuratorRegistry);
         }
@@ -59,7 +57,6 @@ final class ServiceHandler
 
         $serviceRegistry = new ServiceRegistry();
         $serviceRegistry->add(Config::class, $this->createConfig($applicationConfig));
-        $configuratorRegistry->get(ServiceManagerBootstrapItem::class)->registerService($serviceRegistry);
 
         foreach ($applicationConfig->getBootstrapItems() as $bootstrapItem) {
             $configuratorRegistry->get(\get_class($bootstrapItem))->registerService($serviceRegistry);
