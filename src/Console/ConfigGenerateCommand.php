@@ -39,6 +39,12 @@ final class ConfigGenerateCommand extends Command implements CommandInterface
             ->addArgument('file', InputArgument::REQUIRED, 'Config file name');
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int|void|null
+     * @throws \Exception
+     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         foreach ($this->applicationConfig->getPackages() as $package) {
@@ -50,7 +56,7 @@ final class ConfigGenerateCommand extends Command implements CommandInterface
                     /** @var ConfigExampleInterface $provider */
                     $provider = new $provider();
                     \file_put_contents(
-                        $this->applicationConfig->getConfigDirectory() . 'local/' . $provider->configName() . '.config.php',
+                        $this->applicationConfig->getConfigDirectory() . $this->applicationConfig->getConfigEnvDirectory() . $provider->configName() . '.config.php',
                         $provider->configContent()
                     );
 
@@ -63,6 +69,9 @@ final class ConfigGenerateCommand extends Command implements CommandInterface
         throw new \Exception(\sprintf("Config file %s does not exist", $input->getArgument("file")));
     }
 
+    /**
+     * @return string
+     */
     public static function getCommandName()
     {
         return "config:generate";

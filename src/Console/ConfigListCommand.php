@@ -25,7 +25,8 @@ final class ConfigListCommand extends Command implements CommandInterface
     private $applicationConfig;
 
     /**
-     * BootstrapListCommand constructor.
+     * ConfigListCommand constructor.
+     * @param ApplicationConfig $applicationConfig
      */
     public function __construct(ApplicationConfig $applicationConfig)
     {
@@ -33,6 +34,11 @@ final class ConfigListCommand extends Command implements CommandInterface
         $this->applicationConfig = $applicationConfig;
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int|void|null
+     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
@@ -45,11 +51,12 @@ final class ConfigListCommand extends Command implements CommandInterface
                         continue;
                     }
 
+                    /** @var ConfigExampleInterface $provider */
                     $provider = new $provider();
 
                     $data[] = [
                         $provider->configName(),
-                        (\file_exists($this->applicationConfig->getConfigDirectory() . 'local/' . $provider->configName() . '.config.php')) ? '<info>Used</info>' : '<comment>Unused</comment>',
+                        (\file_exists($this->applicationConfig->getConfigDirectory() . $this->applicationConfig->getConfigEnvDirectory() . $provider->configName() . '.config.php')) ? '<info>Used</info>' : '<comment>Unused</comment>',
                     ];
                 }
             }
@@ -61,6 +68,9 @@ final class ConfigListCommand extends Command implements CommandInterface
         );
     }
 
+    /**
+     * @return string
+     */
     public static function getCommandName()
     {
         return "config:list";

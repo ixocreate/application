@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application;
 
+use Ixocreate\Contract\Application\BootstrapItemInterface;
 use Ixocreate\Contract\Application\PackageInterface;
 
 final class ApplicationConfigurator
@@ -42,6 +43,11 @@ final class ApplicationConfigurator
      * @var string
      */
     private $configDirectory = "config/";
+
+    /**
+     * @var string
+     */
+    private $configEnvDirectory = "local/";
 
     /**
      * @var array
@@ -118,9 +124,28 @@ final class ApplicationConfigurator
         $this->configDirectory = IncludeHelper::normalizePath($configDirectory);
     }
 
+    /**
+     * @return string
+     */
     public function getConfigDirectory(): string
     {
         return $this->configDirectory;
+    }
+
+    /**
+     * @param string $configEnvDirectory
+     */
+    public function setConfigEnvDirectory(string $configEnvDirectory): void
+    {
+        $this->configEnvDirectory = IncludeHelper::normalizePath($configEnvDirectory);
+    }
+
+    /**
+     * @return string
+     */
+    public function getConfigEnvDirectory(): string
+    {
+        return $this->configEnvDirectory;
     }
 
     /**
@@ -128,7 +153,10 @@ final class ApplicationConfigurator
      */
     public function addBootstrapItem(string $bootstrapItem): void
     {
-        //TODO interface check
+        if (!\is_subclass_of($bootstrapItem, BootstrapItemInterface::class)) {
+            throw new \InvalidArgumentException($bootstrapItem . ' must implement ' . BootstrapItemInterface::class);
+        }
+
         $this->bootstrapItems[] = $bootstrapItem;
 
         $this->bootstrapItems = \array_unique($this->bootstrapItems);
@@ -144,7 +172,10 @@ final class ApplicationConfigurator
      */
     public function addPackage(string $package) : void
     {
-        //TODO check Interface
+        if (!\is_subclass_of($package, PackageInterface::class)) {
+            throw new \InvalidArgumentException($package . ' must implement ' . PackageInterface::class);
+        }
+
         $this->packages[] = $package;
 
         $this->packages = \array_unique($this->packages);

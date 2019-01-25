@@ -15,15 +15,7 @@ use Ixocreate\Contract\Application\SerializableServiceInterface;
 
 final class ApplicationConfig implements SerializableServiceInterface
 {
-    private $config = [
-        'development'                   => true,
-        'persistCacheDirectory'         => 'resources/application/',
-        'cacheDirectory'                => 'data/cache/application/',
-        'bootstrapDirectory'            => 'bootstrap/',
-        'configDirectory'               => 'config/',
-        'bootstrapItems'                => [],
-        'packages'                      => [],
-    ];
+    private $config = null;
 
     private $bootstrapItems = null;
 
@@ -41,6 +33,7 @@ final class ApplicationConfig implements SerializableServiceInterface
             'cacheDirectory'                => $applicationConfigurator->getCacheDirectory(),
             'bootstrapDirectory'            => $applicationConfigurator->getBootstrapDirectory(),
             'configDirectory'               => $applicationConfigurator->getConfigDirectory(),
+            'configEnvDirectory'            => $applicationConfigurator->getConfigEnvDirectory(),
             'bootstrapItems'                => $applicationConfigurator->getBootstrapItems(),
             'packages'                      => $applicationConfigurator->getPackages(),
         ];
@@ -84,6 +77,14 @@ final class ApplicationConfig implements SerializableServiceInterface
     public function getConfigDirectory() : string
     {
         return $this->config['configDirectory'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getConfigEnvDirectory() : string
+    {
+        return $this->config['configEnvDirectory'];
     }
 
     /**

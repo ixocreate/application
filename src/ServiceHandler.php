@@ -107,7 +107,7 @@ final class ServiceHandler
         }
 
         $configDirectories[] = $applicationConfig->getConfigDirectory();
-        $configDirectories[] = $applicationConfig->getConfigDirectory() . 'local/';
+        $configDirectories[] = $applicationConfig->getConfigDirectory() . $applicationConfig->getConfigEnvDirectory();
         foreach ($configDirectories as $directory) {
             if (!\is_dir($directory)) {
                 continue;
