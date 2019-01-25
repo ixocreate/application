@@ -26,7 +26,10 @@ final class BootstrapGenerateCommand extends Command implements CommandInterface
 
     private $template = <<<'EOD'
 <?php
+declare(strict_types=1);
+
 namespace App;
+
 /** @var %s %s */
 
 EOD;
