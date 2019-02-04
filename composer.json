@@ -10,6 +10,7 @@
     ],
     "require": {
         "php": "^7.1",
+        "ixocreate/application-contract": "dev-develop",
         "ixocreate/contract": "dev-develop",
         "ixocreate/servicemanager": "dev-develop",
         "ixocreate/config": "dev-develop"
