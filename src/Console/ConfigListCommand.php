@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Ixocreate\Application\Console;
 
 use Ixocreate\Application\ApplicationConfig;
+use Ixocreate\Contract\Application\ConfigProviderInterface;
 use Ixocreate\Contract\Application\ConfiguratorInterface;
 use Ixocreate\Contract\Command\CommandInterface;
 use Symfony\Component\Console\Command\Command;
@@ -46,9 +47,9 @@ final class ConfigListCommand extends Command implements CommandInterface
         $data = [];
         foreach ($this->applicationConfig->getPackages() as $package) {
             if (!empty($package->getConfigProvider())) {
-                foreach ($package->getConfigProvider() as $provider) {
-                    /** @var ConfiguratorInterface $provider */
-                    $provider = new $provider();
+                foreach ($package->getConfigProvider() as $providerClass) {
+                    /** @var ConfigProviderInterface $provider */
+                    $provider = new $providerClass();
 
                     $data[] = [
                         $provider->configName(),

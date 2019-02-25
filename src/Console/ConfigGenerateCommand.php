@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Ixocreate\Application\Console;
 
 use Ixocreate\Application\ApplicationConfig;
-use Ixocreate\Contract\Application\ConfiguratorInterface;
+use Ixocreate\Contract\Application\ConfigProviderInterface;
 use Ixocreate\Contract\Command\CommandInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -49,9 +49,14 @@ final class ConfigGenerateCommand extends Command implements CommandInterface
     {
         foreach ($this->applicationConfig->getPackages() as $package) {
             if (!empty($package->getConfigProvider())) {
-                foreach ($package->getConfigProvider() as $provider) {
-                    /** @var ConfiguratorInterface $provider */
-                    $provider = new $provider();
+                foreach ($package->getConfigProvider() as $providerClass) {
+                    /** @var ConfigProviderInterface $provider */
+                    $provider = new $providerClass();
+
+                    if ($provider->configName() != $input->getArgument('file')) {
+                        continue;
+                    }
+
                     \file_put_contents(
                         $this->applicationConfig->getConfigDirectory() . $this->applicationConfig->getConfigEnvDirectory() . $provider->configName() . '.config.php',
                         $provider->configContent()
@@ -63,7 +68,7 @@ final class ConfigGenerateCommand extends Command implements CommandInterface
             }
         }
 
-        throw new \Exception(\sprintf("Config file %s does not exist", $input->getArgument("file")));
+        throw new \Exception(\sprintf("Config file %s does not exist", $input->getArgument('file')));
     }
 
     /**
