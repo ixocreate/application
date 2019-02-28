@@ -45,11 +45,12 @@ final class BootstrapListCommand extends Command implements CommandInterface
             $data[] = [
                 $bootstrapItem->getFileName(),
                 (\file_exists($this->applicationConfig->getBootstrapDirectory() . $bootstrapItem->getFileName())) ? '<info>Used</info>' : '<comment>Unused</comment>',
+                (\file_exists($this->applicationConfig->getBootstrapDirectory() . $this->applicationConfig->getBootstrapEnvDirectory() . $bootstrapItem->getFileName())) ? '<info>Used</info>' : '<comment>Unused</comment>',
             ];
         }
 
         $io->table(
-            ['File', 'Status'],
+            ['File', 'Status', 'Env'],
             $data
         );
     }

@@ -43,6 +43,11 @@ final class ApplicationConfigurator
     /**
      * @var string
      */
+    private $bootstrapEnvDirectory = "local/";
+
+    /**
+     * @var string
+     */
     private $configDirectory = "config/";
 
     /**
@@ -67,6 +72,22 @@ final class ApplicationConfigurator
     public function getBootstrapDirectory(): string
     {
         return $this->bootstrapDirectory;
+    }
+
+    /**
+     * @param string $directory
+     */
+    public function setBootstrapEnvDirectory(string $directory): void
+    {
+        $this->bootstrapEnvDirectory = IncludeHelper::normalizePath($directory);
+    }
+
+    /**
+     * @return string
+     */
+    public function getBootstrapEnvDirectory(): string
+    {
+        return $this->bootstrapEnvDirectory;
     }
 
     /**

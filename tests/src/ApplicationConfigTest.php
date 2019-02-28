@@ -12,7 +12,7 @@ namespace IxocreateTest\Application;
 use Ixocreate\Application\ApplicationConfig;
 use IxocreateMisc\Application\BootstrapDummy;
 use IxocreateMisc\Application\ConfiguratorItemDummy;
-use IxocreateMisc\Application\ModuleDummy;
+use IxocreateMisc\Application\PackageDummy;
 use PHPUnit\Framework\TestCase;
 
 class ApplicationConfigTest extends TestCase
@@ -121,9 +121,9 @@ class ApplicationConfigTest extends TestCase
             null,
             null,
             [],
-            [ModuleDummy::class]
+            [PackageDummy::class]
         );
-        $this->assertInstanceOf(ModuleDummy::class, $applicationConfig->getModules()[0]);
+        $this->assertInstanceOf(PackageDummy::class, $applicationConfig->getModules()[0]);
 
         $applicationConfig = new ApplicationConfig(
             null,
@@ -133,9 +133,9 @@ class ApplicationConfigTest extends TestCase
             null,
             null,
             [],
-            [ModuleDummy::class]
+            [PackageDummy::class]
         );
-        $this->assertInstanceOf(ModuleDummy::class, $applicationConfig->getModules()[0]);
+        $this->assertInstanceOf(PackageDummy::class, $applicationConfig->getModules()[0]);
     }
 
     public function testSerialize()
@@ -148,7 +148,7 @@ class ApplicationConfigTest extends TestCase
             'configDirectory'               => 'config_test/',
             'bootstrapQueue'                => [BootstrapDummy::class],
             'configurators'                 => [ConfiguratorItemDummy::class],
-            'modules'                       => [ModuleDummy::class],
+            'modules'                       => [PackageDummy::class],
         ];
 
         $applicationConfig = new ApplicationConfig(
@@ -175,7 +175,7 @@ class ApplicationConfigTest extends TestCase
             'configDirectory'               => 'config_test/',
             'bootstrapQueue'                => [BootstrapDummy::class],
             'configurators'                 => [ConfiguratorItemDummy::class],
-            'modules'                       => [ModuleDummy::class],
+            'modules'                       => [PackageDummy::class],
         ];
 
         $applicationConfig = new ApplicationConfig();
@@ -188,7 +188,7 @@ class ApplicationConfigTest extends TestCase
         $this->assertSame($config['configDirectory'], $applicationConfig->getConfigDirectory());
 
         $this->assertInstanceOf(BootstrapDummy::class, $applicationConfig->getBootstrapQueue()[0]);
-        $this->assertInstanceOf(ModuleDummy::class, $applicationConfig->getModules()[0]);
+        $this->assertInstanceOf(PackageDummy::class, $applicationConfig->getModules()[0]);
         $this->assertInstanceOf(ConfiguratorItemDummy::class, $applicationConfig->getConfiguratorItems()[0]);
     }
 }

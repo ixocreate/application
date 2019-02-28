@@ -9,46 +9,23 @@ declare(strict_types=1);
 
 namespace IxocreateMisc\Application;
 
-use Ixocreate\Application\Bootstrap\BootstrapInterface;
-use Ixocreate\Application\Service\ServiceRegistry;
-use Ixocreate\ServiceManager\ServiceManager;
+use Ixocreate\Contract\Application\BootstrapItemInterface;
+use Ixocreate\Contract\Application\ConfiguratorInterface;
 
-class BootstrapDummy implements BootstrapInterface
+class BootstrapDummy implements BootstrapItemInterface
 {
-    /**
-     * @param \Ixocreate\Application\ConfiguratorItem\ConfiguratorRegistry $configuratorRegistry
-     */
-    public function configure(\Ixocreate\Application\ConfiguratorItem\ConfiguratorRegistry $configuratorRegistry): void
+    public function getConfigurator(): ConfiguratorInterface
     {
+        return new ConfiguratorDummy();
     }
 
-    /**
-     * @return array|null
-     */
-    public function getDefaultConfig(): ?array
+    public function getVariableName(): string
     {
-        return null;
+        return 'dummy';
     }
 
-    /**
-     * @param ServiceManager $serviceManager
-     */
-    public function boot(ServiceManager $serviceManager): void
+    public function getFileName(): string
     {
-    }
-
-    /**
-     * @param ServiceRegistry $serviceRegistry
-     */
-    public function addServices(ServiceRegistry $serviceRegistry): void
-    {
-    }
-
-    /**
-     * @return array|null
-     */
-    public function getConfiguratorItems(): ?array
-    {
-        return null;
+        return 'dummy';
     }
 }

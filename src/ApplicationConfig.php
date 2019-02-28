@@ -32,6 +32,7 @@ final class ApplicationConfig implements SerializableServiceInterface
             'persistCacheDirectory'         => $applicationConfigurator->getPersistCacheDirectory(),
             'cacheDirectory'                => $applicationConfigurator->getCacheDirectory(),
             'bootstrapDirectory'            => $applicationConfigurator->getBootstrapDirectory(),
+            'bootstrapEnvDirectory'         => $applicationConfigurator->getBootstrapEnvDirectory(),
             'configDirectory'               => $applicationConfigurator->getConfigDirectory(),
             'configEnvDirectory'            => $applicationConfigurator->getConfigEnvDirectory(),
             'bootstrapItems'                => $applicationConfigurator->getBootstrapItems(),
@@ -69,6 +70,14 @@ final class ApplicationConfig implements SerializableServiceInterface
     public function getBootstrapDirectory() : string
     {
         return $this->config['bootstrapDirectory'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getBootstrapEnvDirectory() : string
+    {
+        return $this->config['bootstrapEnvDirectory'];
     }
 
     /**

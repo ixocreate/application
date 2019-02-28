@@ -12,7 +12,6 @@ namespace Ixocreate\Application;
 use Ixocreate\Config\Config;
 use Ixocreate\Contract\Application\BootstrapItemInterface;
 use Ixocreate\Contract\Application\PackageInterface;
-use Ixocreate\ServiceManager\BootstrapItem\ServiceManagerBootstrapItem;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Stdlib\Glob;
 
@@ -22,7 +21,7 @@ final class ServiceHandler
      * @param ApplicationConfig $applicationConfig
      * @return ServiceRegistry
      */
-    public function loadFromCache(ApplicationConfig $applicationConfig) : ServiceRegistry
+    public function loadFromCache(ApplicationConfig $applicationConfig): ServiceRegistry
     {
         if ($applicationConfig->isDevelopment()) {
             return $this->load($applicationConfig);
@@ -43,7 +42,7 @@ final class ServiceHandler
         return $serviceRegistry;
     }
 
-    public function load(ApplicationConfig $applicationConfig) : ServiceRegistry
+    public function load(ApplicationConfig $applicationConfig): ServiceRegistry
     {
         $configuratorRegistry = new ConfiguratorRegistry();
 
@@ -66,16 +65,23 @@ final class ServiceHandler
             $package->addServices($serviceRegistry);
         }
 
+        if (!$applicationConfig->isDevelopment()) {
+            $this->save($applicationConfig, $serviceRegistry);
+        }
+
         return $serviceRegistry;
     }
 
-    public function save(ApplicationConfig $applicationConfig) : void
+    public function save(ApplicationConfig $applicationConfig, $serviceRegistry = null): void
     {
-        $serviceRegistry = $this->load($applicationConfig);
+        if ($serviceRegistry === null) {
+            $serviceRegistry = $this->load($applicationConfig);
+        }
 
         \file_put_contents(
             $this->getCacheFileName($applicationConfig),
-            \serialize($serviceRegistry)
+            \serialize($serviceRegistry),
+            LOCK_EX
         );
     }
 
@@ -83,12 +89,21 @@ final class ServiceHandler
      * @param ApplicationConfig $applicationConfig
      * @return string
      */
-    private function getCacheFileName(ApplicationConfig $applicationConfig) : string
+    private function getCacheFileName(ApplicationConfig $applicationConfig): string
     {
-        return $applicationConfig->getPersistCacheDirectory() . "application/services.cache";
+        $directory = $applicationConfig->getCacheDirectory();
+        if (!\file_exists($directory)) {
+            \mkdir($directory, 0777, true);
+        }
+
+        return $directory . "services.cache";
     }
 
-    private function createConfig(ApplicationConfig $applicationConfig) : Config
+    /**
+     * @param ApplicationConfig $applicationConfig
+     * @return Config
+     */
+    private function createConfig(ApplicationConfig $applicationConfig): Config
     {
         $mergedConfig = [];
         $configDirectories = [];
@@ -131,7 +146,8 @@ final class ServiceHandler
         ApplicationConfig $applicationConfig,
         BootstrapItemInterface $bootstrapItem,
         ConfiguratorRegistry $configuratorRegistry
-    ): void {
+    ): void
+    {
         $configurator = $bootstrapItem->getConfigurator();
 
         $bootstrapFiles = [];
@@ -144,7 +160,10 @@ final class ServiceHandler
             $bootstrapFiles[] = IncludeHelper::normalizePath($package->getBootstrapDirectory()) . $bootstrapItem->getFileName();
         }
 
-        $bootstrapFiles[] = IncludeHelper::normalizePath($applicationConfig->getBootstrapDirectory()) . $bootstrapItem->getFileName();
+        $bootstrapFiles[] = $applicationConfig->getBootstrapDirectory() . $bootstrapItem->getFileName();
+        $bootstrapFiles[] =
+            $applicationConfig->getBootstrapDirectory() . $applicationConfig->getBootstrapEnvDirectory() .
+            $bootstrapItem->getFileName();
 
         foreach ($bootstrapFiles as $file) {
             if (\file_exists($file)) {

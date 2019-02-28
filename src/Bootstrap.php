@@ -49,11 +49,18 @@ final class Bootstrap
 
         $application->configure($applicationConfigurator);
 
-        if (\file_exists($applicationConfigurator->getBootstrapDirectory() . 'application.php')) {
-            IncludeHelper::include(
-                $applicationConfigurator->getBootstrapDirectory() . 'application.php',
-                ['applicationConfigurator' => $applicationConfigurator]
-            );
+        $bootstrapFiles = [
+            $applicationConfigurator->getBootstrapDirectory() . 'application.php',
+            $applicationConfigurator->getBootstrapDirectory() . $applicationConfigurator->getBootstrapEnvDirectory() . 'application.php',
+        ];
+
+        foreach ($bootstrapFiles as $bootstrapFile) {
+            if (\file_exists($bootstrapFile)) {
+                IncludeHelper::include(
+                    $bootstrapFile,
+                    ['applicationConfigurator' => $applicationConfigurator]
+                );
+            }
         }
 
         return $applicationConfigurator->getApplicationConfig();
@@ -66,11 +73,13 @@ final class Bootstrap
      */
     private function createServiceManager(ServiceManagerConfig $serviceManagerConfig, ServiceRegistry $serviceRegistry): ServiceManager
     {
+        //TODO: activate persistance when ready
         return new ServiceManager(
             $serviceManagerConfig,
             new ServiceManagerSetup(
                 $serviceRegistry->get(ApplicationConfig::class)->getPersistCacheDirectory() . 'servicemanager/',
-                !$serviceRegistry->get(ApplicationConfig::class)->isDevelopment()
+                false, //!$serviceRegistry->get(ApplicationConfig::class)->isDevelopment(),
+                false //!$serviceRegistry->get(ApplicationConfig::class)->isDevelopment()
             ),
             $serviceRegistry->all()
         );
