@@ -36,7 +36,8 @@ final class ConfigGenerateCommand extends Command implements CommandInterface
     public function configure()
     {
         $this
-            ->addArgument('file', InputArgument::REQUIRED, 'Config file name');
+            ->addArgument('file', InputArgument::REQUIRED, 'Config file name')
+            ->setAliases(['config:generate']);
     }
 
     /**
@@ -76,6 +77,6 @@ final class ConfigGenerateCommand extends Command implements CommandInterface
      */
     public static function getCommandName()
     {
-        return "config:generate";
+        return "make:config";
     }
 }
