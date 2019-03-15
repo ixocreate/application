@@ -52,7 +52,7 @@ final class PublishCommand extends Command implements CommandInterface
 
     public static function getCommandName()
     {
-        return 'publish';
+        return 'publish:run';
     }
 
     public function configure()
@@ -60,7 +60,7 @@ final class PublishCommand extends Command implements CommandInterface
         $this
             ->addArgument('type', InputArgument::OPTIONAL, 'Publish a given type of publishable files')
             ->addOption("force", "f", InputOption::VALUE_NONE, 'Force overwrite')
-            ->setAliases(['publish:run']);
+            ->setAliases(['publish']);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

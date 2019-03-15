@@ -49,7 +49,7 @@ EOD;
         $this
             ->addArgument('file', InputArgument::REQUIRED, 'Bootstrap file name')
             ->addOption('env', 'e', InputOption::VALUE_NONE, 'save bootstrap file in env directory')
-            ->setAliases(['bootstrap:generate']);
+            ->setAliases(['make:bootstrap']);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -76,7 +76,7 @@ EOD;
 
     public static function getCommandName()
     {
-        return "make:bootstrap";
+        return "bootstrap:generate";
     }
 
     /**
