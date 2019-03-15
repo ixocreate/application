@@ -146,8 +146,7 @@ final class ServiceHandler
         ApplicationConfig $applicationConfig,
         BootstrapItemInterface $bootstrapItem,
         ConfiguratorRegistry $configuratorRegistry
-    ): void
-    {
+    ): void {
         $configurator = $bootstrapItem->getConfigurator();
 
         $bootstrapFiles = [];

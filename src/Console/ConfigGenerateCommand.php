@@ -43,8 +43,8 @@ final class ConfigGenerateCommand extends Command implements CommandInterface
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return int|void|null
      * @throws \Exception
+     * @return int|void|null
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
