@@ -42,12 +42,13 @@ final class BootstrapListCommand extends Command implements CommandInterface
 
         $data = [];
         foreach ($this->applicationConfig->getBootstrapItems() as $bootstrapItem) {
-            $data[] = [
+            $data[$bootstrapItem->getFileName()] = [
                 $bootstrapItem->getFileName(),
                 (\file_exists($this->applicationConfig->getBootstrapDirectory() . $bootstrapItem->getFileName())) ? '<info>Used</info>' : '<comment>Unused</comment>',
                 (\file_exists($this->applicationConfig->getBootstrapDirectory() . $this->applicationConfig->getBootstrapEnvDirectory() . $bootstrapItem->getFileName())) ? '<info>Used</info>' : '<comment>Unused</comment>',
             ];
         }
+        \sort($data);
 
         $io->table(
             ['File', 'Status', 'Env'],
