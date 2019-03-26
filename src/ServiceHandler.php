@@ -91,7 +91,7 @@ final class ServiceHandler
      */
     private function getCacheFileName(ApplicationConfig $applicationConfig): string
     {
-        $directory = $applicationConfig->getCacheDirectory();
+        $directory = $applicationConfig->getPersistCacheDirectory();
         if (!\file_exists($directory)) {
             \mkdir($directory, 0777, true);
         }
