@@ -33,11 +33,11 @@ final class PublishDefinitionConfig implements SerializableServiceInterface
     }
 
     /**
-     * @return string|void
+     * @return string
      */
     public function serialize()
     {
-        // TODO: Implement serialize() method.
+        return \serialize($this->definitions);
     }
 
     /**
@@ -45,6 +45,6 @@ final class PublishDefinitionConfig implements SerializableServiceInterface
      */
     public function unserialize($serialized)
     {
-        // TODO: Implement unserialize() method.
+        $this->definitions = \unserialize($serialized);
     }
 }
