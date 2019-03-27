@@ -47,8 +47,6 @@ final class Bootstrap
     {
         $applicationConfigurator = new ApplicationConfigurator($bootstrapDirectory);
 
-        $application->configure($applicationConfigurator);
-
         $bootstrapFiles = [
             $applicationConfigurator->getBootstrapDirectory() . 'application.php',
             $applicationConfigurator->getBootstrapDirectory() . $applicationConfigurator->getBootstrapEnvDirectory() . 'application.php',
@@ -63,6 +61,8 @@ final class Bootstrap
             }
         }
 
+        $application->configure($applicationConfigurator);
+
         return $applicationConfigurator->getApplicationConfig();
     }
 
@@ -73,13 +73,12 @@ final class Bootstrap
      */
     private function createServiceManager(ServiceManagerConfig $serviceManagerConfig, ServiceRegistry $serviceRegistry): ServiceManager
     {
-        //TODO: activate persistance when ready
         return new ServiceManager(
             $serviceManagerConfig,
             new ServiceManagerSetup(
                 $serviceRegistry->get(ApplicationConfig::class)->getPersistCacheDirectory() . 'servicemanager/',
-                false, //!$serviceRegistry->get(ApplicationConfig::class)->isDevelopment(),
-                false //!$serviceRegistry->get(ApplicationConfig::class)->isDevelopment()
+                !$serviceRegistry->get(ApplicationConfig::class)->isDevelopment(),
+                !$serviceRegistry->get(ApplicationConfig::class)->isDevelopment()
             ),
             $serviceRegistry->all()
         );
