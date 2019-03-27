@@ -28,7 +28,7 @@ final class ApplicationConfigurator
     /**
      * @var string
      */
-    private $persistCacheDirectory = "resource/application/";
+    private $persistCacheDirectory = "resources/generated/application/";
 
     /**
      * @var string
