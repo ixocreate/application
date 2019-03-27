@@ -38,7 +38,7 @@ final class PublishConfig implements SerializableServiceInterface
      */
     public function serialize()
     {
-        // TODO: Implement serialize() method.
+        return serialize($this->sources);
     }
 
     /**
@@ -46,6 +46,6 @@ final class PublishConfig implements SerializableServiceInterface
      */
     public function unserialize($serialized)
     {
-        // TODO: Implement unserialize() method.
+        $this->sources = unserialize($serialized);
     }
 }
