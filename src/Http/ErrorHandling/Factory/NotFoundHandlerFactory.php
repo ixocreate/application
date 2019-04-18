@@ -12,7 +12,7 @@ namespace Ixocreate\Application\Http\ErrorHandling\Factory;
 use Ixocreate\Application\Http\ErrorHandling\Response\NotFoundHandler;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
-use Ixocreate\Template\Package\Renderer;
+use Ixocreate\Template\Renderer;
 use Zend\Diactoros\Response;
 use Ixocreate\Application\Config\Config;
 

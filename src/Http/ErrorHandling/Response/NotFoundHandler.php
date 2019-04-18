@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Ixocreate\Application\Http\ErrorHandling\Response;
 
 use Fig\Http\Message\StatusCodeInterface;
-use Ixocreate\Template\Package\Renderer;
+use Ixocreate\Template\Renderer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
