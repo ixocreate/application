@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace Ixocreate\Application;
 
 use Ixocreate\Config\Config;
-use Ixocreate\Contract\Application\BootstrapItemInterface;
-use Ixocreate\Contract\Application\PackageInterface;
+use Ixocreate\Application\BootstrapItemInterface;
+use Ixocreate\Application\PackageInterface;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Stdlib\Glob;
 

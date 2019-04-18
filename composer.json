@@ -1,6 +1,6 @@
 {
     "name": "ixocreate/application",
-    "description": "IXOCREATE application",
+    "description": "IXOCREATE Application",
     "license": "MIT",
     "type": "library",
     "authors": [
@@ -12,12 +12,10 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.1",
-        "ixocreate/contract": "dev-develop",
-        "ixocreate/servicemanager": "dev-develop",
-        "ixocreate/config": "dev-develop"
+        "ixocreate/servicemanager": "dev-consolidate"
     },
     "require-dev": {
-        "ixocreate/coding-standard": "^1.0.1",
+        "ixocreate/coding-standard": "^1.0",
         "mikey179/vfsstream": "^1.6",
         "php-coveralls/php-coveralls": "^2.1",
         "phpunit/phpunit": "^7.0"
@@ -29,8 +27,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "IxocreateMisc\\Application\\": "tests/misc/",
-            "IxocreateTest\\Application\\": "tests/src/"
+            "Ixocreate\\Misc\\Application\\": "tests/misc/",
+            "Ixocreate\\Test\\Application\\": "tests/src/"
         }
     },
     "scripts": {

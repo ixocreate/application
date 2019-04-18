@@ -11,8 +11,8 @@ namespace Ixocreate\Application\Console;
 
 use Ixocreate\Application\Publish\PublishConfig;
 use Ixocreate\Application\Publish\PublishDefinitionConfig;
-use Ixocreate\Contract\Command\CommandInterface;
-use Ixocreate\Filesystem\Storage\StorageSubManager;
+use Ixocreate\Application\Console\CommandInterface;;
+use Ixocreate\Package\Filesystem\Storage\StorageSubManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

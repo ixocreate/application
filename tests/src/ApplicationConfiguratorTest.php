@@ -7,11 +7,11 @@
 
 declare(strict_types=1);
 
-namespace IxocreateTest\Application;
+namespace Ixocreate\Test\Application;
 
 use Ixocreate\Application\ApplicationConfigurator;
-use IxocreateMisc\Application\BootstrapDummy;
-use IxocreateMisc\Application\PackageDummy;
+use Ixocreate\Misc\Application\BootstrapDummy;
+use Ixocreate\Misc\Application\PackageDummy;
 use PHPUnit\Framework\TestCase;
 
 class ApplicationConfiguratorTest extends TestCase

@@ -7,10 +7,10 @@
 
 declare(strict_types=1);
 
-namespace IxocreateMisc\Application;
+namespace Ixocreate\Misc\Application;
 
-use Ixocreate\Contract\Application\ConfiguratorInterface;
-use Ixocreate\Contract\Application\ServiceRegistryInterface;
+use Ixocreate\Application\ConfiguratorInterface;
+use Ixocreate\Application\ServiceRegistryInterface;
 
 class ConfiguratorDummy implements ConfiguratorInterface
 {

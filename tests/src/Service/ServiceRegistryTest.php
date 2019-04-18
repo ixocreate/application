@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace IxocreateTest\Application\Service;
+namespace Ixocreate\Test\Application\Service;
 
 use Ixocreate\Application\Exception\ArgumentNotFoundException;
 use Ixocreate\Application\Service\ServiceRegistry;

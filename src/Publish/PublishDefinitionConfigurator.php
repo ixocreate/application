@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Publish;
 
-use Ixocreate\Contract\Application\ConfiguratorInterface;
-use Ixocreate\Contract\Application\ServiceRegistryInterface;
+use Ixocreate\Application\ConfiguratorInterface;
+use Ixocreate\Application\ServiceRegistryInterface;
 
 final class PublishDefinitionConfigurator implements ConfiguratorInterface
 {

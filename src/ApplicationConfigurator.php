@@ -9,8 +9,6 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application;
 
-use Ixocreate\Contract\Application\BootstrapItemInterface;
-use Ixocreate\Contract\Application\PackageInterface;
 use Ixocreate\ServiceManager\BootstrapItem\ServiceManagerBootstrapItem;
 
 final class ApplicationConfigurator
@@ -62,6 +60,7 @@ final class ApplicationConfigurator
 
     /**
      * ApplicationConfigurator constructor.
+     *
      * @param string $bootstrapDirectory
      */
     public function __construct(string $bootstrapDirectory)
@@ -192,8 +191,11 @@ final class ApplicationConfigurator
     /**
      * @param string $package
      */
-    public function addPackage(string $package) : void
+    public function addPackage(string $package): void
     {
+        var_dump($package);
+        var_dump(\is_subclass_of($package, PackageInterface::class));
+
         if (!\is_subclass_of($package, PackageInterface::class)) {
             throw new \InvalidArgumentException($package . ' must implement ' . PackageInterface::class);
         }

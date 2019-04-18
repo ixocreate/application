@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace IxocreateTest\Application;
+namespace Ixocreate\Test\Application;
 
 use Ixocreate\Application\Config;
 use PHPUnit\Framework\TestCase;

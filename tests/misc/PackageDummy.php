@@ -7,12 +7,12 @@
 
 declare(strict_types=1);
 
-namespace IxocreateMisc\Application;
+namespace Ixocreate\Misc\Application;
 
-use Ixocreate\Contract\Application\ConfiguratorRegistryInterface;
-use Ixocreate\Contract\Application\PackageInterface;
-use Ixocreate\Contract\Application\ServiceRegistryInterface;
-use Ixocreate\Contract\ServiceManager\ServiceManagerInterface;
+use Ixocreate\Application\ConfiguratorRegistryInterface;
+use Ixocreate\Application\PackageInterface;
+use Ixocreate\Application\ServiceRegistryInterface;
+use Ixocreate\ServiceManager\ServiceManagerInterface;
 
 class PackageDummy implements PackageInterface
 {

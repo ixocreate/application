@@ -7,12 +7,12 @@
 
 declare(strict_types=1);
 
-namespace IxocreateTest\Application\ConfiguratorItem;
+namespace Ixocreate\Test\Application\ConfiguratorItem;
 
 use Ixocreate\Application\ConfiguratorItem\ConfiguratorRegistry;
 use Ixocreate\Application\Exception\ArgumentNotFoundException;
-use IxocreateMisc\Application\BootstrapDummy;
-use IxocreateMisc\Application\PackageDummy;
+use Ixocreate\Misc\Application\BootstrapDummy;
+use Ixocreate\Misc\Application\PackageDummy;
 use PHPUnit\Framework\TestCase;
 
 class ConfiguratorRegistryTest extends TestCase

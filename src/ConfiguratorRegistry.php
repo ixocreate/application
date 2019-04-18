@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace Ixocreate\Application;
 
 use Ixocreate\Application\Exception\ArgumentNotFoundException;
-use Ixocreate\Contract\Application\ConfiguratorInterface;
-use Ixocreate\Contract\Application\ConfiguratorRegistryInterface;
+use Ixocreate\Application\ConfiguratorInterface;
+use Ixocreate\Application\ConfiguratorRegistryInterface;
 
 final class ConfiguratorRegistry implements ConfiguratorRegistryInterface
 {

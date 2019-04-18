@@ -10,9 +10,15 @@ declare(strict_types=1);
 namespace Ixocreate\Application\BootstrapItem;
 
 use Ixocreate\Application\Publish\PublishDefinitionConfigurator;
-use Ixocreate\Contract\Application\BootstrapItemInterface;
-use Ixocreate\Contract\Application\ConfiguratorInterface;
+use Ixocreate\Application\BootstrapItemInterface;
+use Ixocreate\Application\ConfiguratorInterface;
 
+/**
+ * Class PublishDefinitionBootstrapItem
+ *
+ * @package Ixocreate\Application\BootstrapItem
+ * @deprecated
+ */
 final class PublishDefinitionBootstrapItem implements BootstrapItemInterface
 {
     /**
@@ -36,6 +42,6 @@ final class PublishDefinitionBootstrapItem implements BootstrapItemInterface
      */
     public function getFileName(): string
     {
-        return 'publish_definition.php';
+        return 'publish-definition.php';
     }
 }

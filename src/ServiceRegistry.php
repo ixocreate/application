@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace Ixocreate\Application;
 
 use Ixocreate\Application\Exception\ArgumentNotFoundException;
-use Ixocreate\Contract\Application\SerializableServiceInterface;
-use Ixocreate\Contract\Application\ServiceRegistryInterface;
+use Ixocreate\Application\SerializableServiceInterface;
+use Ixocreate\Application\ServiceRegistryInterface;
 
 final class ServiceRegistry implements ServiceRegistryInterface
 {
