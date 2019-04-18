@@ -7,9 +7,9 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application;
+namespace Ixocreate\Application\Service\Bootstrap;
 
-final class IncludeHelper
+final class BootstrapItemInclude
 {
     /**
      * @param string $filename

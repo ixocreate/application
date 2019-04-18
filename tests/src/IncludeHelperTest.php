@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Ixocreate\Test\Application;
 
-use Ixocreate\Application\IncludeHelper;
+use Ixocreate\Application\Service\BootstrapItemInclude;
 use PHPUnit\Framework\TestCase;
 
 class IncludeHelperTest extends TestCase
@@ -23,7 +23,7 @@ class IncludeHelperTest extends TestCase
 
     public function testInclude()
     {
-        IncludeHelper::include($this->includeTestFile);
+        BootstrapItemInclude::include($this->includeTestFile);
 
         $this->assertTrue(\in_array($this->includeTestFile, \get_included_files()));
     }
@@ -33,7 +33,7 @@ class IncludeHelperTest extends TestCase
         $testObj = new \stdClass();
         $testObj->check = false;
 
-        IncludeHelper::include($this->includeTestFile, ['testObj' => $testObj]);
+        BootstrapItemInclude::include($this->includeTestFile, ['testObj' => $testObj]);
 
         $this->assertTrue($testObj->check);
     }

@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Http;
+namespace Ixocreate\Application\Http;
 
 interface SegmentProviderInterface
 {

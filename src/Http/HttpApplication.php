@@ -11,7 +11,7 @@ namespace Ixocreate\Application\Http;
 
 use Ixocreate\Application\ApplicationConfigurator;
 use Ixocreate\Application\ApplicationInterface;
-use Ixocreate\Application\Bootstrap\Bootstrap;
+use Ixocreate\Application\Service\Bootstrap\Bootstrap;
 use Ixocreate\Application\Http\Pipe\PipeConfig;
 use Ixocreate\ServiceManager\ServiceManager;
 use Zend\HttpHandlerRunner\RequestHandlerRunner;

@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application;
+namespace Ixocreate\Application\Service\Configurator;
 
 use Ixocreate\Application\Exception\ArgumentNotFoundException;
 
@@ -37,8 +37,8 @@ final class ConfiguratorRegistry implements ConfiguratorRegistryInterface
 
     /**
      * @param string $name
-     * @return ConfiguratorInterface
      * @throws ArgumentNotFoundException
+     * @return ConfiguratorInterface
      */
     public function get(string $name): ConfiguratorInterface
     {

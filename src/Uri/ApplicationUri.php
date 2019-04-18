@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Ixocreate\Application\Uri;
 
 use Ixocreate\Application\Service\SerializableServiceInterface;
-use Ixocreate\Application\Uri\ApplicationUriConfigurator;
 use Psr\Http\Message\UriInterface;
 
 final class ApplicationUri implements SerializableServiceInterface

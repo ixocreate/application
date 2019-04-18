@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace Ixocreate\Application\Publish\Bootstrap;
 
 use Ixocreate\Application\Publish\PublishDefinitionConfigurator;
-use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
-use Ixocreate\Application\ConfiguratorInterface;
+use Ixocreate\Application\Service\Bootstrap\BootstrapItemInterface;
+use Ixocreate\Application\Service\Configurator\ConfiguratorInterface;
 
 final class PublishDefinitionBootstrapItem implements BootstrapItemInterface
 {

@@ -7,15 +7,14 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Bootstrap;
+namespace Ixocreate\Application\Service\Bootstrap;
 
 use Ixocreate\Application\ApplicationConfig;
 use Ixocreate\Application\ApplicationConfigurator;
 use Ixocreate\Application\ApplicationInterface;
-use Ixocreate\Application\IncludeHelper;
-use Ixocreate\Application\ServiceHandler;
-use Ixocreate\Application\ServiceManager\ServiceManagerConfig;
-use Ixocreate\Application\ServiceRegistry;
+use Ixocreate\Application\Service\Registry\ServiceRegistry;
+use Ixocreate\Application\Service\ServiceHandler;
+use Ixocreate\Application\Service\ServiceManagerConfig;
 use Ixocreate\ServiceManager\ServiceManager;
 use Ixocreate\ServiceManager\ServiceManagerSetup;
 
@@ -49,8 +48,10 @@ final class Bootstrap
      * @param ApplicationInterface $application
      * @return ApplicationConfig
      */
-    private function createApplicationConfig(string $bootstrapDirectory, ApplicationInterface $application) : ApplicationConfig
-    {
+    private function createApplicationConfig(
+        string $bootstrapDirectory,
+        ApplicationInterface $application
+    ): ApplicationConfig {
         $applicationConfigurator = new ApplicationConfigurator($bootstrapDirectory);
 
         $bootstrapFiles = [
@@ -60,7 +61,7 @@ final class Bootstrap
 
         foreach ($bootstrapFiles as $bootstrapFile) {
             if (\file_exists($bootstrapFile)) {
-                IncludeHelper::include(
+                BootstrapItemInclude::include(
                     $bootstrapFile,
                     ['application' => $applicationConfigurator]
                 );
@@ -77,8 +78,10 @@ final class Bootstrap
      * @param ServiceRegistry $serviceRegistry
      * @return ServiceManager
      */
-    private function createServiceManager(ServiceManagerConfig $serviceManagerConfig, ServiceRegistry $serviceRegistry): ServiceManager
-    {
+    private function createServiceManager(
+        ServiceManagerConfig $serviceManagerConfig,
+        ServiceRegistry $serviceRegistry
+    ): ServiceManager {
         return new ServiceManager(
             $serviceManagerConfig,
             new ServiceManagerSetup(

@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Http\ErrorHandling\Factory;
 
-use Ixocreate\ApplicationHttp\ErrorHandling\Response\ErrorResponseGenerator;
+use Ixocreate\Application\Http\ErrorHandling\Response\ErrorResponseGenerator;
 use Ixocreate\Application\ApplicationConfig;
-use Ixocreate\Config\Config;
+use Ixocreate\Application\Config\Config;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
 use Ixocreate\Template\Package\Renderer;

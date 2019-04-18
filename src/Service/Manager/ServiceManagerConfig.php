@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Service;
 
-use Ixocreate\Application\Service\SerializableServiceInterface;
 use Ixocreate\ServiceManager\NamedServiceInterface;
 use Ixocreate\ServiceManager\ServiceManagerConfigInterface;
 

@@ -11,7 +11,6 @@ namespace Ixocreate\Application\Console;
 
 use Ixocreate\Application\Publish\PublishConfig;
 use Ixocreate\Application\Publish\PublishDefinitionConfig;
-use Ixocreate\Application\Console\CommandInterface;;
 use Ixocreate\Filesystem\Package\Storage\StorageSubManager;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\FileNotFoundException;

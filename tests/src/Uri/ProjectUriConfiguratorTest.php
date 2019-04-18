@@ -9,13 +9,12 @@ declare(strict_types=1);
 
 namespace Ixocreate\Test\ProjectUri;
 
-use Ixocreate\Application\ServiceRegistryInterface;
-use Ixocreate\Application\Uri\ApplicationUri;
+use Ixocreate\Application\Service\Registry\ServiceRegistryInterface;
 use Ixocreate\Application\Uri\ApplicationUriConfigurator;
 use PHPUnit\Framework\TestCase;
 use Zend\Diactoros\Uri;
 
-class UriConfiguratorTest extends TestCase
+class ProjectUriConfiguratorTest extends TestCase
 {
     public function testMainUri()
     {

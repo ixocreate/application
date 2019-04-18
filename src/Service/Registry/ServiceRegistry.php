@@ -7,11 +7,10 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Service;
+namespace Ixocreate\Application\Service\Registry;
 
-use Ixocreate\Application\Service\Exception\ArgumentNotFoundException;
+use Ixocreate\Application\Exception\ServiceNotFoundException;
 use Ixocreate\Application\Service\SerializableServiceInterface;
-use Ixocreate\Application\Service\ServiceRegistryInterface;
 
 final class ServiceRegistry implements ServiceRegistryInterface
 {
@@ -48,7 +47,7 @@ final class ServiceRegistry implements ServiceRegistryInterface
             return $this->services[$name];
         }
 
-        throw new ArgumentNotFoundException(\sprintf("Service with name '%s' not found", $name));
+        throw new ServiceNotFoundException(\sprintf("Service with name '%s' not found", $name));
     }
 
     /**

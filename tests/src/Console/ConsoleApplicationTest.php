@@ -13,7 +13,7 @@ use Ixocreate\Application\ApplicationConfigurator;
 use Ixocreate\Application\Console\Bootstrap\ConsoleBootstrapItem;
 use Ixocreate\Application\Console\ConsoleApplication;
 use Ixocreate\Application\Console\ConsoleSubManager;
-use Ixocreate\Config\Bootstrap\ConfigBootstrap;
+use Ixocreate\Application\Config\Bootstrap\ConfigBootstrap;
 use Ixocreate\ServiceManager\ServiceManagerConfigurator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;

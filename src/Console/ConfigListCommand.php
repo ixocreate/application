@@ -11,7 +11,6 @@ namespace Ixocreate\Application\Console;
 
 use Ixocreate\Application\ApplicationConfig;
 use Ixocreate\Application\ConfigProviderInterface;
-use Ixocreate\Application\Console\CommandInterface;;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

@@ -17,7 +17,7 @@ use Ixocreate\Application\Http\Pipe\Config\RoutingPipeConfig;
 use Ixocreate\Application\Http\Pipe\Config\SegmentConfig;
 use Ixocreate\Application\Http\Pipe\Config\SegmentPipeConfig;
 use Ixocreate\Application\Http\Pipe\PipeConfig;
-use Ixocreate\Http\SegmentProviderInterface;
+use Ixocreate\Application\Http\SegmentProviderInterface;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
 use Ixocreate\Application\Uri\ApplicationUri;

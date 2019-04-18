@@ -9,7 +9,13 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Service;
 
-use Ixocreate\Application\Service\Bootstrap\Bootstrap\BootstrapItemInterface;
+use Ixocreate\Application\ApplicationConfig;
+use Ixocreate\Application\Config;
+use Ixocreate\Application\PackageInterface;
+use Ixocreate\Application\Service\Bootstrap\BootstrapItemInclude;
+use Ixocreate\Application\Service\Bootstrap\BootstrapItemInterface;
+use Ixocreate\Application\Service\Configurator\ConfiguratorRegistry;
+use Ixocreate\Application\Service\Registry\ServiceRegistry;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Stdlib\Glob;
 
@@ -154,7 +160,7 @@ final class ServiceHandler
                 continue;
             }
 
-            $bootstrapFiles[] = IncludeHelper::normalizePath($package->getBootstrapDirectory()) . $bootstrapItem->getFileName();
+            $bootstrapFiles[] = BootstrapItemInclude::normalizePath($package->getBootstrapDirectory()) . $bootstrapItem->getFileName();
         }
 
         $bootstrapFiles[] = $applicationConfig->getBootstrapDirectory() . $bootstrapItem->getFileName();
@@ -164,7 +170,7 @@ final class ServiceHandler
 
         foreach ($bootstrapFiles as $file) {
             if (\file_exists($file)) {
-                IncludeHelper::include(
+                BootstrapItemInclude::include(
                     $file,
                     [$bootstrapItem->getVariableName() => $configurator]
                 );

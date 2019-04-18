@@ -9,11 +9,11 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Service;
 
-use Ixocreate\Application\Service\ServiceRegistryInterface;
-use Ixocreate\ServiceManager\SubManager\SubManagerFactoryInterface;
-use Ixocreate\ServiceManager\SubManager\SubManagerInterface;
+use Ixocreate\Application\Service\Registry\ServiceRegistryInterface;
 use Ixocreate\ServiceManager\Exception\InvalidArgumentException;
 use Ixocreate\ServiceManager\SubManager\SubManagerFactory;
+use Ixocreate\ServiceManager\SubManager\SubManagerFactoryInterface;
+use Ixocreate\ServiceManager\SubManager\SubManagerInterface;
 
 final class ServiceManagerConfigurator extends AbstractServiceManagerConfigurator
 {
@@ -29,7 +29,11 @@ final class ServiceManagerConfigurator extends AbstractServiceManagerConfigurato
     public function addSubManager(string $manager, string $factory = SubManagerFactory::class): void
     {
         if (!\is_subclass_of($manager, SubManagerInterface::class, true)) {
-            throw new InvalidArgumentException(\sprintf("'%s' doesn't implement '%s'", $manager, SubManagerInterface::class));
+            throw new InvalidArgumentException(\sprintf(
+                "'%s' doesn't implement '%s'",
+                $manager,
+                SubManagerInterface::class
+            ));
         }
 
         if (!\class_exists($factory)) {
@@ -37,7 +41,11 @@ final class ServiceManagerConfigurator extends AbstractServiceManagerConfigurato
         }
 
         if (!\is_subclass_of($factory, SubManagerFactoryInterface::class)) {
-            throw new InvalidArgumentException(\sprintf("'%s' doesn't implement '%s'", $factory, SubManagerFactoryInterface::class));
+            throw new InvalidArgumentException(\sprintf(
+                "'%s' doesn't implement '%s'",
+                $factory,
+                SubManagerFactoryInterface::class
+            ));
         }
 
         $this->subManagers[$manager] = $factory;

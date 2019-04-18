@@ -11,7 +11,7 @@ namespace Ixocreate\Application\Http\ErrorHandling\Factory;
 
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
-use Ixocreate\Config\Config;
+use Ixocreate\Application\Config\Config;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Run as Whoops;
 use Whoops\Util\Misc as WhoopsUtil;

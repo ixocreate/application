@@ -9,8 +9,7 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application;
 
-use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
-use Ixocreate\Application\Package\PackageInterface;
+use Ixocreate\Application\Service\Bootstrap\BootstrapItemInterface;
 use Ixocreate\Application\Service\SerializableServiceInterface;
 
 final class ApplicationConfig implements SerializableServiceInterface
@@ -23,27 +22,28 @@ final class ApplicationConfig implements SerializableServiceInterface
 
     /**
      * ApplicationConfig constructor.
+     *
      * @param ApplicationConfigurator $applicationConfigurator
      */
     public function __construct(ApplicationConfigurator $applicationConfigurator)
     {
         $this->config = [
-            'development'                   => $applicationConfigurator->isDevelopment(),
-            'persistCacheDirectory'         => $applicationConfigurator->getPersistCacheDirectory(),
-            'cacheDirectory'                => $applicationConfigurator->getCacheDirectory(),
-            'bootstrapDirectory'            => $applicationConfigurator->getBootstrapDirectory(),
-            'bootstrapEnvDirectory'         => $applicationConfigurator->getBootstrapEnvDirectory(),
-            'configDirectory'               => $applicationConfigurator->getConfigDirectory(),
-            'configEnvDirectory'            => $applicationConfigurator->getConfigEnvDirectory(),
-            'bootstrapItems'                => $applicationConfigurator->getBootstrapItems(),
-            'packages'                      => $applicationConfigurator->getPackages(),
+            'development' => $applicationConfigurator->isDevelopment(),
+            'persistCacheDirectory' => $applicationConfigurator->getPersistCacheDirectory(),
+            'cacheDirectory' => $applicationConfigurator->getCacheDirectory(),
+            'bootstrapDirectory' => $applicationConfigurator->getBootstrapDirectory(),
+            'bootstrapEnvDirectory' => $applicationConfigurator->getBootstrapEnvDirectory(),
+            'configDirectory' => $applicationConfigurator->getConfigDirectory(),
+            'configEnvDirectory' => $applicationConfigurator->getConfigEnvDirectory(),
+            'bootstrapItems' => $applicationConfigurator->getBootstrapItems(),
+            'packages' => $applicationConfigurator->getPackages(),
         ];
     }
 
     /**
      * @return bool
      */
-    public function isDevelopment() : bool
+    public function isDevelopment(): bool
     {
         return $this->config['development'];
     }
@@ -51,7 +51,7 @@ final class ApplicationConfig implements SerializableServiceInterface
     /**
      * @return string
      */
-    public function getPersistCacheDirectory() : string
+    public function getPersistCacheDirectory(): string
     {
         return $this->config['persistCacheDirectory'];
     }
@@ -59,7 +59,7 @@ final class ApplicationConfig implements SerializableServiceInterface
     /**
      * @return string
      */
-    public function getCacheDirectory() : string
+    public function getCacheDirectory(): string
     {
         return $this->config['cacheDirectory'];
     }
@@ -67,7 +67,7 @@ final class ApplicationConfig implements SerializableServiceInterface
     /**
      * @return string
      */
-    public function getBootstrapDirectory() : string
+    public function getBootstrapDirectory(): string
     {
         return $this->config['bootstrapDirectory'];
     }
@@ -75,7 +75,7 @@ final class ApplicationConfig implements SerializableServiceInterface
     /**
      * @return string
      */
-    public function getBootstrapEnvDirectory() : string
+    public function getBootstrapEnvDirectory(): string
     {
         return $this->config['bootstrapEnvDirectory'];
     }
@@ -83,7 +83,7 @@ final class ApplicationConfig implements SerializableServiceInterface
     /**
      * @return string
      */
-    public function getConfigDirectory() : string
+    public function getConfigDirectory(): string
     {
         return $this->config['configDirectory'];
     }
@@ -91,7 +91,7 @@ final class ApplicationConfig implements SerializableServiceInterface
     /**
      * @return string
      */
-    public function getConfigEnvDirectory() : string
+    public function getConfigEnvDirectory(): string
     {
         return $this->config['configEnvDirectory'];
     }
@@ -99,7 +99,7 @@ final class ApplicationConfig implements SerializableServiceInterface
     /**
      * @return BootstrapItemInterface[]
      */
-    public function getBootstrapItems() : array
+    public function getBootstrapItems(): array
     {
         if ($this->bootstrapItems === null) {
             $this->bootstrapItems = [];
@@ -114,7 +114,7 @@ final class ApplicationConfig implements SerializableServiceInterface
     /**
      * @return PackageInterface[]
      */
-    public function getPackages() : array
+    public function getPackages(): array
     {
         if ($this->packages === null) {
             $this->packages = [];

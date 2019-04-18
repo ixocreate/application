@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Ixocreate\Test\ProjectUri;
 
-use Ixocreate\Application\ConfiguratorRegistryInterface;
-use Ixocreate\Application\ServiceRegistryInterface;
+use Ixocreate\Application\Service\Configurator\ConfiguratorRegistryInterface;
+use Ixocreate\Application\Service\Registry\ServiceRegistryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
 use Ixocreate\Application\Uri\Bootstrap\ProjectUriBootstrapItem;
 use Ixocreate\Application\Uri\Package;

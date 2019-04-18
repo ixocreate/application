@@ -10,8 +10,7 @@ declare(strict_types=1);
 namespace Ixocreate\Application\Console;
 
 use Ixocreate\Application\ApplicationConfig;
-use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
-use Ixocreate\Application\Console\CommandInterface;;
+use Ixocreate\Application\Service\Bootstrap\BootstrapItemInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

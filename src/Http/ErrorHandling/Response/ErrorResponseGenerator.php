@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\ApplicationHttp\ErrorHandling\Response;
+namespace Ixocreate\Application\Http\ErrorHandling\Response;
 
 use Ixocreate\Template\Package\Renderer;
 use Throwable;

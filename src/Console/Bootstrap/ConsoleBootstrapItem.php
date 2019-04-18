@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Console\Bootstrap;
 
-use Ixocreate\Application\Bootstrap\Bootstrap\BootstrapItemInterface;
+use Ixocreate\Application\Service\Bootstrap\BootstrapItemInterface;
 use Ixocreate\Application\Console\ConsoleConfigurator;
-use Ixocreate\Application\ConfiguratorInterface;
+use Ixocreate\Application\Service\Configurator\ConfiguratorInterface;
 
 final class ConsoleBootstrapItem implements BootstrapItemInterface
 {

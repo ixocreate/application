@@ -7,14 +7,14 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\ApplicationHttp\ErrorHandling\Factory;
+namespace Ixocreate\Application\Http\ErrorHandling\Factory;
 
-use Ixocreate\ApplicationHttp\ErrorHandling\Response\NotFoundHandler;
+use Ixocreate\Application\Http\ErrorHandling\Response\NotFoundHandler;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
 use Ixocreate\Template\Package\Renderer;
 use Zend\Diactoros\Response;
-use Ixocreate\Config\Config;
+use Ixocreate\Application\Config\Config;
 
 final class NotFoundHandlerFactory implements FactoryInterface
 {

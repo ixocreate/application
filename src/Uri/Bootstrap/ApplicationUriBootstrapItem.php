@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Uri\Bootstrap;
 
-use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
-use Ixocreate\Application\ConfiguratorInterface;
+use Ixocreate\Application\Service\Bootstrap\BootstrapItemInterface;
+use Ixocreate\Application\Service\Configurator\ConfiguratorInterface;
 use Ixocreate\Application\Uri\ApplicationUriConfigurator;
 
 final class ApplicationUriBootstrapItem implements BootstrapItemInterface

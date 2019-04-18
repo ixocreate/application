@@ -7,9 +7,9 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Bootstrap;
+namespace Ixocreate\Application\Service\Bootstrap;
 
-use Ixocreate\Application\ConfiguratorInterface;
+use Ixocreate\Application\Service\Configurator\ConfiguratorInterface;
 
 interface BootstrapItemInterface
 {

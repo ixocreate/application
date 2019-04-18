@@ -9,8 +9,7 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Service\Bootstrap;
 
-use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
-use Ixocreate\Application\ConfiguratorInterface;
+use Ixocreate\Application\Service\Configurator\ConfiguratorInterface;
 use Ixocreate\Application\Service\ServiceManagerConfigurator;
 
 final class ServiceManagerBootstrapItem implements BootstrapItemInterface

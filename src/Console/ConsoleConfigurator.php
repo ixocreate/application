@@ -11,12 +11,11 @@ namespace Ixocreate\Application\Console;
 
 use Ixocreate\Application\Console\Factory\CommandInitializer;
 use Ixocreate\Application\Console\Factory\CommandMapFactory;
-use Ixocreate\Application\ConfiguratorInterface;
-use Ixocreate\Application\ServiceRegistryInterface;
-use Ixocreate\Application\Console\CommandInterface;;
+use Ixocreate\Application\Service\Configurator\ConfiguratorInterface;
+use Ixocreate\Application\Service\Registry\ServiceRegistryInterface;
 use Ixocreate\Entity\Package\Exception\InvalidArgumentException;
 use Ixocreate\ServiceManager\Factory\AutowireFactory;
-use Ixocreate\ServiceManager\SubManager\SubManagerConfigurator;
+use Ixocreate\Application\Service\SubManagerConfigurator;
 
 final class ConsoleConfigurator implements ConfiguratorInterface
 {

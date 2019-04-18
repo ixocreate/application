@@ -7,10 +7,10 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Package;
+namespace Ixocreate\Application;
 
-use Ixocreate\Application\ConfiguratorRegistryInterface;
-use Ixocreate\Application\Service\ServiceRegistryInterface;
+use Ixocreate\Application\Service\Configurator\ConfiguratorRegistryInterface;
+use Ixocreate\Application\Service\Registry\ServiceRegistryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
 
 interface PackageInterface

@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\ApplicationHttp\ErrorHandling\Response;
+namespace Ixocreate\Application\Http\ErrorHandling\Response;
 
 use Fig\Http\Message\StatusCodeInterface;
 use Ixocreate\Template\Package\Renderer;

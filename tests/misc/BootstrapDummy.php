@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Ixocreate\Misc\Application;
 
-use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
-use Ixocreate\Application\ConfiguratorInterface;
+use Ixocreate\Application\Service\Bootstrap\BootstrapItemInterface;
+use Ixocreate\Application\Service\Configurator\ConfiguratorInterface;
 
 class BootstrapDummy implements BootstrapItemInterface
 {
