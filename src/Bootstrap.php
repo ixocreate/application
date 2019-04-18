@@ -56,7 +56,7 @@ final class Bootstrap
             if (\file_exists($bootstrapFile)) {
                 IncludeHelper::include(
                     $bootstrapFile,
-                    ['applicationConfigurator' => $applicationConfigurator]
+                    ['application' => $applicationConfigurator]
                 );
             }
         }
