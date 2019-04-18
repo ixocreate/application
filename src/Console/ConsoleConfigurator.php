@@ -14,7 +14,7 @@ use Ixocreate\Application\Console\Factory\CommandMapFactory;
 use Ixocreate\Application\ConfiguratorInterface;
 use Ixocreate\Application\ServiceRegistryInterface;
 use Ixocreate\Application\Console\CommandInterface;;
-use Ixocreate\Package\Entity\Exception\InvalidArgumentException;
+use Ixocreate\Entity\Package\Exception\InvalidArgumentException;
 use Ixocreate\ServiceManager\Factory\AutowireFactory;
 use Ixocreate\ServiceManager\SubManager\SubManagerConfigurator;
 

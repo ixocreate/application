@@ -9,7 +9,9 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application;
 
-use Ixocreate\ServiceManager\BootstrapItem\ServiceManagerBootstrapItem;
+use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
+use Ixocreate\Application\Package\PackageInterface;
+use Ixocreate\Application\Service\Bootstrap\ServiceManagerBootstrapItem;
 
 final class ApplicationConfigurator
 {
@@ -195,6 +197,7 @@ final class ApplicationConfigurator
     {
         var_dump($package);
         var_dump(\is_subclass_of($package, PackageInterface::class));
+        var_dump(PackageInterface::class);
 
         if (!\is_subclass_of($package, PackageInterface::class)) {
             throw new \InvalidArgumentException($package . ' must implement ' . PackageInterface::class);

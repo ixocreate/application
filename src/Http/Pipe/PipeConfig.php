@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Http\Pipe;
 
-use Ixocreate\Application\SerializableServiceInterface;
+use Ixocreate\Application\Service\SerializableServiceInterface;
 
 final class PipeConfig implements SerializableServiceInterface
 {

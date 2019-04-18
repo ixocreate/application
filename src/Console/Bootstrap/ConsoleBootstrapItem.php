@@ -7,26 +7,20 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\BootstrapItem;
+namespace Ixocreate\Application\Console\Bootstrap;
 
-use Ixocreate\Application\Publish\PublishDefinitionConfigurator;
-use Ixocreate\Application\BootstrapItemInterface;
+use Ixocreate\Application\Bootstrap\Bootstrap\BootstrapItemInterface;
+use Ixocreate\Application\Console\ConsoleConfigurator;
 use Ixocreate\Application\ConfiguratorInterface;
 
-/**
- * Class PublishDefinitionBootstrapItem
- *
- * @package Ixocreate\Application\BootstrapItem
- * @deprecated
- */
-final class PublishDefinitionBootstrapItem implements BootstrapItemInterface
+final class ConsoleBootstrapItem implements BootstrapItemInterface
 {
     /**
      * @return mixed
      */
     public function getConfigurator(): ConfiguratorInterface
     {
-        return new PublishDefinitionConfigurator();
+        return new ConsoleConfigurator();
     }
 
     /**
@@ -34,7 +28,7 @@ final class PublishDefinitionBootstrapItem implements BootstrapItemInterface
      */
     public function getVariableName(): string
     {
-        return 'publishDefinition';
+        return 'console';
     }
 
     /**
@@ -42,6 +36,6 @@ final class PublishDefinitionBootstrapItem implements BootstrapItemInterface
      */
     public function getFileName(): string
     {
-        return 'publish-definition.php';
+        return 'console.php';
     }
 }

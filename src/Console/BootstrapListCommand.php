@@ -10,11 +10,12 @@ declare(strict_types=1);
 namespace Ixocreate\Application\Console;
 
 use Ixocreate\Application\ApplicationConfig;
-use Ixocreate\Application\Console\CommandInterface;;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+
+;
 
 final class BootstrapListCommand extends Command implements CommandInterface
 {
@@ -23,9 +24,6 @@ final class BootstrapListCommand extends Command implements CommandInterface
      */
     private $applicationConfig;
 
-    /**
-     * BootstrapListCommand constructor.
-     */
     public function __construct(ApplicationConfig $applicationConfig)
     {
         parent::__construct(self::getCommandName());

@@ -7,25 +7,35 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Misc\Application;
+namespace Ixocreate\Application\Publish\Bootstrap;
 
+use Ixocreate\Application\Publish\PublishConfigurator;
 use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
 use Ixocreate\Application\ConfiguratorInterface;
 
-class BootstrapDummy implements BootstrapItemInterface
+final class PublishBootstrapItem implements BootstrapItemInterface
 {
+    /**
+     * @return mixed
+     */
     public function getConfigurator(): ConfiguratorInterface
     {
-        return new ConfiguratorDummy();
+        return new PublishConfigurator();
     }
 
+    /**
+     * @return string
+     */
     public function getVariableName(): string
     {
-        return 'dummy';
+        return 'publish';
     }
 
+    /**
+     * @return string
+     */
     public function getFileName(): string
     {
-        return 'dummy';
+        return 'publish.php';
     }
 }

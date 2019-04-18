@@ -7,11 +7,9 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application;
+namespace Ixocreate\Application\Service;
 
-use Ixocreate\Config\Config;
-use Ixocreate\Application\BootstrapItemInterface;
-use Ixocreate\Application\PackageInterface;
+use Ixocreate\Application\Service\Bootstrap\Bootstrap\BootstrapItemInterface;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Stdlib\Glob;
 

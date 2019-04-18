@@ -14,7 +14,7 @@ use Ixocreate\Application\ApplicationConfig;
 use Ixocreate\Config\Config;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
-use Ixocreate\Package\Template\Renderer;
+use Ixocreate\Template\Package\Renderer;
 use Zend\Expressive\Middleware\WhoopsErrorResponseGenerator;
 
 final class ErrorResponseGeneratorFactory implements FactoryInterface

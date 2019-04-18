@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Publish;
 
-use Ixocreate\Application\SerializableServiceInterface;
+use Ixocreate\Application\Service\SerializableServiceInterface;
 
 final class PublishDefinitionConfig implements SerializableServiceInterface
 {

@@ -7,25 +7,35 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Misc\Application;
+namespace Ixocreate\Application\Uri\Bootstrap;
 
 use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
 use Ixocreate\Application\ConfiguratorInterface;
+use Ixocreate\Application\Uri\ApplicationUriConfigurator;
 
-class BootstrapDummy implements BootstrapItemInterface
+final class ApplicationUriBootstrapItem implements BootstrapItemInterface
 {
+    /**
+     * @return ConfiguratorInterface
+     */
     public function getConfigurator(): ConfiguratorInterface
     {
-        return new ConfiguratorDummy();
+        return new ApplicationUriConfigurator();
     }
 
+    /**
+     * @return string
+     */
     public function getVariableName(): string
     {
-        return 'dummy';
+        return 'applicationUri';
     }
 
+    /**
+     * @return string
+     */
     public function getFileName(): string
     {
-        return 'dummy';
+        return 'application-uri.php';
     }
 }

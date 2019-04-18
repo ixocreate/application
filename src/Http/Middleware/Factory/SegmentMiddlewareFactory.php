@@ -20,7 +20,7 @@ use Ixocreate\Application\Http\Pipe\PipeConfig;
 use Ixocreate\Http\SegmentProviderInterface;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
-use Ixocreate\Package\ProjectUri\ProjectUri;
+use Ixocreate\Application\Uri\ApplicationUri;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -50,7 +50,7 @@ final class SegmentMiddlewareFactory implements FactoryInterface
     private $container;
 
     /**
-     * @var ProjectUri
+     * @var ApplicationUri
      */
     private $projectUri;
 
@@ -67,7 +67,7 @@ final class SegmentMiddlewareFactory implements FactoryInterface
         $this->container = $container;
         $this->middlewareSubManager = $container->get(MiddlewareSubManager::class);
         $this->middlewareFactory = new MiddlewareFactory(new MiddlewareContainer($this->middlewareSubManager));
-        $this->projectUri = $container->get(ProjectUri::class);
+        $this->projectUri = $container->get(ApplicationUri::class);
 
         if ($options === null) {
             //todo exception
@@ -171,11 +171,11 @@ final class SegmentMiddlewareFactory implements FactoryInterface
     }
 
     /**
-     * @param Uri $uri
+     * @param ApplicationUri $uri
      * @param ServerRequestInterface $request
      * @return bool
      */
-    private function checkUri(Uri $uri, ServerRequestInterface $request): bool
+    private function checkUri(ApplicationUri $uri, ServerRequestInterface $request): bool
     {
         if (!empty($uri->getScheme()) && $uri->getScheme() !== $request->getUri()->getScheme()) {
             return false;

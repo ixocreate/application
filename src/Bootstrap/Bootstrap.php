@@ -7,10 +7,16 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application;
+namespace Ixocreate\Application\Bootstrap;
 
+use Ixocreate\Application\ApplicationConfig;
+use Ixocreate\Application\ApplicationConfigurator;
+use Ixocreate\Application\ApplicationInterface;
+use Ixocreate\Application\IncludeHelper;
+use Ixocreate\Application\ServiceHandler;
+use Ixocreate\Application\ServiceManager\ServiceManagerConfig;
+use Ixocreate\Application\ServiceRegistry;
 use Ixocreate\ServiceManager\ServiceManager;
-use Ixocreate\ServiceManager\ServiceManagerConfig;
 use Ixocreate\ServiceManager\ServiceManagerSetup;
 
 final class Bootstrap

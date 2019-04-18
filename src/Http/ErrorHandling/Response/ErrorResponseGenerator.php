@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Ixocreate\ApplicationHttp\ErrorHandling\Response;
 
-use Ixocreate\Package\Template\Renderer;
+use Ixocreate\Template\Package\Renderer;
 use Throwable;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;

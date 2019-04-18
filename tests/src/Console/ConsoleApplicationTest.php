@@ -7,10 +7,10 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Test\Application;
+namespace Ixocreate\Test\Application\Console;
 
 use Ixocreate\Application\ApplicationConfigurator;
-use Ixocreate\Application\Console\Bootstrap\ConsoleBootstrap;
+use Ixocreate\Application\Console\Bootstrap\ConsoleBootstrapItem;
 use Ixocreate\Application\Console\ConsoleApplication;
 use Ixocreate\Application\Console\ConsoleSubManager;
 use Ixocreate\Config\Bootstrap\ConfigBootstrap;
@@ -28,7 +28,7 @@ class ConsoleApplicationTest extends TestCase
 
         $applicationConfig = $applicationConfigurator->getApplicationConfig();
 
-        $this->assertInstanceOf(ConsoleBootstrap::class, $applicationConfig->getBootstrapQueue()[0]);
+        $this->assertInstanceOf(ConsoleBootstrapItem::class, $applicationConfig->getBootstrapQueue()[0]);
         $this->assertInstanceOf(ConfigBootstrap::class, $applicationConfig->getBootstrapQueue()[1]);
     }
 

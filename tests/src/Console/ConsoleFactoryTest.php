@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Test\ApplicationConsoleFactory;
+namespace Ixocreate\Test\Application\Console;
 
 use Ixocreate\Application\Console\ConsoleServiceManagerConfig;
 use Ixocreate\Application\Console\ConsoleSubManager;

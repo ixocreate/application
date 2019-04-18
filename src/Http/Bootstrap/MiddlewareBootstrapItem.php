@@ -7,20 +7,20 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\BootstrapItem;
+namespace Ixocreate\Application\Http\Bootstrap;
 
-use Ixocreate\Application\Publish\PublishConfigurator;
-use Ixocreate\Application\BootstrapItemInterface;
+use Ixocreate\Application\Http\Middleware\MiddlewareConfigurator;
+use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
 use Ixocreate\Application\ConfiguratorInterface;
 
-final class PublishBootstrapItem implements BootstrapItemInterface
+final class MiddlewareBootstrapItem implements BootstrapItemInterface
 {
     /**
-     * @return mixed
+     * @return ConfiguratorInterface
      */
     public function getConfigurator(): ConfiguratorInterface
     {
-        return new PublishConfigurator();
+        return new MiddlewareConfigurator();
     }
 
     /**
@@ -28,7 +28,7 @@ final class PublishBootstrapItem implements BootstrapItemInterface
      */
     public function getVariableName(): string
     {
-        return 'publish';
+        return 'middleware';
     }
 
     /**
@@ -36,6 +36,6 @@ final class PublishBootstrapItem implements BootstrapItemInterface
      */
     public function getFileName(): string
     {
-        return 'publish.php';
+        return 'middleware.php';
     }
 }

@@ -11,7 +11,7 @@ namespace Ixocreate\Application\Console;
 
 use Ixocreate\Application\ApplicationConfigurator;
 use Ixocreate\Application\ApplicationInterface;
-use Ixocreate\Application\Bootstrap;
+use Ixocreate\Application\Bootstrap\Bootstrap;
 use Ixocreate\Application\Console\Console\ConsoleRunner;
 
 final class ConsoleApplication implements ApplicationInterface
