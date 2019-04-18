@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Service;
 
-use Ixocreate\Application\Service\Registry\ServiceRegistryInterface;
 use Ixocreate\ServiceManager\Exception\InvalidArgumentException;
 use Ixocreate\ServiceManager\SubManager\SubManagerFactory;
 use Ixocreate\ServiceManager\SubManager\SubManagerFactoryInterface;

@@ -7,9 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Service\Bootstrap;
-
-use Ixocreate\Application\Service\Configurator\ConfiguratorInterface;
+namespace Ixocreate\Application;
 
 interface BootstrapItemInterface
 {
@@ -21,10 +19,10 @@ interface BootstrapItemInterface
     /**
      * @return string
      */
-    public function getVariableName() : string;
+    public function getVariableName(): string;
 
     /**
      * @return string
      */
-    public function getFileName() : string;
+    public function getFileName(): string;
 }

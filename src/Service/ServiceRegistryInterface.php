@@ -7,9 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Service\Registry;
-
-use Ixocreate\Application\Service\SerializableServiceInterface;
+namespace Ixocreate\Application\Service;
 
 interface ServiceRegistryInterface
 {

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Ixocreate\Test\Application;
 
-use Ixocreate\Application\Service\BootstrapItemInclude;
+use Ixocreate\Application\BootstrapItemInclude;
 use PHPUnit\Framework\TestCase;
 
 class IncludeHelperTest extends TestCase

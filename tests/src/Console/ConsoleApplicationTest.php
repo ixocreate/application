@@ -10,11 +10,10 @@ declare(strict_types=1);
 namespace Ixocreate\Test\Application\Console;
 
 use Ixocreate\Application\ApplicationConfigurator;
-use Ixocreate\Application\Console\Bootstrap\ConsoleBootstrapItem;
 use Ixocreate\Application\Console\ConsoleApplication;
+use Ixocreate\Application\Console\ConsoleBootstrapItem;
 use Ixocreate\Application\Console\ConsoleSubManager;
-use Ixocreate\Application\Config\Bootstrap\ConfigBootstrap;
-use Ixocreate\ServiceManager\ServiceManagerConfigurator;
+use Ixocreate\Application\Service\ServiceManagerConfigurator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 

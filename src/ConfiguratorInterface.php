@@ -7,9 +7,9 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Service\Configurator;
+namespace Ixocreate\Application;
 
-use Ixocreate\Application\Service\Registry\ServiceRegistryInterface;
+use Ixocreate\Application\Service\ServiceRegistryInterface;
 
 interface ConfiguratorInterface
 {

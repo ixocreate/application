@@ -7,18 +7,15 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Service\Bootstrap;
+namespace Ixocreate\Application;
 
-use Ixocreate\Application\ApplicationConfig;
-use Ixocreate\Application\ApplicationConfigurator;
-use Ixocreate\Application\ApplicationInterface;
-use Ixocreate\Application\Service\Registry\ServiceRegistry;
 use Ixocreate\Application\Service\ServiceHandler;
 use Ixocreate\Application\Service\ServiceManagerConfig;
+use Ixocreate\Application\Service\ServiceRegistry;
 use Ixocreate\ServiceManager\ServiceManager;
 use Ixocreate\ServiceManager\ServiceManagerSetup;
 
-final class Bootstrap
+final class ApplicationBootstrap
 {
     /**
      * @param string $bootstrapDirectory

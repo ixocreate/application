@@ -171,11 +171,11 @@ final class SegmentMiddlewareFactory implements FactoryInterface
     }
 
     /**
-     * @param ApplicationUri $uri
+     * @param Uri $uri
      * @param ServerRequestInterface $request
      * @return bool
      */
-    private function checkUri(ApplicationUri $uri, ServerRequestInterface $request): bool
+    private function checkUri(Uri $uri, ServerRequestInterface $request): bool
     {
         if (!empty($uri->getScheme()) && $uri->getScheme() !== $request->getUri()->getScheme()) {
             return false;

@@ -7,10 +7,9 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Service\Registry;
+namespace Ixocreate\Application\Service;
 
 use Ixocreate\Application\Exception\ServiceNotFoundException;
-use Ixocreate\Application\Service\SerializableServiceInterface;
 
 final class ServiceRegistry implements ServiceRegistryInterface
 {
@@ -38,7 +37,7 @@ final class ServiceRegistry implements ServiceRegistryInterface
 
     /**
      * @param string $name
-     * @throws ArgumentNotFoundException
+     * @throws ServiceNotFoundException
      * @return mixed
      */
     public function get(string $name): SerializableServiceInterface

@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Service\Bootstrap;
+namespace Ixocreate\Application;
 
 final class BootstrapItemInclude
 {

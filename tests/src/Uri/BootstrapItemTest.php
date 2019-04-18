@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 namespace Ixocreate\Test\Application\Uri;
 
+use Ixocreate\Application\Uri\ApplicationUriBootstrapItem;
 use Ixocreate\Application\Uri\ApplicationUriConfigurator;
-use Ixocreate\Application\Uri\Bootstrap\ApplicationUriBootstrapItem;
 use PHPUnit\Framework\TestCase;
 
 class BootstrapItemTest extends TestCase
 {
     /**
-     * @covers \Ixocreate\Application\Uri\Bootstrap\ApplicationUriBootstrapItem
+     * @covers \Ixocreate\Application\Uri\ApplicationUriBootstrapItem
      */
     public function testBootstrapItem()
     {

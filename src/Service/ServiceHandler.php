@@ -10,12 +10,11 @@ declare(strict_types=1);
 namespace Ixocreate\Application\Service;
 
 use Ixocreate\Application\ApplicationConfig;
-use Ixocreate\Application\Config;
+use Ixocreate\Application\Config\Config;
 use Ixocreate\Application\PackageInterface;
-use Ixocreate\Application\Service\Bootstrap\BootstrapItemInclude;
-use Ixocreate\Application\Service\Bootstrap\BootstrapItemInterface;
-use Ixocreate\Application\Service\Configurator\ConfiguratorRegistry;
-use Ixocreate\Application\Service\Registry\ServiceRegistry;
+use Ixocreate\Application\BootstrapItemInclude;
+use Ixocreate\Application\BootstrapItemInterface;
+use Ixocreate\Application\ConfiguratorRegistry;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Stdlib\Glob;
 

@@ -7,20 +7,19 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Http\Bootstrap;
+namespace Ixocreate\Application\Http\Pipe;
 
-use Ixocreate\Application\Http\Middleware\MiddlewareConfigurator;
-use Ixocreate\Application\Service\Bootstrap\BootstrapItemInterface;
-use Ixocreate\Application\Service\Configurator\ConfiguratorInterface;
+use Ixocreate\Application\BootstrapItemInterface;
+use Ixocreate\Application\ConfiguratorInterface;
 
-final class MiddlewareBootstrapItem implements BootstrapItemInterface
+final class PipeBootstrapItem implements BootstrapItemInterface
 {
     /**
      * @return ConfiguratorInterface
      */
     public function getConfigurator(): ConfiguratorInterface
     {
-        return new MiddlewareConfigurator();
+        return new PipeConfigurator();
     }
 
     /**
@@ -28,7 +27,7 @@ final class MiddlewareBootstrapItem implements BootstrapItemInterface
      */
     public function getVariableName(): string
     {
-        return 'middleware';
+        return 'pipe';
     }
 
     /**
@@ -36,6 +35,6 @@ final class MiddlewareBootstrapItem implements BootstrapItemInterface
      */
     public function getFileName(): string
     {
-        return 'middleware.php';
+        return 'pipe.php';
     }
 }

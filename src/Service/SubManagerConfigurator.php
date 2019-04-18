@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Service;
 
-use Ixocreate\Application\Service\Registry\ServiceRegistryInterface;
 use Ixocreate\ServiceManager\Factory\AutowireFactory;
 
 final class SubManagerConfigurator extends AbstractServiceManagerConfigurator

@@ -9,8 +9,7 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application;
 
-use Ixocreate\Application\Service\Configurator\ConfiguratorRegistryInterface;
-use Ixocreate\Application\Service\Registry\ServiceRegistryInterface;
+use Ixocreate\Application\Service\ServiceRegistryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
 
 interface PackageInterface
@@ -18,27 +17,27 @@ interface PackageInterface
     /**
      * @param ConfiguratorRegistryInterface $configuratorRegistry
      */
-    public function configure(ConfiguratorRegistryInterface $configuratorRegistry) : void;
+    public function configure(ConfiguratorRegistryInterface $configuratorRegistry): void;
 
     /**
      * @param ServiceRegistryInterface $serviceRegistry
      */
-    public function addServices(ServiceRegistryInterface $serviceRegistry) : void;
+    public function addServices(ServiceRegistryInterface $serviceRegistry): void;
 
     /**
      * @return array|null
      */
-    public function getBootstrapItems() : ?array;
+    public function getBootstrapItems(): ?array;
 
     /**
      * @return array|null
      */
-    public function getConfigProvider() : ?array;
+    public function getConfigProvider(): ?array;
 
     /**
      * @param ServiceManagerInterface $serviceManager
      */
-    public function boot(ServiceManagerInterface $serviceManager) : void;
+    public function boot(ServiceManagerInterface $serviceManager): void;
 
     /**
      * @return null|string

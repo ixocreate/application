@@ -7,9 +7,9 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Service\Configurator;
+namespace Ixocreate\Application;
 
-use Ixocreate\Application\Exception\ArgumentNotFoundException;
+use Ixocreate\Application\Exception\ConfiguratorNotFoundException;
 
 final class ConfiguratorRegistry implements ConfiguratorRegistryInterface
 {
@@ -37,7 +37,7 @@ final class ConfiguratorRegistry implements ConfiguratorRegistryInterface
 
     /**
      * @param string $name
-     * @throws ArgumentNotFoundException
+     * @throws ConfiguratorNotFoundException
      * @return ConfiguratorInterface
      */
     public function get(string $name): ConfiguratorInterface
@@ -46,7 +46,7 @@ final class ConfiguratorRegistry implements ConfiguratorRegistryInterface
             return $this->configurators[$name];
         }
 
-        throw new ArgumentNotFoundException(\sprintf("Configurator with name '%s' not found", $name));
+        throw new ConfiguratorNotFoundException(\sprintf("CmsConfigurator with name '%s' not found", $name));
     }
 
     /**

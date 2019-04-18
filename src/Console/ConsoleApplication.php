@@ -11,7 +11,7 @@ namespace Ixocreate\Application\Console;
 
 use Ixocreate\Application\ApplicationConfigurator;
 use Ixocreate\Application\ApplicationInterface;
-use Ixocreate\Application\Service\Bootstrap\Bootstrap;
+use Ixocreate\Application\ApplicationBootstrap;
 use Ixocreate\Application\Console\Console\ConsoleRunner;
 
 final class ConsoleApplication implements ApplicationInterface
@@ -36,7 +36,7 @@ final class ConsoleApplication implements ApplicationInterface
      */
     public function run(): void
     {
-        $serviceManager = (new Bootstrap())->bootstrap($this->bootstrapDirectory, $this);
+        $serviceManager = (new ApplicationBootstrap())->bootstrap($this->bootstrapDirectory, $this);
         $serviceManager->get(ConsoleRunner::class)->run();
     }
 

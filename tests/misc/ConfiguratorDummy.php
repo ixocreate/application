@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Ixocreate\Misc\Application;
 
-use Ixocreate\Application\Service\Configurator\ConfiguratorInterface;
-use Ixocreate\Application\Service\Registry\ServiceRegistryInterface;
+use Ixocreate\Application\ConfiguratorInterface;
+use Ixocreate\Application\Service\ServiceRegistryInterface;
 
 class ConfiguratorDummy implements ConfiguratorInterface
 {

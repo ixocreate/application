@@ -7,25 +7,34 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Misc\Application;
+namespace Ixocreate\Application\Console;
 
 use Ixocreate\Application\BootstrapItemInterface;
 use Ixocreate\Application\ConfiguratorInterface;
 
-class BootstrapDummy implements BootstrapItemInterface
+final class ConsoleBootstrapItem implements BootstrapItemInterface
 {
+    /**
+     * @return mixed
+     */
     public function getConfigurator(): ConfiguratorInterface
     {
-        return new ConfiguratorDummy();
+        return new ConsoleConfigurator();
     }
 
+    /**
+     * @return string
+     */
     public function getVariableName(): string
     {
-        return 'dummy';
+        return 'console';
     }
 
+    /**
+     * @return string
+     */
     public function getFileName(): string
     {
-        return 'dummy';
+        return 'console.php';
     }
 }

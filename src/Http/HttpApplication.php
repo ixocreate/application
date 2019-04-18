@@ -11,8 +11,8 @@ namespace Ixocreate\Application\Http;
 
 use Ixocreate\Application\ApplicationConfigurator;
 use Ixocreate\Application\ApplicationInterface;
-use Ixocreate\Application\Service\Bootstrap\Bootstrap;
 use Ixocreate\Application\Http\Pipe\PipeConfig;
+use Ixocreate\Application\ApplicationBootstrap;
 use Ixocreate\ServiceManager\ServiceManager;
 use Zend\HttpHandlerRunner\RequestHandlerRunner;
 
@@ -25,6 +25,7 @@ final class HttpApplication implements ApplicationInterface
 
     /**
      * ConsoleApplication constructor.
+     *
      * @param string $bootstrapDirectory
      */
     public function __construct(string $bootstrapDirectory)
@@ -38,7 +39,7 @@ final class HttpApplication implements ApplicationInterface
     public function run(): void
     {
         /** @var ServiceManager $serviceManager */
-        $serviceManager = (new Bootstrap())->bootstrap($this->bootstrapDirectory, $this);
+        $serviceManager = (new ApplicationBootstrap())->bootstrap($this->bootstrapDirectory, $this);
         ($serviceManager->build(RequestHandlerRunner::class, [
             PipeConfig::class => $serviceManager->get(PipeConfig::class),
         ]))->run();

@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application;
 
-use Ixocreate\Application\Service\Bootstrap\BootstrapItemInterface;
 use Ixocreate\Application\Service\SerializableServiceInterface;
 
 final class ApplicationConfig implements SerializableServiceInterface
