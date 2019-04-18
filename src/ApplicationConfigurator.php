@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application;
 
+use Ixocreate\Application\Bootstrap\BootstrapItemInclude;
+use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
+use Ixocreate\Application\Package\PackageInterface;
 use Ixocreate\Application\Service\ServiceManagerBootstrapItem;
 
 final class ApplicationConfigurator

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application;
 
+use Ixocreate\Application\Bootstrap\BootstrapItemInclude;
 use Ixocreate\Application\Service\ServiceHandler;
 use Ixocreate\Application\Service\ServiceManagerConfig;
 use Ixocreate\Application\Service\ServiceRegistry;

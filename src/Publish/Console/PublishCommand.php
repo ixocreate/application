@@ -7,8 +7,9 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Console;
+namespace Ixocreate\Application\Publish\Console;
 
+use Ixocreate\Application\Console\CommandInterface;
 use Ixocreate\Application\Publish\PublishConfig;
 use Ixocreate\Application\Publish\PublishDefinitionConfig;
 use Ixocreate\Filesystem\Storage\StorageSubManager;

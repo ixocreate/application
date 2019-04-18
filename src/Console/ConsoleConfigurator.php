@@ -11,7 +11,7 @@ namespace Ixocreate\Application\Console;
 
 use Ixocreate\Application\Console\Factory\CommandInitializer;
 use Ixocreate\Application\Console\Factory\CommandMapFactory;
-use Ixocreate\Application\ConfiguratorInterface;
+use Ixocreate\Application\Configurator\ConfiguratorInterface;
 use Ixocreate\Application\Exception\InvalidArgumentException;
 use Ixocreate\Application\Service\ServiceRegistryInterface;
 use Ixocreate\ServiceManager\Factory\AutowireFactory;

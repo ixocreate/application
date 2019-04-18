@@ -14,7 +14,7 @@ use Ixocreate\Application\Http\Pipe\Config\MiddlewareConfig;
 use Ixocreate\Application\Http\Pipe\Config\RoutingPipeConfig;
 use Ixocreate\Application\Http\Pipe\Config\SegmentConfig;
 use Ixocreate\Application\Http\Pipe\Config\SegmentPipeConfig;
-use Ixocreate\Application\ConfiguratorInterface;
+use Ixocreate\Application\Configurator\ConfiguratorInterface;
 use Ixocreate\Application\Service\ServiceRegistryInterface;
 use Zend\Expressive\Router\FastRouteRouter;
 use Zend\Stdlib\PriorityList;
