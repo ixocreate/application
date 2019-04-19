@@ -6,5 +6,8 @@
  */
 
 declare(strict_types=1);
-/** @var \Ixocreate\ServiceManager\ServiceManagerConfigurator $serviceManagerConfigurator */
-$serviceManagerConfigurator->addFactory(DateTime::class);
+
+use Ixocreate\Application\Service\ServiceManagerConfigurator;
+
+/** @var ServiceManagerConfigurator $serviceManager */
+$serviceManager->addFactory(DateTime::class);
