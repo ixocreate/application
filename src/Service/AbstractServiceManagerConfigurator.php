@@ -11,10 +11,10 @@ namespace Ixocreate\Application\Service;
 
 use Ixocreate\Application\Configurator\ConfiguratorInterface;
 use Ixocreate\ServiceManager\DelegatorFactoryInterface;
-use Ixocreate\ServiceManager\FactoryInterface;
-use Ixocreate\ServiceManager\InitializerInterface;
 use Ixocreate\ServiceManager\Exception\InvalidArgumentException;
 use Ixocreate\ServiceManager\Factory\AutowireFactory;
+use Ixocreate\ServiceManager\FactoryInterface;
+use Ixocreate\ServiceManager\InitializerInterface;
 use Zend\Code\Reflection\FileReflection;
 use Zend\ServiceManager\Proxy\LazyServiceFactory;
 

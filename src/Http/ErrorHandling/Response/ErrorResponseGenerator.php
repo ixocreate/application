@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace Ixocreate\Application\Http\ErrorHandling\Response;
 
 use Ixocreate\Template\Renderer;
-use Throwable;
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Throwable;
 use Zend\Diactoros\Response\JsonResponse;
 use Zend\Stratigility\Utils;
 

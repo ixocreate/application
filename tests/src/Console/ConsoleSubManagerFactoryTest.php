@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace Ixocreate\Test\ApplicationConsoleFactory;
 
 use Ixocreate\Application\Console\ConsoleSubManager;
-use Ixocreate\ServiceManager\ServiceManager;
 use Ixocreate\Application\Service\ServiceManagerConfig;
+use Ixocreate\ServiceManager\ServiceManager;
 use Ixocreate\ServiceManager\ServiceManagerSetup;
 use PHPUnit\Framework\TestCase;
 

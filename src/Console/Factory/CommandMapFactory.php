@@ -11,9 +11,9 @@ namespace Ixocreate\Application\Console\Factory;
 
 use Ixocreate\Application\Console\CommandMapping;
 use Ixocreate\Application\Console\ConsoleSubManager;
+use Ixocreate\ServiceManager\Exception\ServiceNotCreatedException;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
-use Ixocreate\ServiceManager\Exception\ServiceNotCreatedException;
 
 class CommandMapFactory implements FactoryInterface
 {

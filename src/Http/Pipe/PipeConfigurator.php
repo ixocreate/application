@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Http\Pipe;
 
+use Ixocreate\Application\Configurator\ConfiguratorInterface;
 use Ixocreate\Application\Http\Pipe\Config\DispatchingPipeConfig;
 use Ixocreate\Application\Http\Pipe\Config\MiddlewareConfig;
 use Ixocreate\Application\Http\Pipe\Config\RoutingPipeConfig;
 use Ixocreate\Application\Http\Pipe\Config\SegmentConfig;
 use Ixocreate\Application\Http\Pipe\Config\SegmentPipeConfig;
-use Ixocreate\Application\Configurator\ConfiguratorInterface;
 use Ixocreate\Application\Service\ServiceRegistryInterface;
 use Zend\Expressive\Router\FastRouteRouter;
 use Zend\Stdlib\PriorityList;
