@@ -12,7 +12,6 @@ namespace Ixocreate\Application\Publish\Console;
 use Ixocreate\Application\Console\CommandInterface;
 use Ixocreate\Application\Publish\PublishConfig;
 use Ixocreate\Application\Publish\PublishDefinitionConfig;
-use Ixocreate\Filesystem\Storage\StorageSubManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,11 +28,6 @@ final class PublishListCommand extends Command implements CommandInterface
      * @var PublishConfig
      */
     private $publishConfig;
-
-    /**
-     * @var StorageSubManager
-     */
-    private $storageSubManager;
 
     public function __construct(PublishDefinitionConfig $publishDefinitionConfig, PublishConfig $publishConfig)
     {
