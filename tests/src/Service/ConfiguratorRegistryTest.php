@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Ixocreate\Test\Application\ConfiguratorItem;
 
-use Ixocreate\Application\ConfiguratorItem\ConfiguratorRegistry;
-use Ixocreate\Application\Exception\ArgumentNotFoundException;
+use Ixocreate\Application\Configurator\ConfiguratorRegistry;
+use Ixocreate\Application\Exception\ConfiguratorNotFoundException;
 use Ixocreate\Misc\Application\BootstrapDummy;
 use Ixocreate\Misc\Application\PackageDummy;
 use PHPUnit\Framework\TestCase;
@@ -32,7 +32,7 @@ class ConfiguratorRegistryTest extends TestCase
     {
         $configuratorRegistry = new ConfiguratorRegistry();
 
-        $this->expectException(ArgumentNotFoundException::class);
+        $this->expectException(ConfiguratorNotFoundException::class);
         $configuratorRegistry->get(BootstrapDummy::class);
     }
 }

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Ixocreate\Test\Application\Service;
 
-use Ixocreate\Application\Exception\ArgumentNotFoundException;
+use Ixocreate\Application\Exception\ServiceNotFoundException;
 use Ixocreate\Application\Service\ServiceRegistry;
 use PHPUnit\Framework\TestCase;
 
@@ -42,7 +42,7 @@ class ServiceRegistryTest extends TestCase
         $this->assertFalse($serviceRegistry->has(\DateTime::class));
         $this->assertSame($class, $serviceRegistry->get("test"));
 
-        $this->expectException(ArgumentNotFoundException::class);
+        $this->expectException(ServiceNotFoundException::class);
         $serviceRegistry->get(\DateTime::class);
     }
 }
