@@ -7,9 +7,9 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Console\Console\Factory;
+namespace Ixocreate\Application\Console\Factory;
 
-use Ixocreate\Application\Console\Console\ConsoleRunner;
+use Ixocreate\Application\Console\ConsoleRunner;
 use Ixocreate\Application\Console\ConsoleSubManager;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;

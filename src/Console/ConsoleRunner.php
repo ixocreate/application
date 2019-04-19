@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Console\Console;
+namespace Ixocreate\Application\Console;
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputOption;

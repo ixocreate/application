@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Console\Factory;
 
-use Ixocreate\Application\Console\Console\ConsoleRunner;
+use Ixocreate\Application\Console\ConsoleRunner;
 use Ixocreate\ServiceManager\InitializerInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
 use Symfony\Component\Console\Command\Command;
