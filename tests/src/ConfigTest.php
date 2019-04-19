@@ -7,9 +7,9 @@
 
 declare(strict_types=1);
 
-namespace IxocreateTest\Application;
+namespace Ixocreate\Test\Application;
 
-use Ixocreate\Application\Config;
+use Ixocreate\Application\Config\Config;
 use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase

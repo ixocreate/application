@@ -9,9 +9,10 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application;
 
-use Ixocreate\Contract\Application\BootstrapItemInterface;
-use Ixocreate\Contract\Application\PackageInterface;
-use Ixocreate\ServiceManager\BootstrapItem\ServiceManagerBootstrapItem;
+use Ixocreate\Application\Bootstrap\BootstrapItemInclude;
+use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
+use Ixocreate\Application\Package\PackageInterface;
+use Ixocreate\Application\Service\ServiceManagerBootstrapItem;
 
 final class ApplicationConfigurator
 {
@@ -62,11 +63,12 @@ final class ApplicationConfigurator
 
     /**
      * ApplicationConfigurator constructor.
+     *
      * @param string $bootstrapDirectory
      */
     public function __construct(string $bootstrapDirectory)
     {
-        $this->bootstrapDirectory = IncludeHelper::normalizePath($bootstrapDirectory);
+        $this->bootstrapDirectory = BootstrapItemInclude::normalizePath($bootstrapDirectory);
     }
 
     public function getBootstrapDirectory(): string
@@ -79,7 +81,7 @@ final class ApplicationConfigurator
      */
     public function setBootstrapEnvDirectory(string $directory): void
     {
-        $this->bootstrapEnvDirectory = IncludeHelper::normalizePath($directory);
+        $this->bootstrapEnvDirectory = BootstrapItemInclude::normalizePath($directory);
     }
 
     /**
@@ -111,7 +113,7 @@ final class ApplicationConfigurator
      */
     public function setPersistCacheDirectory(string $persistCacheDirectory): void
     {
-        $this->persistCacheDirectory = IncludeHelper::normalizePath($persistCacheDirectory);
+        $this->persistCacheDirectory = BootstrapItemInclude::normalizePath($persistCacheDirectory);
     }
 
     /**
@@ -127,7 +129,7 @@ final class ApplicationConfigurator
      */
     public function setCacheDirectory(string $cacheDirectory): void
     {
-        $this->cacheDirectory = IncludeHelper::normalizePath($cacheDirectory);
+        $this->cacheDirectory = BootstrapItemInclude::normalizePath($cacheDirectory);
     }
 
     /**
@@ -143,7 +145,7 @@ final class ApplicationConfigurator
      */
     public function setConfigDirectory(string $configDirectory): void
     {
-        $this->configDirectory = IncludeHelper::normalizePath($configDirectory);
+        $this->configDirectory = BootstrapItemInclude::normalizePath($configDirectory);
     }
 
     /**
@@ -159,7 +161,7 @@ final class ApplicationConfigurator
      */
     public function setConfigEnvDirectory(string $configEnvDirectory): void
     {
-        $this->configEnvDirectory = IncludeHelper::normalizePath($configEnvDirectory);
+        $this->configEnvDirectory = BootstrapItemInclude::normalizePath($configEnvDirectory);
     }
 
     /**
@@ -192,7 +194,7 @@ final class ApplicationConfigurator
     /**
      * @param string $package
      */
-    public function addPackage(string $package) : void
+    public function addPackage(string $package): void
     {
         if (!\is_subclass_of($package, PackageInterface::class)) {
             throw new \InvalidArgumentException($package . ' must implement ' . PackageInterface::class);

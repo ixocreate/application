@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Publish;
 
-use Ixocreate\Contract\Application\ConfiguratorInterface;
-use Ixocreate\Contract\Application\ServiceRegistryInterface;
+use Ixocreate\Application\Configurator\ConfiguratorInterface;
+use Ixocreate\Application\Service\ServiceRegistryInterface;
 
 final class PublishConfigurator implements ConfiguratorInterface
 {
@@ -21,7 +21,7 @@ final class PublishConfigurator implements ConfiguratorInterface
 
     /**
      * @param string $name
-     * @param string $target
+     * @param string $source
      */
     public function add(string $name, string $source): void
     {
