@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Ixocreate\Test\ProjectUri;
 
 use Ixocreate\Application\Service\ServiceRegistryInterface;
+use Ixocreate\Application\Uri\ApplicationUri;
 use Ixocreate\Application\Uri\ApplicationUriConfigurator;
 use PHPUnit\Framework\TestCase;
 use Zend\Diactoros\Uri;
@@ -85,7 +86,7 @@ class ProjectUriConfiguratorTest extends TestCase
         $serviceRegistry
             ->expects($this->once())
             ->method('add')
-            ->with($this->equalTo(Uri::class), $this->isInstanceOf(Uri::class));
+            ->with($this->equalTo(ApplicationUri::class), $this->isInstanceOf(ApplicationUri::class));
 
         $configurator = new ApplicationUriConfigurator();
         $configurator->registerService($serviceRegistry);

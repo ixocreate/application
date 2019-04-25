@@ -24,7 +24,7 @@ class ApplicationConfiguratorTest extends TestCase
         $this->assertSame("local/", $applicationConfigurator->getBootstrapEnvDirectory());
         $this->assertSame(true, $applicationConfigurator->isDevelopment());
         $this->assertSame("data/cache/application/", $applicationConfigurator->getCacheDirectory());
-        $this->assertSame("resource/application/", $applicationConfigurator->getPersistCacheDirectory());
+        $this->assertSame("resources/generated/application/", $applicationConfigurator->getPersistCacheDirectory());
         $this->assertSame("config/", $applicationConfigurator->getConfigDirectory());
         $this->assertSame("local/", $applicationConfigurator->getConfigEnvDirectory());
         $this->assertSame([], $applicationConfigurator->getPackages());
@@ -86,7 +86,7 @@ class ApplicationConfiguratorTest extends TestCase
         $applicationConfigurator = new ApplicationConfigurator("bootstrap");
         $applicationConfigurator->addPackage(PackageDummy::class);
         $this->assertCount(1, $applicationConfigurator->getPackages());
-        $this->assertInstanceOf(PackageDummy::class, $applicationConfigurator->getPackages()[0]);
+        $this->assertSame(PackageDummy::class, $applicationConfigurator->getPackages()[0]);
     }
 
     public function testAddBootstrapItem()
@@ -94,6 +94,6 @@ class ApplicationConfiguratorTest extends TestCase
         $applicationConfigurator = new ApplicationConfigurator("bootstrap");
         $applicationConfigurator->addBootstrapItem(BootstrapDummy::class);
         $this->assertCount(1, $applicationConfigurator->getBootstrapItems());
-        $this->assertInstanceOf(BootstrapDummy::class, $applicationConfigurator->getBootstrapItems()[0]);
+        $this->assertSame(BootstrapDummy::class, $applicationConfigurator->getBootstrapItems()[0]);
     }
 }

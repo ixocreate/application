@@ -25,7 +25,7 @@ class BootstrapItemTest extends TestCase
         $configurator = $item->getConfigurator();
 
         $this->assertInstanceOf(ApplicationUriConfigurator::class, $configurator);
-        $this->assertEquals('projectUri', $item->getVariableName());
+        $this->assertEquals('applicationUri', $item->getVariableName());
         $this->assertEquals('application-uri.php', $item->getFileName());
     }
 }
