@@ -57,8 +57,8 @@ final class PublishCommand extends Command implements CommandInterface
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return int|void|null
      * @throws \Exception
+     * @return int|void|null
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
@@ -74,7 +74,6 @@ final class PublishCommand extends Command implements CommandInterface
         }
 
         foreach ($definitions as $name => $definition) {
-
             if (!\is_dir($definition['targetDirectory'])) {
                 throw new \Exception('target is not a directory: ' . $definition['targetDirectory']);
             }
@@ -85,7 +84,6 @@ final class PublishCommand extends Command implements CommandInterface
             $targetPermissions = \fileperms($definition['targetDirectory']);
 
             foreach ($definition['sources'] as $directory) {
-
                 $iterator = new RecursiveIteratorIterator(
                     new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS),
                     RecursiveIteratorIterator::SELF_FIRST
@@ -117,7 +115,7 @@ final class PublishCommand extends Command implements CommandInterface
 
                     if (!\is_dir($targetDirectory)) {
                         if (!@\mkdir($targetDirectory, $targetPermissions, true)) {
-                            throw new \Exception(error_get_last());
+                            throw new \Exception(\error_get_last());
                         }
                     }
 
