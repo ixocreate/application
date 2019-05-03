@@ -11,7 +11,6 @@ namespace Ixocreate\Application\Publish\Console;
 
 use Ixocreate\Application\Console\CommandInterface;
 use Ixocreate\Application\Publish\PublishConfig;
-use Ixocreate\Application\Publish\PublishDefinitionConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,20 +19,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 final class PublishListCommand extends Command implements CommandInterface
 {
     /**
-     * @var PublishDefinitionConfig
-     */
-    private $publishDefinitionConfig;
-
-    /**
      * @var PublishConfig
      */
     private $publishConfig;
 
-    public function __construct(PublishDefinitionConfig $publishDefinitionConfig, PublishConfig $publishConfig)
+    public function __construct(PublishConfig $publishConfig)
     {
         parent::__construct(self::getCommandName());
 
-        $this->publishDefinitionConfig = $publishDefinitionConfig;
         $this->publishConfig = $publishConfig;
     }
 
@@ -42,11 +35,16 @@ final class PublishListCommand extends Command implements CommandInterface
         return 'publish:list';
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int|void|null
+     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
 
-        $definitions = $this->publishDefinitionConfig->getDefinitions($this->publishConfig);
+        $definitions = $this->publishConfig->getDefinitions();
 
         $data = [];
 
