@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Console;
 
+use Ixocreate\Application\ApplicationBootstrap;
 use Ixocreate\Application\ApplicationConfigurator;
 use Ixocreate\Application\ApplicationInterface;
-use Ixocreate\Application\ApplicationBootstrap;
 
 final class ConsoleApplication implements ApplicationInterface
 {

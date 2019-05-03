@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Ixocreate\Test\ProjectUri;
 
-use Ixocreate\Application\Uri\Middleware\ApplicationUriCheckMiddleware;
 use Ixocreate\Application\Uri\ApplicationUri;
 use Ixocreate\Application\Uri\ApplicationUriConfigurator;
+use Ixocreate\Application\Uri\Middleware\ApplicationUriCheckMiddleware;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

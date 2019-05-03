@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Http\ErrorHandling\Factory;
 
+use Ixocreate\Application\Config\Config;
 use Ixocreate\Application\Http\ErrorHandling\Response\NotFoundHandler;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
 use Ixocreate\Template\Renderer;
 use Zend\Diactoros\Response;
-use Ixocreate\Application\Config\Config;
 
 final class NotFoundHandlerFactory implements FactoryInterface
 {

@@ -12,7 +12,7 @@ namespace Ixocreate\Test\Application\ConfiguratorItem;
 use Ixocreate\Application\Configurator\ConfiguratorRegistry;
 use Ixocreate\Application\Exception\ConfiguratorNotFoundException;
 use Ixocreate\Misc\Application\BootstrapDummy;
-use Ixocreate\Misc\Application\PackageDummy;
+use Ixocreate\Misc\Application\ConfiguratorDummy;
 use PHPUnit\Framework\TestCase;
 
 class ConfiguratorRegistryTest extends TestCase
@@ -20,12 +20,11 @@ class ConfiguratorRegistryTest extends TestCase
     public function testConfigurators()
     {
         $configuratorRegistry = new ConfiguratorRegistry();
-        $configuratorRegistry->add(ConfiguratorRegistryTest::class, new PackageDummy());
+        $configuratorRegistry->add(ConfiguratorRegistryTest::class, new ConfiguratorDummy());
 
-        $this->assertArrayHasKey(ConfiguratorRegistryTest::class, $configuratorRegistry->getConfigurators());
         $this->assertTrue($configuratorRegistry->has(ConfiguratorRegistryTest::class));
         $this->assertFalse($configuratorRegistry->has(BootstrapDummy::class));
-        $this->assertInstanceOf(PackageDummy::class, $configuratorRegistry->get(ConfiguratorRegistryTest::class));
+        $this->assertInstanceOf(ConfiguratorDummy::class, $configuratorRegistry->get(ConfiguratorRegistryTest::class));
     }
 
     public function testGetConfiguratorException()

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Ixocreate\Test\ProjectUri;
 
+use Ixocreate\Application\Uri\ApplicationUri;
 use Ixocreate\Application\Uri\ApplicationUriConfigurator;
 use PHPUnit\Framework\TestCase;
 use Zend\Diactoros\Uri;
@@ -27,10 +28,10 @@ class ProjectUriTest extends TestCase
         $configurator = new ApplicationUriConfigurator();
         $configurator->setMainUri('https://project-uri.test');
 
-        $projectUri = new Uri($configurator);
+        $applicationUri = new ApplicationUri($configurator);
 
-        $this->assertEquals(new Uri('https://project-uri.test'), $projectUri->getMainUri());
-        $this->assertEquals(new Uri('https://project-uri.test'), $projectUri->getMainUrl());
+        $this->assertEquals(new Uri('https://project-uri.test'), $applicationUri->getMainUri());
+        $this->assertEquals(new Uri('https://project-uri.test'), $applicationUri->getMainUrl());
     }
 
     /**
@@ -41,15 +42,15 @@ class ProjectUriTest extends TestCase
         $configurator = new ApplicationUriConfigurator();
         $configurator->addAlternativeUri('test', 'https://project-uri-2.test');
 
-        $projectUri = new Uri($configurator);
+        $applicationUri = new ApplicationUri($configurator);
 
         $alternativeUris = [
             'test' => new Uri('https://project-uri-2.test'),
         ];
 
-        $this->assertEquals($alternativeUris, $projectUri->getAlternativeUris());
-        $this->assertEquals($alternativeUris['test'], $projectUri->getAlternativeUri('test'));
-        $this->assertNull($projectUri->getAlternativeUri('not-found'));
+        $this->assertEquals($alternativeUris, $applicationUri->getAlternativeUris());
+        $this->assertEquals($alternativeUris['test'], $applicationUri->getAlternativeUri('test'));
+        $this->assertNull($applicationUri->getAlternativeUri('not-found'));
     }
 
     /**
@@ -61,14 +62,14 @@ class ProjectUriTest extends TestCase
         $configurator->setMainUri('https://project-uri.test');
         $configurator->addAlternativeUri('test', 'https://project-uri-2.test');
 
-        $projectUri = new Uri($configurator);
+        $applicationUri = new ApplicationUri($configurator);
 
         $possibleUris = [
             'test' => new Uri('https://project-uri-2.test'),
             'mainUri' => new Uri('https://project-uri.test'),
         ];
 
-        $this->assertEquals($possibleUris, $projectUri->getPossibleUrls());
+        $this->assertEquals($possibleUris, $applicationUri->getPossibleUrls());
     }
 
     public function testIsValidUrl()
@@ -78,15 +79,15 @@ class ProjectUriTest extends TestCase
         $configurator->addAlternativeUri('test-1', 'https://project-uri-1.test');
         $configurator->addAlternativeUri('test-2', 'https://project-uri-2.test/subPath');
 
-        $projectUri = new Uri($configurator);
+        $applicationUri = new ApplicationUri($configurator);
 
-        $this->assertTrue($projectUri->isValidUrl(new Uri('https://project-uri.test')));
-        $this->assertTrue($projectUri->isValidUrl(new Uri('https://project-uri-1.test')));
-        $this->assertFalse($projectUri->isValidUrl(new Uri('https://project-uri-not-set.test')));
-        $this->assertFalse($projectUri->isValidUrl(new Uri('http://project-uri.test')));
-        $this->assertFalse($projectUri->isValidUrl(new Uri('https://project-uri.test:8080')));
-        $this->assertFalse($projectUri->isValidUrl(new Uri('https://project-uri-2.test/path')));
-        $this->assertFalse($projectUri->isValidUrl(new Uri('https://project-uri-2.test/withASpecialInvalidPath')));
+        $this->assertTrue($applicationUri->isValidUrl(new Uri('https://project-uri.test')));
+        $this->assertTrue($applicationUri->isValidUrl(new Uri('https://project-uri-1.test')));
+        $this->assertFalse($applicationUri->isValidUrl(new Uri('https://project-uri-not-set.test')));
+        $this->assertFalse($applicationUri->isValidUrl(new Uri('http://project-uri.test')));
+        $this->assertFalse($applicationUri->isValidUrl(new Uri('https://project-uri.test:8080')));
+        $this->assertFalse($applicationUri->isValidUrl(new Uri('https://project-uri-2.test/path')));
+        $this->assertFalse($applicationUri->isValidUrl(new Uri('https://project-uri-2.test/withASpecialInvalidPath')));
     }
 
     public function testGetPathWithoutBase()
@@ -95,16 +96,16 @@ class ProjectUriTest extends TestCase
         $configurator->setMainUri('https://project-uri.test');
         $configurator->addAlternativeUri('test-2', 'https://project-uri-2.test/subPath/');
 
-        $projectUri = new Uri($configurator);
+        $applicationUri = new ApplicationUri($configurator);
 
-        $this->assertEquals('', $projectUri->getPathWithoutBase(new Uri('https://project-uri.test')));
-        $this->assertEquals('/withPath', $projectUri->getPathWithoutBase(new Uri('https://project-uri.test/withPath')));
+        $this->assertEquals('', $applicationUri->getPathWithoutBase(new Uri('https://project-uri.test')));
+        $this->assertEquals('/withPath', $applicationUri->getPathWithoutBase(new Uri('https://project-uri.test/withPath')));
 
-        $this->assertEquals('', $projectUri->getPathWithoutBase(new Uri('https://project-uri-not-found.test')));
-        $this->assertEquals('', $projectUri->getPathWithoutBase(new Uri('http://project-uri.test')));
-        $this->assertEquals('', $projectUri->getPathWithoutBase(new Uri('https://project-uri.test:8080')));
-        $this->assertEquals('', $projectUri->getPathWithoutBase(new Uri('https://project-uri-2.test/withASpecialInvalidPath')));
-        $this->assertEquals('/pathToGlory', $projectUri->getPathWithoutBase(new Uri('https://project-uri-2.test/subPath/pathToGlory')));
+        $this->assertEquals('', $applicationUri->getPathWithoutBase(new Uri('https://project-uri-not-found.test')));
+        $this->assertEquals('', $applicationUri->getPathWithoutBase(new Uri('http://project-uri.test')));
+        $this->assertEquals('', $applicationUri->getPathWithoutBase(new Uri('https://project-uri.test:8080')));
+        $this->assertEquals('', $applicationUri->getPathWithoutBase(new Uri('https://project-uri-2.test/withASpecialInvalidPath')));
+        $this->assertEquals('/pathToGlory', $applicationUri->getPathWithoutBase(new Uri('https://project-uri-2.test/subPath/pathToGlory')));
     }
 
     /**
@@ -117,12 +118,12 @@ class ProjectUriTest extends TestCase
         $configurator->setMainUri('https://project-uri.test');
         $configurator->addAlternativeUri('test', 'https://project-uri-2.test');
 
-        $projectUri = new Uri($configurator);
+        $applicationUri = new ApplicationUri($configurator);
 
-        $serialized = \serialize($projectUri);
+        $serialized = \serialize($applicationUri);
         $restoredConfig = \unserialize($serialized);
 
-        $this->assertEquals($projectUri->getMainUri(), $restoredConfig->getMainUri());
-        $this->assertEquals($projectUri->getAlternativeUris(), $restoredConfig->getAlternativeUris());
+        $this->assertEquals($applicationUri->getMainUri(), $restoredConfig->getMainUri());
+        $this->assertEquals($applicationUri->getAlternativeUris(), $restoredConfig->getAlternativeUris());
     }
 }

@@ -11,10 +11,10 @@ namespace Ixocreate\Application\Service;
 
 use Ixocreate\Application\ApplicationConfig;
 use Ixocreate\Application\Bootstrap\BootstrapItemInclude;
+use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
 use Ixocreate\Application\Config\Config;
 use Ixocreate\Application\Configurator\ConfiguratorRegistry;
 use Ixocreate\Application\Package\PackageInterface;
-use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Stdlib\Glob;
 

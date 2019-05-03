@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace Ixocreate\Application\Http\ErrorHandling\Factory;
 
 use Ixocreate\Application\Http\ErrorHandling\Response\ErrorResponseGenerator;
-use Ixocreate\ServiceManager\ServiceManagerInterface;
 use Ixocreate\ServiceManager\FactoryInterface;
+use Ixocreate\ServiceManager\ServiceManagerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response;

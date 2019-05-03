@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Ixocreate\Test\Application\Service;
 
 use Ixocreate\Application\Exception\ServiceNotFoundException;
+use Ixocreate\Application\Service\SerializableServiceInterface;
 use Ixocreate\Application\Service\ServiceRegistry;
 use PHPUnit\Framework\TestCase;
 
@@ -17,7 +18,7 @@ class ServiceRegistryTest extends TestCase
 {
     public function testServices()
     {
-        $class = new class() implements \Serializable {
+        $class = new class() implements SerializableServiceInterface {
             /**
              * @return string|void
              */

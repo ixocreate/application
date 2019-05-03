@@ -13,24 +13,37 @@ use Ixocreate\Application\Service\SerializableServiceInterface;
 
 final class PublishConfig implements SerializableServiceInterface
 {
-    private $sources = [];
+    /**
+     * @var array
+     */
+    private $definitions = [];
 
     public function __construct(PublishConfigurator $publishConfigurator)
     {
-        $this->sources = $publishConfigurator->getSources();
+        $sources = $publishConfigurator->getSources();
+
+        foreach ($publishConfigurator->getDefinitions() as $name => $spec) {
+            $this->definitions[$name] = $spec;
+            $this->definitions[$name]['sources'] = $sources[$name];
+        }
+    }
+
+    public function getDefinitions(): array
+    {
+        return $this->definitions;
     }
 
     /**
      * @param string $name
-     * @return array
+     * @return array|null
      */
-    public function getSources(string $name): array
+    public function getDefinition(string $name): ?array
     {
-        if (\array_key_exists($name, $this->sources)) {
-            return $this->sources[$name];
+        if (\array_key_exists($name, $this->definitions)) {
+            return $this->definitions[$name];
         }
 
-        return [];
+        return null;
     }
 
     /**
@@ -38,7 +51,7 @@ final class PublishConfig implements SerializableServiceInterface
      */
     public function serialize()
     {
-        return \serialize($this->sources);
+        return \serialize($this->definitions);
     }
 
     /**
@@ -46,6 +59,6 @@ final class PublishConfig implements SerializableServiceInterface
      */
     public function unserialize($serialized)
     {
-        $this->sources = \unserialize($serialized);
+        $this->definitions = \unserialize($serialized);
     }
 }

@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace Ixocreate\Test\Application;
 
 use Ixocreate\Application\ApplicationConfig;
+use Ixocreate\Application\ApplicationConfigurator;
 use Ixocreate\Misc\Application\BootstrapDummy;
-use Ixocreate\Misc\Application\ConfiguratorItemDummy;
 use Ixocreate\Misc\Application\PackageDummy;
 use PHPUnit\Framework\TestCase;
 
@@ -19,13 +19,10 @@ class ApplicationConfigTest extends TestCase
 {
     public function testDefaults()
     {
-        $applicationConfig = new ApplicationConfig();
+        $applicationConfig = new ApplicationConfig(new ApplicationConfigurator('bootstrap'));
 
         $this->assertSame(true, $applicationConfig->isDevelopment());
-        $this->assertSame("resources/application/", $applicationConfig->getPersistCacheDirectory());
-        $this->assertSame([], $applicationConfig->getBootstrapQueue());
-        $this->assertSame([], $applicationConfig->getModules());
-        $this->assertSame([], $applicationConfig->getConfiguratorItems());
+        $this->assertSame("resources/generated/application/", $applicationConfig->getPersistCacheDirectory());
         $this->assertSame("bootstrap/", $applicationConfig->getBootstrapDirectory());
         $this->assertSame("config/", $applicationConfig->getConfigDirectory());
         $this->assertSame("data/cache/application/", $applicationConfig->getCacheDirectory());
@@ -33,134 +30,110 @@ class ApplicationConfigTest extends TestCase
 
     public function testDevelopment()
     {
-        $applicationConfig = new ApplicationConfig(true);
+        $applicationConfigurator = new ApplicationConfigurator("bootstrap");
+        $applicationConfigurator->setDevelopment(true);
+        $applicationConfig = new ApplicationConfig($applicationConfigurator);
         $this->assertTrue($applicationConfig->isDevelopment());
 
-        $applicationConfig = new ApplicationConfig(false);
+        $applicationConfigurator = new ApplicationConfigurator("bootstrap");
+        $applicationConfigurator->setDevelopment(false);
+        $applicationConfig = new ApplicationConfig($applicationConfigurator);
         $this->assertFalse($applicationConfig->isDevelopment());
     }
 
     public function testPersistCacheDirectory()
     {
-        $applicationConfig = new ApplicationConfig(null, null, null, null, 'testDirectory');
+        $applicationConfigurator = new ApplicationConfigurator("bootstrap");
+        $applicationConfigurator->setPersistCacheDirectory("testDirectory");
+        $applicationConfig = new ApplicationConfig($applicationConfigurator);
         $this->assertSame("testDirectory/", $applicationConfig->getPersistCacheDirectory());
 
-        $applicationConfig = new ApplicationConfig(null, null, null, null, 'testDirectory/');
+        $applicationConfigurator = new ApplicationConfigurator("bootstrap");
+        $applicationConfigurator->setPersistCacheDirectory("testDirectory/");
+        $applicationConfig = new ApplicationConfig($applicationConfigurator);
         $this->assertSame("testDirectory/", $applicationConfig->getPersistCacheDirectory());
 
-        $applicationConfig = new ApplicationConfig(null, null, null, null, '');
+        $applicationConfigurator = new ApplicationConfigurator("bootstrap");
+        $applicationConfigurator->setPersistCacheDirectory("");
+        $applicationConfig = new ApplicationConfig($applicationConfigurator);
         $this->assertSame("./", $applicationConfig->getPersistCacheDirectory());
     }
 
     public function testBootstrapDirectory()
     {
-        $applicationConfig = new ApplicationConfig(null, null, 'testDirectory');
+        $applicationConfigurator = new ApplicationConfigurator("testDirectory");
+        $applicationConfig = new ApplicationConfig($applicationConfigurator);
         $this->assertSame("testDirectory/", $applicationConfig->getBootstrapDirectory());
 
-        $applicationConfig = new ApplicationConfig(null, null, 'testDirectory/');
+        $applicationConfigurator = new ApplicationConfigurator("testDirectory/");
+        $applicationConfig = new ApplicationConfig($applicationConfigurator);
         $this->assertSame("testDirectory/", $applicationConfig->getBootstrapDirectory());
 
-        $applicationConfig = new ApplicationConfig(null, null, '');
+        $applicationConfigurator = new ApplicationConfigurator("");
+        $applicationConfig = new ApplicationConfig($applicationConfigurator);
         $this->assertSame("./", $applicationConfig->getBootstrapDirectory());
-    }
-
-    public function testConfigDirectory()
-    {
-        $applicationConfig = new ApplicationConfig(null, 'testDirectory');
-        $this->assertSame("testDirectory/", $applicationConfig->getConfigDirectory());
-
-        $applicationConfig = new ApplicationConfig(null, 'testDirectory/');
-        $this->assertSame("testDirectory/", $applicationConfig->getConfigDirectory());
-
-        $applicationConfig = new ApplicationConfig(null, '');
-        $this->assertSame("./", $applicationConfig->getConfigDirectory());
     }
 
     public function testCacheDirectory()
     {
-        $applicationConfig = new ApplicationConfig(null, null, null, 'testDirectory');
+        $applicationConfigurator = new ApplicationConfigurator("bootstrap");
+        $applicationConfigurator->setCacheDirectory("testDirectory");
+        $applicationConfig = new ApplicationConfig($applicationConfigurator);
         $this->assertSame("testDirectory/", $applicationConfig->getCacheDirectory());
 
-        $applicationConfig = new ApplicationConfig(null, null, null, 'testDirectory/');
+        $applicationConfigurator = new ApplicationConfigurator("bootstrap");
+        $applicationConfigurator->setCacheDirectory("testDirectory/");
+        $applicationConfig = new ApplicationConfig($applicationConfigurator);
         $this->assertSame("testDirectory/", $applicationConfig->getCacheDirectory());
 
-        $applicationConfig = new ApplicationConfig(null, null, null, '');
+        $applicationConfigurator = new ApplicationConfigurator("bootstrap");
+        $applicationConfigurator->setCacheDirectory("");
+        $applicationConfig = new ApplicationConfig($applicationConfigurator);
         $this->assertSame("./", $applicationConfig->getCacheDirectory());
     }
 
-    public function testBootstrapQueue()
+    public function testBootstrapItems()
     {
-        $applicationConfig = new ApplicationConfig(
-            null,
-            null,
-            null,
-            null,
-            null,
-            [BootstrapDummy::class]
-        );
-        $this->assertInstanceOf(BootstrapDummy::class, $applicationConfig->getBootstrapQueue()[0]);
+        $applicationConfigurator = new ApplicationConfigurator("bootstrap");
+        $applicationConfigurator->addBootstrapItem(BootstrapDummy::class);
 
-        $applicationConfig = new ApplicationConfig(
-            null,
-            null,
-            null,
-            null,
-            null,
-            ['test' => BootstrapDummy::class]
-        );
-        $this->assertInstanceOf(BootstrapDummy::class, $applicationConfig->getBootstrapQueue()[0]);
+        $applicationConfig = new ApplicationConfig($applicationConfigurator);
+        $this->assertInstanceOf(BootstrapDummy::class, $applicationConfig->getBootstrapItems()[0]);
     }
 
-    public function testModules()
+    public function testPackages()
     {
-        $applicationConfig = new ApplicationConfig(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            [],
-            [PackageDummy::class]
-        );
-        $this->assertInstanceOf(PackageDummy::class, $applicationConfig->getModules()[0]);
+        $applicationConfigurator = new ApplicationConfigurator("bootstrap");
+        $applicationConfigurator->addPackage(PackageDummy::class);
+        $applicationConfig = new ApplicationConfig($applicationConfigurator);
 
-        $applicationConfig = new ApplicationConfig(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            [],
-            [PackageDummy::class]
-        );
-        $this->assertInstanceOf(PackageDummy::class, $applicationConfig->getModules()[0]);
+        $this->assertInstanceOf(PackageDummy::class, $applicationConfig->getPackages()[0]);
     }
 
     public function testSerialize()
     {
         $config = [
-            'development'                   => false,
-            'persistCacheDirectory'         => 'resources/application_test/',
-            'cacheDirectory'                => 'data/cache/application_test/',
-            'bootstrapDirectory'            => 'bootstrap_test/',
-            'configDirectory'               => 'config_test/',
-            'bootstrapQueue'                => [BootstrapDummy::class],
-            'configurators'                 => [ConfiguratorItemDummy::class],
-            'modules'                       => [PackageDummy::class],
+            'development' => false,
+            'persistCacheDirectory' => 'resources/application_test/',
+            'cacheDirectory' => 'data/cache/application_test/',
+            'bootstrapDirectory' => 'bootstrap_test/',
+            'bootstrapEnvDirectory' => 'local/',
+            'configDirectory' => 'config/',
+            'configEnvDirectory' => 'local/',
+            'bootstrapItems' => [BootstrapDummy::class],
+            'packages' => [PackageDummy::class],
         ];
+        $applicationConfigurator = new ApplicationConfigurator($config['bootstrapDirectory']);
+        $applicationConfigurator->setDevelopment($config['development']);
+        $applicationConfigurator->setPersistCacheDirectory($config['persistCacheDirectory']);
+        $applicationConfigurator->setCacheDirectory($config['cacheDirectory']);
+        $applicationConfigurator->setBootstrapEnvDirectory($config['bootstrapEnvDirectory']);
+        $applicationConfigurator->setConfigDirectory($config['configDirectory']);
+        $applicationConfigurator->setConfigEnvDirectory($config['configEnvDirectory']);
+        $applicationConfigurator->addBootstrapItem($config['bootstrapItems'][0]);
+        $applicationConfigurator->addPackage($config['packages'][0]);
 
-        $applicationConfig = new ApplicationConfig(
-            $config['development'],
-            $config['configDirectory'],
-            $config['bootstrapDirectory'],
-            $config['cacheDirectory'],
-            $config['persistCacheDirectory'],
-            $config['bootstrapQueue'],
-            $config['configurators'],
-            $config['modules']
-        );
+        $applicationConfig = new ApplicationConfig($applicationConfigurator);
 
         $this->assertSame(\serialize($config), $applicationConfig->serialize());
     }
@@ -168,17 +141,18 @@ class ApplicationConfigTest extends TestCase
     public function testUnserialize()
     {
         $config = [
-            'development'                   => false,
-            'persistCacheDirectory'         => 'resources/application_test/',
-            'cacheDirectory'                => 'data/cache/application_test/',
-            'bootstrapDirectory'            => 'bootstrap_test/',
-            'configDirectory'               => 'config_test/',
-            'bootstrapQueue'                => [BootstrapDummy::class],
-            'configurators'                 => [ConfiguratorItemDummy::class],
-            'modules'                       => [PackageDummy::class],
+            'development' => false,
+            'persistCacheDirectory' => 'resources/application_test/',
+            'cacheDirectory' => 'data/cache/application_test/',
+            'bootstrapDirectory' => 'bootstrap_test/',
+            'bootstrapEnvDirectory' => 'local/',
+            'configDirectory' => 'config/',
+            'configEnvDirectory' => 'local/',
+            'bootstrapItems' => [BootstrapDummy::class],
+            'packages' => [PackageDummy::class],
         ];
 
-        $applicationConfig = new ApplicationConfig();
+        $applicationConfig = new ApplicationConfig(new ApplicationConfigurator($config['bootstrapDirectory']));
         $applicationConfig->unserialize(\serialize($config));
 
         $this->assertSame($config['development'], $applicationConfig->isDevelopment());
@@ -187,8 +161,7 @@ class ApplicationConfigTest extends TestCase
         $this->assertSame($config['bootstrapDirectory'], $applicationConfig->getBootstrapDirectory());
         $this->assertSame($config['configDirectory'], $applicationConfig->getConfigDirectory());
 
-        $this->assertInstanceOf(BootstrapDummy::class, $applicationConfig->getBootstrapQueue()[0]);
-        $this->assertInstanceOf(PackageDummy::class, $applicationConfig->getModules()[0]);
-        $this->assertInstanceOf(ConfiguratorItemDummy::class, $applicationConfig->getConfiguratorItems()[0]);
+        $this->assertInstanceOf(BootstrapDummy::class, $applicationConfig->getBootstrapItems()[0]);
+        $this->assertInstanceOf(PackageDummy::class, $applicationConfig->getPackages()[0]);
     }
 }

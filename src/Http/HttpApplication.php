@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Http;
 
+use Ixocreate\Application\ApplicationBootstrap;
 use Ixocreate\Application\ApplicationConfigurator;
 use Ixocreate\Application\ApplicationInterface;
 use Ixocreate\Application\Http\Pipe\PipeConfig;
-use Ixocreate\Application\ApplicationBootstrap;
 use Ixocreate\ServiceManager\ServiceManager;
 use Zend\HttpHandlerRunner\RequestHandlerRunner;
 

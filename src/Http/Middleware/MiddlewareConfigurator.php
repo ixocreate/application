@@ -11,8 +11,8 @@ namespace Ixocreate\Application\Http\Middleware;
 
 use Ixocreate\Application\Configurator\ConfiguratorInterface;
 use Ixocreate\Application\Service\ServiceRegistryInterface;
-use Ixocreate\ServiceManager\Factory\AutowireFactory;
 use Ixocreate\Application\Service\SubManagerConfigurator;
+use Ixocreate\ServiceManager\Factory\AutowireFactory;
 use Psr\Http\Server\MiddlewareInterface;
 
 final class MiddlewareConfigurator implements ConfiguratorInterface

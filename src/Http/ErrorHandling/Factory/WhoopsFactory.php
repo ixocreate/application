@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Http\ErrorHandling\Factory;
 
+use Ixocreate\Application\Config\Config;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
-use Ixocreate\Application\Config\Config;
 use Whoops\Handler\JsonResponseHandler;
+use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as Whoops;
 use Whoops\Util\Misc as WhoopsUtil;
-use Whoops\Handler\PrettyPageHandler;
 use Zend\Expressive\Container\Exception;
 
 final class WhoopsFactory implements FactoryInterface

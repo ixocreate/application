@@ -6,4 +6,7 @@
  */
 
 declare(strict_types=1);
-/** @var \Ixocreate\Application\ApplicationConfigurator $applicationConfigurator */
+
+use Ixocreate\Application\ApplicationConfigurator;
+
+/** @var ApplicationConfigurator $application */

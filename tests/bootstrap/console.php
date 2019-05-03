@@ -6,5 +6,9 @@
  */
 
 declare(strict_types=1);
-/** @var \Ixocreate\ServiceManager\ServiceManagerConfigurator $serviceManagerConfigurator */
-$serviceManagerConfigurator->addFactory(\Symfony\Component\Console\Command\HelpCommand::class);
+
+use Ixocreate\Application\Service\ServiceManagerConfigurator;
+use Symfony\Component\Console\Command\HelpCommand;
+
+/** @var ServiceManagerConfigurator $serviceManager */
+$serviceManager->addFactory(HelpCommand::class);
