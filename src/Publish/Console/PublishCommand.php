@@ -12,7 +12,6 @@ namespace Ixocreate\Application\Publish\Console;
 use FilesystemIterator;
 use Ixocreate\Application\Console\CommandInterface;
 use Ixocreate\Application\Publish\PublishConfig;
-use Ixocreate\Filesystem\Storage\StorageSubManager;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Symfony\Component\Console\Command\Command;
@@ -28,17 +27,11 @@ final class PublishCommand extends Command implements CommandInterface
      */
     private $publishConfig;
 
-    /**
-     * @var StorageSubManager
-     */
-    private $storageSubManager;
-
-    public function __construct(PublishConfig $publishConfig, StorageSubManager $storageSubManager)
+    public function __construct(PublishConfig $publishConfig)
     {
         parent::__construct(self::getCommandName());
 
         $this->publishConfig = $publishConfig;
-        $this->storageSubManager = $storageSubManager;
     }
 
     public static function getCommandName()
