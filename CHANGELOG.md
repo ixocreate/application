@@ -1,6 +1,8 @@
 # Release Notes
 
-## [Unreleased](https://github.com/ixocreate/application/compare/0.2.0...develop)
+## [Unreleased](https://github.com/ixocreate/application/compare/0.2.1...develop)
+
+## [v0.2.1 (2019-05-06)](https://github.com/ixocreate/application/compare/0.2.0...0.2.1)
 ### Fixed
 - Remove StorageSubManager requirement from Publish Command
 
