@@ -14,8 +14,6 @@ use Ixocreate\Application\ServiceManager\SubManagerConfigurator;
 use Ixocreate\Misc\Application\Scan\Class1;
 use Ixocreate\Misc\Application\Scan\Class2;
 use Ixocreate\Misc\Application\ServiceManager\DateTimeFactory;
-use Ixocreate\Misc\Application\ServiceManager\DateTimeManager;
-use Ixocreate\Misc\Application\ServiceManager\DateTimeManagerFactory;
 use Ixocreate\Misc\Application\ServiceManager\DelegatorFactory;
 use Ixocreate\Misc\Application\ServiceManager\Initializer;
 use Ixocreate\Misc\Application\ServiceManager\SubManager;

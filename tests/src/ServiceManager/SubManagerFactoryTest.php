@@ -1,10 +1,14 @@
 <?php
+/**
+ * @link https://github.com/ixocreate
+ * @copyright IXOLIT GmbH
+ * @license MIT License
+ */
 
 declare(strict_types=1);
 
 namespace Ixocreate\Test\Application\ServiceManager;
 
-use Ixocreate\Application\ServiceManager\ServiceManagerConfigurator;
 use Ixocreate\Application\ServiceManager\SubManagerConfigurator;
 use Ixocreate\Application\ServiceManager\SubManagerFactory;
 use Ixocreate\Misc\Application\ServiceManager\SubManager;
@@ -23,7 +27,7 @@ class SubManagerFactoryTest extends TestCase
         $container = $this->createMock(ServiceManagerInterface::class);
         $container
             ->method('get')
-            ->willReturnCallback(function($name) use ($config) {
+            ->willReturnCallback(function ($name) use ($config) {
                 if ($name == SubManager::class . '::Config') {
                     return $config;
                 }
