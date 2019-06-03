@@ -28,11 +28,11 @@ final class ServiceManagerConfigurator extends AbstractServiceManagerConfigurato
     public function addSubManager(string $manager, string $factory = SubManagerFactory::class): void
     {
         if (!\is_subclass_of($manager, SubManagerInterface::class, true)) {
-            throw new InvalidArgumentException(\sprintf(
-                "'%s' doesn't implement '%s'",
-                $manager,
-                SubManagerInterface::class
-            ));
+                throw new InvalidArgumentException(\sprintf(
+                    "'%s' doesn't implement '%s'",
+                    $manager,
+                    SubManagerInterface::class
+                ));
         }
 
         if (!\class_exists($factory)) {

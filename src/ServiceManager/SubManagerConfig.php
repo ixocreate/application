@@ -30,7 +30,7 @@ final class SubManagerConfig implements ServiceManagerConfigInterface, Serializa
         $this->config['delegators'] = $serviceManagerConfigurator->getDelegators();
         $this->config['lazyServices'] = $serviceManagerConfigurator->getLazyServices();
         $this->config['initializers'] = $serviceManagerConfigurator->getInitializers();
-        $this->config['subManagerName'] = $serviceManagerConfigurator->getSubManagerName();
+        $this->config['subManagerName'] = $serviceManagerConfigurator->getSubManagerClass();
         $this->config['validation'] = $serviceManagerConfigurator->getValidation();
 
         $this->config['namedServices'] = [];

@@ -10,14 +10,16 @@ declare(strict_types=1);
 namespace Ixocreate\Application\ServiceManager;
 
 use Ixocreate\Application\Service\ServiceRegistryInterface;
+use Ixocreate\ServiceManager\Exception\InvalidArgumentException;
 use Ixocreate\ServiceManager\Factory\AutowireFactory;
+use Ixocreate\ServiceManager\SubManager\SubManagerInterface;
 
 final class SubManagerConfigurator extends AbstractServiceManagerConfigurator
 {
     /**
      * @var string
      */
-    private $subManagerName;
+    private $subManagerClass;
 
     /**
      * @var string
@@ -27,19 +29,33 @@ final class SubManagerConfigurator extends AbstractServiceManagerConfigurator
     /**
      * ServiceManagerConfigurator constructor.
      *
-     * @param string $subManagerName
+     * @param string $subManagerClass
      * @param string $validation
      * @param string $defaultAutowireFactory
      */
     public function __construct(
-        string $subManagerName,
+        string $subManagerClass,
         string $validation = null,
         string $defaultAutowireFactory = AutowireFactory::class
     ) {
         parent::__construct($defaultAutowireFactory);
 
-        $this->subManagerName = $subManagerName;
-        $this->validation = $validation;
+        if (!\is_subclass_of($subManagerClass, SubManagerInterface::class, true)) {
+            throw new InvalidArgumentException(\sprintf(
+                "'%s' doesn't implement '%s'",
+                $subManagerClass,
+                SubManagerInterface::class
+            ));
+        }
+
+        $this->subManagerClass = $subManagerClass;
+
+        $this->validation = \forward_static_call([$subManagerClass, 'getValidation']);
+
+        // TODO: remove when all SubManagers are migrated
+        if ($validation !== null) {
+            $this->validation = $validation;
+        }
     }
 
     /**
@@ -58,9 +74,9 @@ final class SubManagerConfigurator extends AbstractServiceManagerConfigurator
     /**
      * @return string
      */
-    public function getSubManagerName(): string
+    public function getSubManagerClass(): string
     {
-        return $this->subManagerName;
+        return $this->subManagerClass;
     }
 
     /**
@@ -86,6 +102,6 @@ final class SubManagerConfigurator extends AbstractServiceManagerConfigurator
      */
     public function registerService(ServiceRegistryInterface $serviceRegistry): void
     {
-        $serviceRegistry->add($this->subManagerName . '::Config', $this->getServiceManagerConfig());
+        $serviceRegistry->add($this->subManagerClass . '::Config', $this->getServiceManagerConfig());
     }
 }
