@@ -24,6 +24,7 @@ class ApplicationConfigTest extends TestCase
         $this->assertSame(true, $applicationConfig->isDevelopment());
         $this->assertSame("resources/generated/application/", $applicationConfig->getPersistCacheDirectory());
         $this->assertSame("bootstrap/", $applicationConfig->getBootstrapDirectory());
+        $this->assertSame('local/', $applicationConfig->getBootstrapEnvDirectory());
         $this->assertSame("config/", $applicationConfig->getConfigDirectory());
         $this->assertSame("data/cache/application/", $applicationConfig->getCacheDirectory());
     }
@@ -72,6 +73,18 @@ class ApplicationConfigTest extends TestCase
         $applicationConfigurator = new ApplicationConfigurator("");
         $applicationConfig = new ApplicationConfig($applicationConfigurator);
         $this->assertSame("./", $applicationConfig->getBootstrapDirectory());
+    }
+
+    public function testBootstrapEnvDirectory()
+    {
+        $applicationConfigurator = new ApplicationConfigurator('bootstrap');
+        $applicationConfig = new ApplicationConfig($applicationConfigurator);
+        $this->assertSame($applicationConfigurator->getBootstrapEnvDirectory(), $applicationConfig->getBootstrapEnvDirectory());
+
+        $applicationConfigurator = new ApplicationConfigurator('bootstrap/');
+        $applicationConfigurator->setBootstrapEnvDirectory('someDirectory');
+        $applicationConfig = new ApplicationConfig($applicationConfigurator);
+        $this->assertSame('someDirectory/', $applicationConfig->getBootstrapEnvDirectory());
     }
 
     public function testCacheDirectory()

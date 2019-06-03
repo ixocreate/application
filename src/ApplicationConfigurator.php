@@ -11,8 +11,9 @@ namespace Ixocreate\Application;
 
 use Ixocreate\Application\Bootstrap\BootstrapItemInclude;
 use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
+use Ixocreate\Application\Exception\InvalidArgumentException;
 use Ixocreate\Application\Package\PackageInterface;
-use Ixocreate\Application\Service\ServiceManagerBootstrapItem;
+use Ixocreate\Application\ServiceManager\ServiceManagerBootstrapItem;
 
 final class ApplicationConfigurator
 {
@@ -81,6 +82,9 @@ final class ApplicationConfigurator
      */
     public function setBootstrapEnvDirectory(string $directory): void
     {
+        if (empty($directory)) {
+            throw new InvalidArgumentException('Env directory must not be empty');
+        }
         $this->bootstrapEnvDirectory = BootstrapItemInclude::normalizePath($directory);
     }
 

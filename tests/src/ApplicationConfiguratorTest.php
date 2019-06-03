@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Ixocreate\Test\Application;
 
 use Ixocreate\Application\ApplicationConfigurator;
+use Ixocreate\Application\Exception\InvalidArgumentException;
 use Ixocreate\Misc\Application\BootstrapDummy;
 use Ixocreate\Misc\Application\PackageDummy;
 use PHPUnit\Framework\TestCase;
@@ -26,7 +27,6 @@ class ApplicationConfiguratorTest extends TestCase
         $this->assertSame("data/cache/application/", $applicationConfigurator->getCacheDirectory());
         $this->assertSame("resources/generated/application/", $applicationConfigurator->getPersistCacheDirectory());
         $this->assertSame("config/", $applicationConfigurator->getConfigDirectory());
-        $this->assertSame("local/", $applicationConfigurator->getConfigEnvDirectory());
         $this->assertSame([], $applicationConfigurator->getPackages());
         $this->assertSame([], $applicationConfigurator->getBootstrapItems());
     }
@@ -39,9 +39,17 @@ class ApplicationConfiguratorTest extends TestCase
 
     public function testBootstrapEnvDirectory()
     {
-        $applicationConfigurator = new ApplicationConfigurator("bootstrap");
+        $applicationConfigurator = new ApplicationConfigurator('bootstrap');
         $applicationConfigurator->setBootstrapEnvDirectory('dev');
-        $this->assertSame("dev/", $applicationConfigurator->getBootstrapEnvDirectory());
+        $this->assertSame('dev/', $applicationConfigurator->getBootstrapEnvDirectory());
+    }
+
+    public function testEmptyBootstrapEnvDirectory()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $applicationConfigurator = new ApplicationConfigurator('bootstrap');
+        $applicationConfigurator->setBootstrapEnvDirectory('');
     }
 
     public function testDevelopment()
@@ -74,13 +82,6 @@ class ApplicationConfiguratorTest extends TestCase
         $this->assertSame("directory/", $applicationConfigurator->getConfigDirectory());
     }
 
-    public function testConfigEnvDirectory()
-    {
-        $applicationConfigurator = new ApplicationConfigurator("bootstrap");
-        $applicationConfigurator->setConfigEnvDirectory("directory");
-        $this->assertSame("directory/", $applicationConfigurator->getConfigEnvDirectory());
-    }
-
     public function testAddPackage()
     {
         $applicationConfigurator = new ApplicationConfigurator("bootstrap");
@@ -89,11 +90,27 @@ class ApplicationConfiguratorTest extends TestCase
         $this->assertSame(PackageDummy::class, $applicationConfigurator->getPackages()[0]);
     }
 
+    public function testInvalidAddPackage()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $configurator = new ApplicationConfigurator('bootstrap');
+        $configurator->addPackage(\DateTime::class);
+    }
+
     public function testAddBootstrapItem()
     {
         $applicationConfigurator = new ApplicationConfigurator("bootstrap");
         $applicationConfigurator->addBootstrapItem(BootstrapDummy::class);
         $this->assertCount(1, $applicationConfigurator->getBootstrapItems());
         $this->assertSame(BootstrapDummy::class, $applicationConfigurator->getBootstrapItems()[0]);
+    }
+
+    public function testInvalidAddBootstrapItem()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $configurator = new ApplicationConfigurator('bootstrap');
+        $configurator->addBootstrapItem(\DateTime::class);
     }
 }
