@@ -29,9 +29,9 @@ final class ServiceManagerConfigurator extends AbstractServiceManagerConfigurato
     {
         if (!\is_subclass_of($manager, SubManagerInterface::class, true)) {
             throw new InvalidArgumentException(\sprintf(
-                    "'%s' doesn't implement '%s'",
-                    $manager,
-                    SubManagerInterface::class
+                "'%s' doesn't implement '%s'",
+                $manager,
+                SubManagerInterface::class
                 ));
         }
 
