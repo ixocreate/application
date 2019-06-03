@@ -15,7 +15,7 @@ use Ixocreate\Application\Uri\ApplicationUriConfigurator;
 use PHPUnit\Framework\TestCase;
 use Zend\Diactoros\Uri;
 
-class ProjectUriConfiguratorTest extends TestCase
+class ApplicationUriConfiguratorTest extends TestCase
 {
     public function testMainUri()
     {

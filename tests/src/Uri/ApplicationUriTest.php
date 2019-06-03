@@ -18,7 +18,7 @@ use Zend\Diactoros\Uri;
  * Class ProjectUriTest
  * @package IxocreateTest\ApplicationUri
  */
-class ProjectUriTest extends TestCase
+class ApplicationUriTest extends TestCase
 {
     /**
      * @covers \Ixocreate\Application\Uri\ApplicationUri
@@ -56,7 +56,7 @@ class ProjectUriTest extends TestCase
     /**
      *
      */
-    public function testPossibleUrls()
+    public function testPossibleUris()
     {
         $configurator = new ApplicationUriConfigurator();
         $configurator->setMainUri('https://project-uri.test');
@@ -70,6 +70,19 @@ class ProjectUriTest extends TestCase
         ];
 
         $this->assertEquals($possibleUris, $applicationUri->getPossibleUrls());
+    }
+
+    public function testPossibleUri()
+    {
+        $configurator = new ApplicationUriConfigurator();
+        $configurator->setMainUri('https://project-uri.test');
+        $configurator->addAlternativeUri('test', 'https://project-uri-2.test');
+
+        $applicationUri = new ApplicationUri($configurator);
+
+        $this->assertEquals('https://project-uri.test', $applicationUri->getPossibleUri('mainUri'));
+        $this->assertEquals('https://project-uri-2.test', $applicationUri->getPossibleUri('test'));
+        $this->assertNull($applicationUri->getPossibleUri('unkown'));
     }
 
     public function testIsValidUrl()

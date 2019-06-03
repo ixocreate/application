@@ -19,7 +19,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
 
-class ProjectUriCheckMiddlewareTest extends TestCase
+class ApplicationUriCheckMiddlewareTest extends TestCase
 {
     /**
      * @covers \Ixocreate\Application\Uri\Middleware\ApplicationUriCheckMiddleware
