@@ -18,8 +18,8 @@ class DateTimeFactory implements FactoryInterface
      * @param ServiceManagerInterface $container
      * @param $requestedName
      * @param array|null $options
-     * @return \DateTime|mixed
      * @throws \Exception
+     * @return \DateTime|mixed
      */
     public function __invoke(ServiceManagerInterface $container, $requestedName, array $options = null)
     {

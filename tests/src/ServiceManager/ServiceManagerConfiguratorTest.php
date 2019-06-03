@@ -1,7 +1,7 @@
 <?php
 /**
  * @link https://github.com/ixocreate
- * @copyright IXOCREATE GmbH
+ * @copyright IXOLIT GmbH
  * @license MIT License
  */
 
@@ -13,24 +13,24 @@ use Ixocreate\Application\Service\ServiceRegistry;
 use Ixocreate\Application\ServiceManager\ServiceManagerConfig;
 use Ixocreate\Application\ServiceManager\ServiceManagerConfigurator;
 use Ixocreate\Application\ServiceManager\SubManagerFactory;
-use Ixocreate\Misc\Application\Scan\AnotherClass;
-use Ixocreate\Misc\Application\ServiceManager\DateTimeManager;
-use Ixocreate\Misc\Application\ServiceManager\DateTimeManagerFactory;
-use Ixocreate\Misc\Application\ServiceManager\SubManager;
-use Ixocreate\ServiceManager\Exception\InvalidArgumentException;
-use Ixocreate\ServiceManager\Factory\AutowireFactory;
-use Ixocreate\Misc\Application\ServiceManager\DateTimeFactory;
-use Ixocreate\Misc\Application\ServiceManager\LazyLoadingObject;
-use Ixocreate\Misc\Application\ServiceManager\DelegatorFactory;
-use Ixocreate\Misc\Application\ServiceManager\DelegatorTwoFactory;
-use Ixocreate\Misc\Application\ServiceManager\Initializer;
-use Ixocreate\Misc\Application\ServiceManager\InitializerTwo;
 use Ixocreate\Misc\Application\Scan\AbstractClass;
+use Ixocreate\Misc\Application\Scan\AnotherClass;
 use Ixocreate\Misc\Application\Scan\Class1;
 use Ixocreate\Misc\Application\Scan\Class2;
 use Ixocreate\Misc\Application\Scan\Class4;
 use Ixocreate\Misc\Application\Scan\SubDir\Class3;
 use Ixocreate\Misc\Application\Scan\TestInterface;
+use Ixocreate\Misc\Application\ServiceManager\DateTimeFactory;
+use Ixocreate\Misc\Application\ServiceManager\DateTimeManager;
+use Ixocreate\Misc\Application\ServiceManager\DateTimeManagerFactory;
+use Ixocreate\Misc\Application\ServiceManager\DelegatorFactory;
+use Ixocreate\Misc\Application\ServiceManager\DelegatorTwoFactory;
+use Ixocreate\Misc\Application\ServiceManager\Initializer;
+use Ixocreate\Misc\Application\ServiceManager\InitializerTwo;
+use Ixocreate\Misc\Application\ServiceManager\LazyLoadingObject;
+use Ixocreate\Misc\Application\ServiceManager\SubManager;
+use Ixocreate\ServiceManager\Exception\InvalidArgumentException;
+use Ixocreate\ServiceManager\Factory\AutowireFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -39,7 +39,6 @@ use PHPUnit\Framework\TestCase;
  */
 class ServiceManagerConfiguratorTest extends TestCase
 {
-
     public function testInvalidAutowireFactory()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -202,7 +201,7 @@ class ServiceManagerConfiguratorTest extends TestCase
 
         $subManagers = [
             SubManager::class => null,
-            DateTimeManager::class => DateTimeManagerFactory::class
+            DateTimeManager::class => DateTimeManagerFactory::class,
         ];
 
         foreach ($subManagers as $name => $value) {
@@ -234,7 +233,6 @@ class ServiceManagerConfiguratorTest extends TestCase
         $configurator->addSubManager(SubManager::class, 'ClassDoesNotExist');
     }
 
-
     public function testInvalidSubManagerFactory()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -264,7 +262,6 @@ class ServiceManagerConfiguratorTest extends TestCase
         ];
 
         $this->assertEquals($directories, $serviceManagerConfigurator->getDirectories());
-
     }
 
     public function testDirectoryScan()
