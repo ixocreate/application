@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Service;
+namespace Ixocreate\Application\ServiceManager;
 
 use Ixocreate\Application\Configurator\ConfiguratorInterface;
 use Ixocreate\ServiceManager\DelegatorFactoryInterface;
@@ -43,7 +43,7 @@ abstract class AbstractServiceManagerConfigurator implements ConfiguratorInterfa
     /**
      * @var string;
      */
-    private $defaultAutowireFactory;
+    private $defaultFactory;
 
     /**
      * @var array
@@ -52,12 +52,15 @@ abstract class AbstractServiceManagerConfigurator implements ConfiguratorInterfa
 
     /**
      * ServiceManagerConfigurator constructor.
-     * @param string $defaultAutowireFactory
+     * @param string $defaultFactory
      */
-    public function __construct(string $defaultAutowireFactory = AutowireFactory::class)
+    public function __construct(string $defaultFactory = AutowireFactory::class)
     {
-        //TODO check defaultAutowireFactory
-        $this->defaultAutowireFactory = $defaultAutowireFactory;
+        if (!\is_subclass_of($defaultFactory, FactoryInterface::class)) {
+            throw new InvalidArgumentException(\sprintf("Default Factory '%s' doesn't implement '%s'", $defaultFactory, FactoryInterface::class));
+        }
+
+        $this->defaultFactory = $defaultFactory;
     }
 
     /**
@@ -67,7 +70,9 @@ abstract class AbstractServiceManagerConfigurator implements ConfiguratorInterfa
      */
     public function addDirectory(string $directory, bool $recursive = true, array $only = []) : void
     {
-        $this->directories[] = [
+        $directory = \rtrim($directory, '/') . '/';
+
+        $this->directories[$directory] = [
             'dir' => $directory,
             'recursive' => $recursive,
             'only' => $only,
@@ -98,7 +103,7 @@ abstract class AbstractServiceManagerConfigurator implements ConfiguratorInterfa
     final public function addFactory(string $name, ?string $factory = null): void
     {
         if (empty($factory)) {
-            $factory = $this->defaultAutowireFactory;
+            $factory = $this->defaultFactory;
         }
 
         if (!\class_exists($factory)) {
@@ -203,19 +208,6 @@ abstract class AbstractServiceManagerConfigurator implements ConfiguratorInterfa
     }
 
     /**
-     * @return array
-     */
-    public function getSubManagers(): array
-    {
-        return [];
-    }
-
-    public function getMetadata(): array
-    {
-        return [];
-    }
-
-    /**
      *
      */
     protected function processDirectories(): void
@@ -238,7 +230,7 @@ abstract class AbstractServiceManagerConfigurator implements ConfiguratorInterfa
     {
         $entries = \scandir($directory);
         foreach ($entries as $entry) {
-            if ($entry === "." || $entry === "..") {
+            if ($entry === '.' || $entry === '..') {
                 continue;
             }
 
@@ -292,14 +284,5 @@ abstract class AbstractServiceManagerConfigurator implements ConfiguratorInterfa
             } catch (\Exception $e) {
             }
         }
-    }
-
-    /**
-     * @return ServiceManagerConfig
-     */
-    public function getServiceManagerConfig(): ServiceManagerConfig
-    {
-        $this->processDirectories();
-        return new ServiceManagerConfig($this);
     }
 }

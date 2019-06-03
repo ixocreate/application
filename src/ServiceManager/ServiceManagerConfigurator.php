@@ -7,10 +7,10 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Service;
+namespace Ixocreate\Application\ServiceManager;
 
+use Ixocreate\Application\Service\ServiceRegistryInterface;
 use Ixocreate\ServiceManager\Exception\InvalidArgumentException;
-use Ixocreate\ServiceManager\SubManager\SubManagerFactory;
 use Ixocreate\ServiceManager\SubManager\SubManagerFactoryInterface;
 use Ixocreate\ServiceManager\SubManager\SubManagerInterface;
 
@@ -56,6 +56,15 @@ final class ServiceManagerConfigurator extends AbstractServiceManagerConfigurato
     public function getSubManagers(): array
     {
         return $this->subManagers;
+    }
+
+    /**
+     * @return ServiceManagerConfig
+     */
+    public function getServiceManagerConfig(): ServiceManagerConfig
+    {
+        $this->processDirectories();
+        return new ServiceManagerConfig($this);
     }
 
     /**

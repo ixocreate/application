@@ -7,12 +7,12 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Service;
+namespace Ixocreate\Application\ServiceManager;
 
-use Ixocreate\ServiceManager\NamedServiceInterface;
+use Ixocreate\Application\Service\SerializableServiceInterface;
 use Ixocreate\ServiceManager\ServiceManagerConfigInterface;
 
-final class ServiceManagerConfig implements ServiceManagerConfigInterface, SerializableServiceInterface
+final class SubManagerConfig implements ServiceManagerConfigInterface, SerializableServiceInterface
 {
     /**
      * @var array
@@ -22,16 +22,16 @@ final class ServiceManagerConfig implements ServiceManagerConfigInterface, Seria
     /**
      * ServiceManagerConfig constructor.
      *
-     * @param ServiceManagerConfiguratorInterface $serviceManagerConfigurator
+     * @param SubManagerConfigurator $serviceManagerConfigurator
      */
-    public function __construct(ServiceManagerConfiguratorInterface $serviceManagerConfigurator)
+    public function __construct(SubManagerConfigurator $serviceManagerConfigurator)
     {
         $this->config['factories'] = $serviceManagerConfigurator->getFactories();
         $this->config['delegators'] = $serviceManagerConfigurator->getDelegators();
         $this->config['lazyServices'] = $serviceManagerConfigurator->getLazyServices();
         $this->config['initializers'] = $serviceManagerConfigurator->getInitializers();
-        $this->config['subManagers'] = $serviceManagerConfigurator->getSubManagers();
-        $this->config['metadata'] = $serviceManagerConfigurator->getMetadata();
+        $this->config['subManagerName'] = $serviceManagerConfigurator->getSubManagerName();
+        $this->config['validation'] = $serviceManagerConfigurator->getValidation();
 
         $this->config['namedServices'] = [];
 
@@ -86,35 +86,19 @@ final class ServiceManagerConfig implements ServiceManagerConfigInterface, Seria
     /**
      * @return array
      */
-    public function getSubManagers(): array
-    {
-        return $this->config['subManagers'];
-    }
-
-    /**
-     * @return array
-     */
     public function getNamedServices(): array
     {
         return $this->config['namedServices'];
     }
 
-    /**
-     * @param string $name
-     * @param mixed $default
-     * @return array
-     */
-    public function getMetadata(string $name = null, $default = null)
+    public function getSubManagerName(): string
     {
-        if ($name !== null) {
-            if (!\array_key_exists($name, $this->config['metadata'])) {
-                return $default;
-            }
+        return $this->config['subManagerName'];
+    }
 
-            return $this->config['metadata'][$name];
-        }
-
-        return $this->config['metadata'];
+    public function getValidation(): ?string
+    {
+        return $this->config['validation'];
     }
 
     /**
@@ -131,20 +115,5 @@ final class ServiceManagerConfig implements ServiceManagerConfigInterface, Seria
     public function unserialize($serialized)
     {
         $this->config = \unserialize($serialized);
-    }
-
-    /**
-     * @return array
-     */
-    public function getConfig(): array
-    {
-        $factories = \array_merge($this->config['factories'], $this->config['subManagers']);
-
-        return [
-            'factories' => $factories,
-            'delegators' => $this->getDelegators(),
-            'initializers' => $this->getInitializers(),
-            'shared_by_default' => true,
-        ];
     }
 }

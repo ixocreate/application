@@ -7,16 +7,22 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Service;
+namespace Ixocreate\Application\ServiceManager;
 
+use Ixocreate\Application\Service\ServiceRegistryInterface;
 use Ixocreate\ServiceManager\Factory\AutowireFactory;
 
 final class SubManagerConfigurator extends AbstractServiceManagerConfigurator
 {
     /**
-     * @var array
+     * @var string
      */
-    private $metadata = [];
+    private $subManagerName;
+
+    /**
+     * @var string
+     */
+    private $validation = null;
 
     /**
      * ServiceManagerConfigurator constructor.
@@ -27,12 +33,13 @@ final class SubManagerConfigurator extends AbstractServiceManagerConfigurator
      */
     public function __construct(
         string $subManagerName,
-        string $validation,
+        string $validation = null,
         string $defaultAutowireFactory = AutowireFactory::class
     ) {
         parent::__construct($defaultAutowireFactory);
-        $this->metadata['validation'] = $validation;
-        $this->metadata['subManagerName'] = $subManagerName;
+
+        $this->subManagerName = $subManagerName;
+        $this->validation = $validation;
     }
 
     /**
@@ -42,21 +49,35 @@ final class SubManagerConfigurator extends AbstractServiceManagerConfigurator
      */
     public function addDirectory(string $directory, bool $recursive = true, array $only = []): void
     {
-        $only[] = $this->metadata['validation'];
+        if ($this->validation !== null) {
+            $only[] = $this->validation;
+        }
         parent::addDirectory($directory, $recursive, \array_unique($only));
     }
 
-    public function getMetadata(): array
+    /**
+     * @return string
+     */
+    public function getSubManagerName(): string
     {
-        return $this->metadata;
+        return $this->subManagerName;
     }
 
     /**
-     * @return array
+     * @return string|null
      */
-    public function getSubManagers(): array
+    public function getValidation(): ?string
     {
-        return [];
+        return $this->validation;
+    }
+
+    /**
+     * @return SubManagerConfig
+     */
+    public function getServiceManagerConfig(): SubManagerConfig
+    {
+        $this->processDirectories();
+        return new SubManagerConfig($this);
     }
 
     /**
@@ -65,6 +86,6 @@ final class SubManagerConfigurator extends AbstractServiceManagerConfigurator
      */
     public function registerService(ServiceRegistryInterface $serviceRegistry): void
     {
-        $serviceRegistry->add($this->metadata['subManagerName'] . '::Config', $this->getServiceManagerConfig());
+        $serviceRegistry->add($this->subManagerName . '::Config', $this->getServiceManagerConfig());
     }
 }

@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Service;
+namespace Ixocreate\Application\ServiceManager;
 
 interface ServiceManagerConfiguratorInterface
 {
@@ -30,14 +30,4 @@ interface ServiceManagerConfiguratorInterface
      * @return array
      */
     public function getInitializers(): array;
-
-    /**
-     * @return array
-     */
-    public function getMetadata(): array;
-
-    /**
-     * @return array
-     */
-    public function getSubManagers(): array;
 }

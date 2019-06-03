@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Application\Service;
+namespace Ixocreate\Application\ServiceManager;
 
 use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
 use Ixocreate\Application\Configurator\ConfiguratorInterface;
