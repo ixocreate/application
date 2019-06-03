@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Ixocreate\Test\Application\ServiceManager;
 
+use Ixocreate\Application\Exception\InvalidArgumentException;
+use Ixocreate\Application\Service\ServiceRegistry;
 use Ixocreate\Application\ServiceManager\SubManagerConfig;
 use Ixocreate\Application\ServiceManager\SubManagerConfigurator;
 use Ixocreate\Misc\Application\Scan\AbstractClass;
@@ -29,6 +31,13 @@ use PHPUnit\Framework\TestCase;
  */
 class SubManagerConfiguratorTest extends TestCase
 {
+    public function testInvalidSubManagerClass()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        new SubManagerConfigurator(\DateTime::class);
+    }
+
     public function testEmptyValidation()
     {
         $configurator = new SubManagerConfigurator(SubManager::class);
@@ -58,11 +67,20 @@ class SubManagerConfiguratorTest extends TestCase
 
         $this->assertInstanceOf(SubManagerConfig::class, $serviceManagerConfig);
 
-        $this->assertEquals($serviceManagerConfigurator->getSubManagerClass(), $serviceManagerConfig->getSubManagerName());
         $this->assertEquals($serviceManagerConfigurator->getValidation(), $serviceManagerConfig->getValidation());
         $this->assertEquals($serviceManagerConfigurator->getFactories(), $serviceManagerConfig->getFactories());
         $this->assertEquals($serviceManagerConfigurator->getInitializers(), $serviceManagerConfig->getInitializers());
         $this->assertEquals($serviceManagerConfigurator->getDelegators(), $serviceManagerConfig->getDelegators());
         $this->assertEquals($serviceManagerConfigurator->getLazyServices(), $serviceManagerConfig->getLazyServices());
+    }
+
+    public function testRegisterService()
+    {
+        $configurator = new SubManagerConfigurator(SubManager::class, TestInterface::class);
+        $registry = new ServiceRegistry();
+
+        $configurator->registerService($registry);
+
+        $this->assertInstanceOf(SubManagerConfig::class, $registry->get(SubManager::class . '::Config'));
     }
 }

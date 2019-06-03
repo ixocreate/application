@@ -30,7 +30,6 @@ final class SubManagerConfig implements ServiceManagerConfigInterface, Serializa
         $this->config['delegators'] = $serviceManagerConfigurator->getDelegators();
         $this->config['lazyServices'] = $serviceManagerConfigurator->getLazyServices();
         $this->config['initializers'] = $serviceManagerConfigurator->getInitializers();
-        $this->config['subManagerName'] = $serviceManagerConfigurator->getSubManagerClass();
         $this->config['validation'] = $serviceManagerConfigurator->getValidation();
 
         $this->config['namedServices'] = [];
@@ -49,14 +48,6 @@ final class SubManagerConfig implements ServiceManagerConfigInterface, Serializa
     public function getFactories(): array
     {
         return $this->config['factories'];
-    }
-
-    /**
-     * @return array
-     */
-    public function getDisabledSharing(): array
-    {
-        return $this->config['disabledSharing'];
     }
 
     /**
@@ -91,11 +82,9 @@ final class SubManagerConfig implements ServiceManagerConfigInterface, Serializa
         return $this->config['namedServices'];
     }
 
-    public function getSubManagerName(): string
-    {
-        return $this->config['subManagerName'];
-    }
-
+    /**
+     * @return string|null
+     */
     public function getValidation(): ?string
     {
         return $this->config['validation'];

@@ -31,6 +31,7 @@ final class SubManagerFactory implements SubManagerFactoryInterface
         /** @var SubManagerConfig $serviceManagerConfig */
         $serviceManagerConfig = $container->get($requestedName . '::Config');
 
+        //TODO: remove when all SubManagers are migrated
         $validation = $serviceManagerConfig->getValidation();
 
         return new $requestedName(

@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\ServiceManager;
 
+use Ixocreate\Application\Exception\InvalidArgumentException;
 use Ixocreate\Application\Service\ServiceRegistryInterface;
-use Ixocreate\ServiceManager\Exception\InvalidArgumentException;
 use Ixocreate\ServiceManager\Factory\AutowireFactory;
 use Ixocreate\ServiceManager\SubManager\SubManagerInterface;
 
@@ -69,14 +69,6 @@ final class SubManagerConfigurator extends AbstractServiceManagerConfigurator
             $only[] = $this->validation;
         }
         parent::addDirectory($directory, $recursive, \array_unique($only));
-    }
-
-    /**
-     * @return string
-     */
-    public function getSubManagerClass(): string
-    {
-        return $this->subManagerClass;
     }
 
     /**
