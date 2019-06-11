@@ -48,16 +48,6 @@ final class ApplicationConfigurator
     private $bootstrapEnvDirectory = "local/";
 
     /**
-     * @var string
-     */
-    private $configDirectory = "config/";
-
-    /**
-     * @var string
-     */
-    private $configEnvDirectory = "local/";
-
-    /**
      * @var array
      */
     private $packages = [];
@@ -142,38 +132,6 @@ final class ApplicationConfigurator
     public function getCacheDirectory(): string
     {
         return $this->cacheDirectory;
-    }
-
-    /**
-     * @param string $configDirectory
-     */
-    public function setConfigDirectory(string $configDirectory): void
-    {
-        $this->configDirectory = BootstrapItemInclude::normalizePath($configDirectory);
-    }
-
-    /**
-     * @return string
-     */
-    public function getConfigDirectory(): string
-    {
-        return $this->configDirectory;
-    }
-
-    /**
-     * @param string $configEnvDirectory
-     */
-    public function setConfigEnvDirectory(string $configEnvDirectory): void
-    {
-        $this->configEnvDirectory = BootstrapItemInclude::normalizePath($configEnvDirectory);
-    }
-
-    /**
-     * @return string
-     */
-    public function getConfigEnvDirectory(): string
-    {
-        return $this->configEnvDirectory;
     }
 
     /**

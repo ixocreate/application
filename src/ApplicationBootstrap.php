@@ -11,8 +11,8 @@ namespace Ixocreate\Application;
 
 use Ixocreate\Application\Bootstrap\BootstrapItemInclude;
 use Ixocreate\Application\Service\ServiceHandler;
-use Ixocreate\Application\Service\ServiceManagerConfig;
 use Ixocreate\Application\Service\ServiceRegistry;
+use Ixocreate\Application\ServiceManager\ServiceManagerConfig;
 use Ixocreate\ServiceManager\ServiceManager;
 use Ixocreate\ServiceManager\ServiceManagerSetup;
 
@@ -20,12 +20,23 @@ final class ApplicationBootstrap
 {
     /**
      * @param string $bootstrapDirectory
+     * @param string $applicationCacheDirectory
      * @param ApplicationInterface $application
      * @return ServiceManager
      */
-    public function bootstrap(string $bootstrapDirectory, ApplicationInterface $application): ServiceManager
+    public function bootstrap(string $bootstrapDirectory, string $applicationCacheDirectory, ApplicationInterface $application): ServiceManager
     {
-        $applicationConfig = $this->createApplicationConfig($bootstrapDirectory, $application);
+        if (\file_exists($applicationCacheDirectory . 'application.cache')) {
+            $applicationConfig = @\unserialize(
+                \file_get_contents($applicationCacheDirectory . 'application.cache')
+            );
+        } else {
+            $applicationConfig = $this->createApplicationConfig($bootstrapDirectory, $application);
+            if (!$applicationConfig->isDevelopment()) {
+                \file_put_contents($applicationCacheDirectory . 'application.cache', \serialize($applicationConfig));
+            }
+        }
+
         $serviceRegistry = (new ServiceHandler())->loadFromCache($applicationConfig);
         $serviceRegistry->add(ApplicationConfig::class, $applicationConfig);
 
@@ -34,7 +45,7 @@ final class ApplicationBootstrap
             $serviceRegistry
         );
 
-        foreach ($applicationConfig->getPackages() as $package) {
+        foreach ($applicationConfig->getBootPackages() as $package) {
             $package->boot($serviceManager);
         }
 
