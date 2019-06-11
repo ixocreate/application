@@ -16,7 +16,6 @@
     "require": {
         "php": "^7.1",
         "ixocreate/servicemanager": "dev-release/0.2",
-        "filp/whoops": "^2.1",
         "symfony/console": "^4.0",
         "zendframework/zend-expressive": "^3.0",
         "zendframework/zend-expressive-fastroute": "^3.0",

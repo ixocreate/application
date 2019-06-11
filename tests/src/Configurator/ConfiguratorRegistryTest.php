@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Test\Application\ConfiguratorItem;
+namespace Ixocreate\Test\Application\Configurator;
 
 use Ixocreate\Application\Configurator\ConfiguratorRegistry;
 use Ixocreate\Application\Exception\ConfiguratorNotFoundException;
@@ -20,11 +20,20 @@ class ConfiguratorRegistryTest extends TestCase
     public function testConfigurators()
     {
         $configuratorRegistry = new ConfiguratorRegistry();
-        $configuratorRegistry->add(ConfiguratorRegistryTest::class, new ConfiguratorDummy());
 
-        $this->assertTrue($configuratorRegistry->has(ConfiguratorRegistryTest::class));
+        $configuratorList = [
+            ConfiguratorDummy::class => new ConfiguratorDummy()
+        ];
+
+        foreach ($configuratorList as $name => $configurator) {
+            $configuratorRegistry->add($name, $configurator);
+        }
+
+
+        $this->assertTrue($configuratorRegistry->has(ConfiguratorDummy::class));
         $this->assertFalse($configuratorRegistry->has(BootstrapDummy::class));
-        $this->assertInstanceOf(ConfiguratorDummy::class, $configuratorRegistry->get(ConfiguratorRegistryTest::class));
+        $this->assertInstanceOf(ConfiguratorDummy::class, $configuratorRegistry->get(ConfiguratorDummy::class));
+        $this->assertSame($configuratorList, $configuratorRegistry->all());
     }
 
     public function testGetConfiguratorException()
