@@ -50,7 +50,7 @@ final class SubManagerConfigurator extends AbstractServiceManagerConfigurator
 
         $this->subManagerClass = $subManagerClass;
 
-        $this->validation = \forward_static_call([$subManagerClass, 'getValidation']);
+        $this->validation = \forward_static_call([$subManagerClass, 'validation']);
 
         // TODO: remove when all SubManagers are migrated
         if ($validation !== null) {

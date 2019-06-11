@@ -33,7 +33,6 @@ final class RequestHandlerRunnerFactory implements FactoryInterface
      * @param array|null $options
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Zend\HttpHandlerRunner\Emitter\InvalidArgumentException
      * @return RequestHandlerRunner
      */
     public function __invoke(ServiceManagerInterface $container, $requestedName, array $options = null)

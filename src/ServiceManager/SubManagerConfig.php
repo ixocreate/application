@@ -35,7 +35,8 @@ final class SubManagerConfig implements ServiceManagerConfigInterface, Serializa
         $this->config['namedServices'] = [];
 
         foreach (\array_keys($this->config['factories']) as $service) {
-            if (!\is_subclass_of($service, NamedServiceInterface::class, true)) {
+            // TODO: remove when all Services are updated
+            if (!\is_subclass_of($service, \Ixocreate\ServiceManager\NamedServiceInterface::class, true)) {
                 continue;
             }
             $this->config['namedServices'][\forward_static_call([$service, 'serviceName'])] = $service;
