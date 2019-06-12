@@ -15,7 +15,7 @@
          verbose="false"
 >
     <testsuites>
-        <testsuite name="IXOCREATE Application Test Suite">
+        <testsuite name="IXOCREATE Test Suite">
             <directory>./tests/src</directory>
         </testsuite>
     </testsuites>
