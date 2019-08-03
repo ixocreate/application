@@ -1,7 +1,7 @@
 # IXOCREATE Application
 
 [![Build Status](https://travis-ci.com/ixocreate/application.svg?branch=master)](https://travis-ci.com/ixocreate/application)
-[![Coverage Status](https://coveralls.io/repos/github/ixocreate/application/badge.svg?branch=develop)](https://coveralls.io/github/ixocreate/application?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/github/ixocreate/application/badge.svg?branch=master)](https://coveralls.io/github/ixocreate/application?branch=master)
 [![Packagist](https://img.shields.io/packagist/v/ixocreate/application.svg)](https://packagist.org/packages/ixocreate/application)
 [![PHP Version](https://img.shields.io/packagist/php-v/ixocreate/application.svg)](https://packagist.org/packages/ixocreate/application)
 [![License](https://img.shields.io/github/license/ixocreate/application.svg)](LICENSE)
