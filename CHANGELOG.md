@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/ixocreate/application/compare/0.2.3...develop)
+## [Unreleased](https://github.com/ixocreate/application/compare/0.2.4...develop)
+
+## [v0.2.4 (2019-10-01)](https://github.com/ixocreate/application/compare/0.2.3...0.2.4)
+### Fixed
+- fix bootstrap env directory loading
 
 ## [v0.2.3 (2019-08-14)](https://github.com/ixocreate/application/compare/0.2.2...0.2.3)
 ### Fixed
