@@ -171,7 +171,7 @@ class ApplicationConfigTest extends TestCase
         $this->assertSame($config['configDirectory'], $applicationConfig->getConfigDirectory());
         $this->assertSame($config['errorDisplay'], $applicationConfig->isErrorDisplay());
         $this->assertSame($config['errorDisplayIps'], $applicationConfig->errorDisplayIps());
-        $this->assertSame($config['errorTemplate'], $applicationConfig->errorDisplayIps());
+        $this->assertSame($config['errorTemplate'], $applicationConfig->errorTemplate());
 
         $this->assertInstanceOf(BootstrapDummy::class, $applicationConfig->getBootstrapItems()[0]);
         $this->assertInstanceOf(PackageDummy::class, $applicationConfig->getPackages()[0]);
