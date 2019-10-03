@@ -2,6 +2,11 @@
 
 ## [Unreleased](https://github.com/ixocreate/application/compare/0.2.4...develop)
 
+## [v0.2.5 (2019-10-01)](https://github.com/ixocreate/application/compare/0.2.4...0.2.5)
+### Changed
+- move error handling config to ApplicationConfig
+- mask env data on Whoops output
+
 ## [v0.2.4 (2019-10-01)](https://github.com/ixocreate/application/compare/0.2.3...0.2.4)
 ### Fixed
 - fix bootstrap env directory loading
