@@ -125,14 +125,6 @@ final class ApplicationConfig implements SerializableServiceInterface
     }
 
     /**
-     * @param string|null $errorTemplate
-     */
-    public function setErrorTemplate(?string $errorTemplate): void
-    {
-        $this->errorTemplate = $errorTemplate;
-    }
-
-    /**
      * @return BootstrapItemInterface[]
      */
     public function getBootstrapItems(): array
