@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Ixocreate\Application\Http\ErrorHandling\Factory;
 
 use Ixocreate\Application\ApplicationConfig;
-use Ixocreate\Application\Config\Config;
 use Ixocreate\Application\Http\ErrorHandling\Response\ErrorResponseGenerator;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
@@ -29,20 +28,16 @@ final class ErrorResponseGeneratorFactory implements FactoryInterface
      */
     public function __invoke(ServiceManagerInterface $container, $requestedName, array $options = null)
     {
-        $develop = $container->get(ApplicationConfig::class)->isDevelopment();
+        /** @var ApplicationConfig $config */
+        $config = $container->get(ApplicationConfig::class);
 
-        $config = $container->get(Config::class)->get('error');
-
-        $renderer = $container->has(Renderer::class)
-            ? $container->get(Renderer::class)
-            : null;
-
-        if ($develop === true) {
+        if ($config->isErrorDisplay()) {
             return new WhoopsErrorResponseGenerator((new WhoopsFactory())($container, $requestedName, $options));
         }
-        $template = isset($config['template_error'])
-            ? $config['template_error']
-            : ErrorResponseGenerator::TEMPLATE_DEFAULT;
+
+        $renderer = $container->has(Renderer::class) ? $container->get(Renderer::class) : null;
+
+        $template = $config->errorTemplate() ?? ErrorResponseGenerator::TEMPLATE_DEFAULT;
 
         return new ErrorResponseGenerator($renderer, $template);
     }
