@@ -44,7 +44,7 @@ final class ErrorHandlerFactory implements FactoryInterface
             },
             $generator
         );
-        $handler->attachListener(function(\Throwable $e, $request, $response) {
+        $handler->attachListener(function (\Throwable $e, $request, $response) {
             \error_log($e->__toString());
         });
 

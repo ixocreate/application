@@ -52,7 +52,7 @@ final class ApplicationBootstrap
     ): ApplicationConfig {
         $applicationConfigurator = new ApplicationConfigurator($bootstrapDirectory);
 
-        $include = function($bootstrapFile) use ($applicationConfigurator) {
+        $include = function ($bootstrapFile) use ($applicationConfigurator) {
             if (\file_exists($bootstrapFile)) {
                 BootstrapItemInclude::include(
                     $bootstrapFile,
