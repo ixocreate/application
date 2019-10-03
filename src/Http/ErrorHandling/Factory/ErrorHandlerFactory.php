@@ -38,11 +38,16 @@ final class ErrorHandlerFactory implements FactoryInterface
             }
         : null;
 
-        return new ErrorHandler(
+        $handler = new ErrorHandler(
             function () {
                 return new Response();
             },
             $generator
         );
+        $handler->attachListener(function(\Throwable $e, $request, $response) {
+            \error_log($e->__toString());
+        });
+
+        return $handler;
     }
 }

@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Http\ErrorHandling\Factory;
 
-use Ixocreate\Application\Config\Config;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
 use Whoops\Handler\JsonResponseHandler;
@@ -30,17 +29,23 @@ final class WhoopsFactory implements FactoryInterface
      */
     public function __invoke(ServiceManagerInterface $container, $requestedName, array $options = null)
     {
-        $config = $container->get(Config::class)->get('error');
-
         $pageHandler = new PrettyPageHandler();
-        $this->injectEditor($pageHandler, $config, $container);
+        //$this->injectEditor($pageHandler, $config, $container);
+
+        foreach ($_ENV as $name => $value) {
+            $pageHandler->blacklist('_ENV', $name);
+            $pageHandler->blacklist('_SERVER', $name);
+        }
 
         $whoops = new Whoops();
         $whoops->writeToOutput(false);
         $whoops->allowQuit(false);
-        $whoops->pushHandler($pageHandler);
-        $this->registerJsonHandler($whoops, $config);
-        $whoops->register();
+
+
+        $whoops->appendHandler($pageHandler);
+        //$this->registerJsonHandler($whoops, []);
+
+        //$whoops->register();
         return $whoops;
     }
 
@@ -53,30 +58,15 @@ final class WhoopsFactory implements FactoryInterface
      */
     private function registerJsonHandler(Whoops $whoops, $config) : void
     {
-        if (empty($config['json_exceptions']['display'])) {
+        $handler = new JsonResponseHandler();
+
+        $handler->addTraceToOutput(true);
+
+        if (!WhoopsUtil::isAjaxRequest()) {
             return;
         }
 
-        $handler = new JsonResponseHandler();
-
-        if (! empty($config['json_exceptions']['show_trace'])) {
-            $handler->addTraceToOutput(true);
-        }
-
-        if (! empty($config['json_exceptions']['ajax_only'])) {
-            if (\method_exists(WhoopsUtil::class, 'isAjaxRequest')) {
-                // Whoops 2.x; don't push handler on stack unless we are in
-                // an XHR request.
-                if (! WhoopsUtil::isAjaxRequest()) {
-                    return;
-                }
-            } elseif (\method_exists($handler, 'onlyForAjaxRequests')) {
-                // Whoops 1.x
-                $handler->onlyForAjaxRequests(true);
-            }
-        }
-
-        $whoops->pushHandler($handler);
+        $whoops->appendHandler($handler);
     }
 
     /**
