@@ -63,19 +63,17 @@ final class ApplicationBootstrap
     ): ApplicationConfig {
         $applicationConfigurator = new ApplicationConfigurator($bootstrapDirectory);
 
-        $bootstrapFiles = [
-            $applicationConfigurator->getBootstrapDirectory() . 'application.php',
-            $applicationConfigurator->getBootstrapDirectory() . $applicationConfigurator->getBootstrapEnvDirectory() . 'application.php',
-        ];
-
-        foreach ($bootstrapFiles as $bootstrapFile) {
+        $include = function($bootstrapFile) use ($applicationConfigurator) {
             if (\file_exists($bootstrapFile)) {
                 BootstrapItemInclude::include(
                     $bootstrapFile,
                     ['application' => $applicationConfigurator]
                 );
             }
-        }
+        };
+
+        $include($applicationConfigurator->getBootstrapDirectory() . 'application.php');
+        $include($applicationConfigurator->getBootstrapDirectory() . $applicationConfigurator->getBootstrapEnvDirectory() . 'application.php');
 
         $application->configure($applicationConfigurator);
 

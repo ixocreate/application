@@ -134,7 +134,6 @@ final class SegmentMiddlewareFactory implements FactoryInterface
                     ]
                 );
 
-
             $pathMiddlewareDecorator = new PathMiddlewareDecorator($uri->getPath(), $segmentMiddleware);
             return $pathMiddlewareDecorator->process($request, $handler);
         });
@@ -165,7 +164,7 @@ final class SegmentMiddlewareFactory implements FactoryInterface
                     ]
                 );
 
-            $pathMiddlewareDecorator = new PathMiddlewareDecorator($this->projectUri->getPathWithoutBase($uri), $segmentMiddleware);
+            $pathMiddlewareDecorator = new PathMiddlewareDecorator($uri->getPath(), $segmentMiddleware);
             return $pathMiddlewareDecorator->process($request, $handler);
         });
     }

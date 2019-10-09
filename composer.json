@@ -20,7 +20,7 @@
         "zendframework/zend-expressive": "^3.0",
         "zendframework/zend-expressive-fastroute": "^3.0",
         "zendframework/zend-expressive-helpers": "^5.0",
-        "zendframework/zend-diactoros": "^1.7"
+        "zendframework/zend-diactoros": "^2.1"
     },
     "require-dev": {
         "ixocreate/coding-standard": "^2.0",
