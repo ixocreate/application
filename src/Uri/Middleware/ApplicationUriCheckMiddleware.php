@@ -57,11 +57,11 @@ final class ApplicationUriCheckMiddleware implements MiddlewareInterface
             }
         }
         if (!$redirectWithPath) {
-            $redirectWithPath = \in_array($redirectUri->getHost(), $this->projectUri->getFullRedirectDomains());
+            $redirectWithPath = \in_array($requestUri->getHost(), $this->projectUri->getFullRedirectDomains());
         }
 
         if ($redirectWithPath) {
-            $redirectUri = $redirectUri->withPath($redirectUri->getPath());
+            $redirectUri = $redirectUri->withPath($requestUri->getPath());
             $redirectUri = $redirectUri->withQuery($redirectUri->getQuery());
         }
 
