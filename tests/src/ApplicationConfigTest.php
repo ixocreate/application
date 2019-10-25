@@ -135,6 +135,9 @@ class ApplicationConfigTest extends TestCase
             'configEnvDirectory' => 'local/',
             'bootstrapItems' => [BootstrapDummy::class],
             'packages' => [PackageDummy::class],
+            'errorDisplay' => false,
+            'errorDisplayIps' => ['1.2.3.4'],
+            'errorTemplate' => 'test_template',
         ];
         $applicationConfigurator = new ApplicationConfigurator($config['bootstrapDirectory']);
         $applicationConfigurator->setDevelopment($config['development']);
@@ -145,6 +148,9 @@ class ApplicationConfigTest extends TestCase
         $applicationConfigurator->setConfigEnvDirectory($config['configEnvDirectory']);
         $applicationConfigurator->addBootstrapItem($config['bootstrapItems'][0]);
         $applicationConfigurator->addPackage($config['packages'][0]);
+        $applicationConfigurator->setErrorDisplay($config['errorDisplay']);
+        $applicationConfigurator->setErrorDisplayIps($config['errorDisplayIps']);
+        $applicationConfigurator->setErrorTemplate($config['errorTemplate']);
 
         $applicationConfig = new ApplicationConfig($applicationConfigurator);
 
@@ -163,6 +169,9 @@ class ApplicationConfigTest extends TestCase
             'configEnvDirectory' => 'local/',
             'bootstrapItems' => [BootstrapDummy::class],
             'packages' => [PackageDummy::class],
+            'errorDisplay' => false,
+            'errorDisplayIps' => ['1.2.3.4'],
+            'errorTemplate' => 'test_template',
         ];
 
         $applicationConfig = new ApplicationConfig(new ApplicationConfigurator($config['bootstrapDirectory']));
@@ -173,6 +182,9 @@ class ApplicationConfigTest extends TestCase
         $this->assertSame($config['cacheDirectory'], $applicationConfig->getCacheDirectory());
         $this->assertSame($config['bootstrapDirectory'], $applicationConfig->getBootstrapDirectory());
         $this->assertSame($config['configDirectory'], $applicationConfig->getConfigDirectory());
+        $this->assertSame($config['errorDisplay'], $applicationConfig->isErrorDisplay());
+        $this->assertSame($config['errorDisplayIps'], $applicationConfig->errorDisplayIps());
+        $this->assertSame($config['errorTemplate'], $applicationConfig->errorTemplate());
 
         $this->assertInstanceOf(BootstrapDummy::class, $applicationConfig->getBootstrapItems()[0]);
         $this->assertInstanceOf(PackageDummy::class, $applicationConfig->getPackages()[0]);

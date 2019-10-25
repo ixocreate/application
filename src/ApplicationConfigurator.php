@@ -52,6 +52,12 @@ final class ApplicationConfigurator
      */
     private $packages = [];
 
+    private $errorDisplay = true;
+
+    private $errorDisplayIps = [];
+
+    private $errorTemplate = null;
+
     /**
      * ApplicationConfigurator constructor.
      *
@@ -173,6 +179,62 @@ final class ApplicationConfigurator
     public function getPackages(): array
     {
         return $this->packages;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isErrorDisplay(): bool
+    {
+        return $this->errorDisplay;
+    }
+
+    /**
+     * @param bool $errorDisplay
+     */
+    public function setErrorDisplay(bool $errorDisplay): void
+    {
+        $this->errorDisplay = $errorDisplay;
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrorDisplayIps(): array
+    {
+        return $this->errorDisplayIps;
+    }
+
+    /**
+     * @param array $ips
+     */
+    public function setErrorDisplayIps(array $ips): void
+    {
+        $this->errorDisplayIps = $ips;
+    }
+
+    /**
+     * @param string $ip
+     */
+    public function addErrorDisplayIps(string $ip): void
+    {
+        $this->errorDisplayIps[] = $ip;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getErrorTemplate()
+    {
+        return $this->errorTemplate;
+    }
+
+    /**
+     * @param string|null $errorTemplate
+     */
+    public function setErrorTemplate(?string $errorTemplate): void
+    {
+        $this->errorTemplate = $errorTemplate;
     }
 
     /**

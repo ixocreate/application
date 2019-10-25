@@ -41,6 +41,9 @@ final class ApplicationConfig implements SerializableServiceInterface
             'bootstrapItems' => $applicationConfigurator->getBootstrapItems(),
             'packages' => $applicationConfigurator->getPackages(),
             'bootPackages' => [],
+            'errorDisplay' => $applicationConfigurator->isErrorDisplay(),
+            'errorDisplayIps' => $applicationConfigurator->getErrorDisplayIps(),
+            'errorTemplate' => $applicationConfigurator->getErrorTemplate(),
         ];
 
         $this->initPackages();
@@ -90,6 +93,30 @@ final class ApplicationConfig implements SerializableServiceInterface
     public function getBootstrapEnvDirectory(): string
     {
         return $this->config['bootstrapEnvDirectory'];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isErrorDisplay(): bool
+    {
+        return $this->config['errorDisplay'];
+    }
+
+    /**
+     * @return array
+     */
+    public function errorDisplayIps(): array
+    {
+        return $this->config['errorDisplayIps'];
+    }
+
+    /**
+     * @return null|string
+     */
+    public function errorTemplate()
+    {
+        return $this->config['errorTemplate'];
     }
 
     /**

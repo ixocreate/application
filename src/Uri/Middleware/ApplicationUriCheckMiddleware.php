@@ -40,10 +40,31 @@ final class ApplicationUriCheckMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if ($this->projectUri->isValidUrl($request->getUri())) {
+        $requestUri = $request->getUri();
+
+        if ($this->projectUri->isValidUrl($requestUri)) {
             return $handler->handle($request);
         }
 
-        return new RedirectResponse($this->projectUri->getMainUri());
+        $redirectWithPath = false;
+        $redirectUri = $this->projectUri->getMainUri();
+
+        foreach ($this->projectUri->getPossibleUrls() as $uri) {
+            if ($requestUri->getHost() == $uri->getHost()) {
+                $redirectUri = $uri;
+                $redirectWithPath = true;
+                break;
+            }
+        }
+        if (!$redirectWithPath) {
+            $redirectWithPath = \in_array($requestUri->getHost(), $this->projectUri->getFullRedirectDomains());
+        }
+
+        if ($redirectWithPath) {
+            $redirectUri = $redirectUri->withPath($requestUri->getPath());
+            $redirectUri = $redirectUri->withQuery($redirectUri->getQuery());
+        }
+
+        return new RedirectResponse($redirectUri);
     }
 }

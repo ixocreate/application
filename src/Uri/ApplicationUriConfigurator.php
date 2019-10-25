@@ -27,6 +27,11 @@ final class ApplicationUriConfigurator implements ConfiguratorInterface
     private $alternativeUris = [];
 
     /**
+     * @var array
+     */
+    private $fullRedirectDomains = [];
+
+    /**
      * ApplicationUriConfigurator constructor.
      */
     public function __construct()
@@ -75,6 +80,22 @@ final class ApplicationUriConfigurator implements ConfiguratorInterface
     public function getAlternativeUris(): array
     {
         return $this->alternativeUris;
+    }
+
+    /**
+     * @param string $domain
+     */
+    public function addFullRedirectDomain(string $domain): void
+    {
+        $this->fullRedirectDomains[] = $domain;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getFullRedirectDomains(): array
+    {
+        return $this->fullRedirectDomains;
     }
 
     /**
