@@ -15,6 +15,9 @@ use Ixocreate\Misc\Application\BootstrapDummy;
 use Ixocreate\Misc\Application\ConfiguratorDummy;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \Ixocreate\Application\Configurator\ConfiguratorRegistry
+ */
 class ConfiguratorRegistryTest extends TestCase
 {
     public function testConfigurators()
@@ -22,13 +25,12 @@ class ConfiguratorRegistryTest extends TestCase
         $configuratorRegistry = new ConfiguratorRegistry();
 
         $configuratorList = [
-            ConfiguratorDummy::class => new ConfiguratorDummy()
+            ConfiguratorDummy::class => new ConfiguratorDummy(),
         ];
 
         foreach ($configuratorList as $name => $configurator) {
             $configuratorRegistry->add($name, $configurator);
         }
-
 
         $this->assertTrue($configuratorRegistry->has(ConfiguratorDummy::class));
         $this->assertFalse($configuratorRegistry->has(BootstrapDummy::class));

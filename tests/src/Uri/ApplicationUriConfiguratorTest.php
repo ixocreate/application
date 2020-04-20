@@ -78,6 +78,14 @@ class ApplicationUriConfiguratorTest extends TestCase
         $this->assertEquals($alternativeUris, $configurator->getAlternativeUris());
     }
 
+    public function testFullRedirectUris()
+    {
+        $configurator = new ApplicationUriConfigurator();
+        $configurator->addFullRedirectDomain('http://test.com');
+
+        $this->assertEquals(['http://test.com'], $configurator->getFullRedirectDomains());
+    }
+
     public function testRegisterService()
     {
         $serviceRegistry = $this->getMockBuilder(ServiceRegistryInterface::class)->getMock();
