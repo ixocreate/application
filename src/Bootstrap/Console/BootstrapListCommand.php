@@ -35,26 +35,35 @@ final class BootstrapListCommand extends Command implements CommandInterface
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new SymfonyStyle($input, $output);
+        $envDirectories = \glob($this->applicationConfig->getBootstrapDirectory() . '*', GLOB_ONLYDIR);
 
         $data = [];
         foreach ($this->applicationConfig->getBootstrapItems() as $bootstrapItem) {
             $data[$bootstrapItem->getFileName()] = [
                 $bootstrapItem->getFileName(),
                 (\file_exists($this->applicationConfig->getBootstrapDirectory() . $bootstrapItem->getFileName())) ? '<info>Used</info>' : '<comment>Unused</comment>',
-                (\file_exists($this->applicationConfig->getBootstrapDirectory() . $this->applicationConfig->getBootstrapEnvDirectory() . $bootstrapItem->getFileName())) ? '<info>Used</info>' : '<comment>Unused</comment>',
             ];
+
+            foreach ($envDirectories as $directory) {
+                $data[$bootstrapItem->getFileName()][] = (\file_exists($directory . '/' . $bootstrapItem->getFileName())) ? '<info>Used</info>' : '<comment>Unused</comment>';
+            }
         }
         \sort($data);
 
+        $headers = ['File', 'Global'];
+        foreach ($envDirectories as $directory) {
+            $headers[] = \str_replace($this->applicationConfig->getBootstrapDirectory(), '', $directory);
+        }
+
+        $io = new SymfonyStyle($input, $output);
         $io->table(
-            ['File', 'Status', 'Env'],
+            $headers,
             $data
         );
     }
 
     public static function getCommandName()
     {
-        return "bootstrap:list";
+        return 'bootstrap:list';
     }
 }

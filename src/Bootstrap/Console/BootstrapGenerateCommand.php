@@ -15,7 +15,6 @@ use Ixocreate\Application\Console\CommandInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class BootstrapGenerateCommand extends Command implements CommandInterface
@@ -48,23 +47,23 @@ EOD;
     {
         $this
             ->addArgument('file', InputArgument::REQUIRED, 'Bootstrap file name')
-            ->addOption('env', 'e', InputOption::VALUE_NONE, 'save bootstrap file in env directory')
+            ->addArgument('env', InputArgument::OPTIONAL, 'save bootstrap file in env directory')
             ->setAliases(['make:bootstrap']);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $directory = $this->applicationConfig->getBootstrapDirectory();
-        if ($input->getOption('env') === true) {
-            $directory .= $this->applicationConfig->getBootstrapEnvDirectory();
+        if ($input->getArgument('env') !== null) {
+            $directory .= \trim($input->getArgument('env'), " \n\r\t/\\") . '/';
         }
 
-        if (\file_exists($directory . $input->getArgument("file"))) {
-            throw new \Exception("Bootstrap file already exists");
+        if (\file_exists($directory . $input->getArgument('file'))) {
+            throw new \Exception('Bootstrap file already exists');
         }
 
         foreach ($this->applicationConfig->getBootstrapItems() as $bootstrapItem) {
-            if ($bootstrapItem->getFileName() === $input->getArgument("file")) {
+            if ($bootstrapItem->getFileName() === $input->getArgument('file')) {
                 $this->generateFile($directory, $bootstrapItem);
                 $output->writeln(\sprintf("<info>%s generated</info>", $bootstrapItem->getFileName()));
                 return;
@@ -76,7 +75,7 @@ EOD;
 
     public static function getCommandName()
     {
-        return "bootstrap:generate";
+        return 'bootstrap:generate';
     }
 
     /**
