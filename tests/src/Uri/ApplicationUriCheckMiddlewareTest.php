@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Test\ProjectUri;
+namespace Ixocreate\Test\Application\Uri;
 
 use Ixocreate\Application\Uri\ApplicationUri;
 use Ixocreate\Application\Uri\ApplicationUriConfigurator;
@@ -18,6 +18,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
+use Zend\Diactoros\Uri;
 
 class ApplicationUriCheckMiddlewareTest extends TestCase
 {
@@ -29,9 +30,9 @@ class ApplicationUriCheckMiddlewareTest extends TestCase
         $configurator = new ApplicationUriConfigurator();
         $configurator->setMainUri('https://project-uri.test');
 
-        $projectUri = new ApplicationUri($configurator);
+        $config = new ApplicationUri($configurator);
 
-        $middleware = new ApplicationUriCheckMiddleware($projectUri);
+        $middleware = new ApplicationUriCheckMiddleware($config);
 
         $requestHandler = new class() implements RequestHandlerInterface {
             private $request;
@@ -53,9 +54,78 @@ class ApplicationUriCheckMiddlewareTest extends TestCase
         $this->assertNull($requestHandler->getRequest());
         $this->assertInstanceOf(Response\RedirectResponse::class, $response);
 
+
         $request = new ServerRequest([], [], new \Zend\Diactoros\Uri('https://project-uri.test'));
         $response = $middleware->process($request, $requestHandler);
         $this->assertEquals($request, $requestHandler->getRequest());
         $this->assertInstanceOf(Response::class, $response);
+    }
+
+    public function testFullRedirectDomains()
+    {
+        $config = $this->createMock(ApplicationUri::class);
+        $config
+            ->method('isValidUrl')
+            ->willReturn(false);
+        $config
+            ->method('getMainUri')
+            ->willReturn(new Uri('https://main-url.test'));
+        $config
+            ->method('getPossibleUrls')
+            ->willReturn([]);
+        $config
+            ->method('getFullRedirectDomains')
+            ->willReturn(['redirect-uri.test']);
+
+        $uri = new Uri('https://redirect-uri.test/withPath?with=params');
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request
+            ->method('getUri')
+            ->willReturn($uri);
+
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler
+            ->expects($this->never())
+            ->method('handle');
+
+        $middleware = new ApplicationUriCheckMiddleware($config);
+        $response = $middleware->process($request, $handler);
+
+        $this->assertInstanceOf(Response\RedirectResponse::class, $response);
+        $this->assertEquals(['https://main-url.test/withPath?with=params'], $response->getHeader('location'));
+    }
+
+    public function testPossibleUrls()
+    {
+        $config = $this->createMock(ApplicationUri::class);
+        $config
+            ->method('isValidUrl')
+            ->willReturn(false);
+        $config
+            ->method('getMainUri')
+            ->willReturn(new Uri('https://main-url.test'));
+        $config
+            ->method('getPossibleUrls')
+            ->willReturn([new Uri('https://alternative-url.test')]);
+        $config
+            ->method('getFullRedirectDomains')
+            ->willReturn([]);
+
+        $uri = new Uri('http://alternative-url.test/withPath?with=params');
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request
+            ->method('getUri')
+            ->willReturn($uri);
+
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler
+            ->expects($this->never())
+            ->method('handle');
+
+        $middleware = new ApplicationUriCheckMiddleware($config);
+        $response = $middleware->process($request, $handler);
+
+        $this->assertInstanceOf(Response\RedirectResponse::class, $response);
+        $this->assertEquals(['https://alternative-url.test/withPath?with=params'], $response->getHeader('location'));
     }
 }

@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Test\ProjectUri;
+namespace Ixocreate\Test\Application\Uri;
 
 use Ixocreate\Application\Uri\ApplicationUri;
 use Ixocreate\Application\Uri\ApplicationUriConfigurator;
@@ -83,6 +83,16 @@ class ApplicationUriTest extends TestCase
         $this->assertEquals('https://project-uri.test', $applicationUri->getPossibleUri('mainUri'));
         $this->assertEquals('https://project-uri-2.test', $applicationUri->getPossibleUri('test'));
         $this->assertNull($applicationUri->getPossibleUri('unkown'));
+    }
+
+    public function testFullRedirectUri()
+    {
+        $configurator = new ApplicationUriConfigurator();
+        $configurator->addFullRedirectDomain('https://project-uri.test');
+        $configurator->addFullRedirectDomain('https://project-uri2.test');
+
+        $applicationUri = new ApplicationUri($configurator);
+        $this->assertEquals(['https://project-uri.test', 'https://project-uri2.test'], $applicationUri->getFullRedirectDomains());
     }
 
     public function testIsValidUrl()

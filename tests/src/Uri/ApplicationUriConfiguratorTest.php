@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Ixocreate\Test\ProjectUri;
+namespace Ixocreate\Test\Application\Uri;
 
 use Ixocreate\Application\Service\ServiceRegistryInterface;
 use Ixocreate\Application\Uri\ApplicationUri;
@@ -78,12 +78,13 @@ class ApplicationUriConfiguratorTest extends TestCase
         $this->assertEquals($alternativeUris, $configurator->getAlternativeUris());
     }
 
-    public function testFullRedirectUris()
+    public function testFullRedirectDomain()
     {
         $configurator = new ApplicationUriConfigurator();
-        $configurator->addFullRedirectDomain('http://test.com');
+        $configurator->addFullRedirectDomain('test.com');
+        $configurator->addFullRedirectDomain('WWW.test.com');
 
-        $this->assertEquals(['http://test.com'], $configurator->getFullRedirectDomains());
+        $this->assertEquals(['test.com', 'www.test.com'], $configurator->getFullRedirectDomains());
     }
 
     public function testRegisterService()

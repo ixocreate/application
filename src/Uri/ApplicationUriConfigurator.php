@@ -87,7 +87,7 @@ final class ApplicationUriConfigurator implements ConfiguratorInterface
      */
     public function addFullRedirectDomain(string $domain): void
     {
-        $this->fullRedirectDomains[] = $domain;
+        $this->fullRedirectDomains[] = \strtolower($domain);
     }
 
     /**

@@ -21,16 +21,16 @@ final class ApplicationUriCheckMiddleware implements MiddlewareInterface
     /**
      * @var ApplicationUri
      */
-    private $projectUri;
+    private $applicationUri;
 
     /**
      * ApplicationUriCheckMiddleware constructor.
      *
-     * @param ApplicationUri $projectUri
+     * @param ApplicationUri $applicationUri
      */
-    public function __construct(ApplicationUri $projectUri)
+    public function __construct(ApplicationUri $applicationUri)
     {
-        $this->projectUri = $projectUri;
+        $this->applicationUri = $applicationUri;
     }
 
     /**
@@ -42,27 +42,28 @@ final class ApplicationUriCheckMiddleware implements MiddlewareInterface
     {
         $requestUri = $request->getUri();
 
-        if ($this->projectUri->isValidUrl($requestUri)) {
+        if ($this->applicationUri->isValidUrl($requestUri)) {
             return $handler->handle($request);
         }
 
         $redirectWithPath = false;
-        $redirectUri = $this->projectUri->getMainUri();
+        $redirectUri = $this->applicationUri->getMainUri();
 
-        foreach ($this->projectUri->getPossibleUrls() as $uri) {
+        foreach ($this->applicationUri->getPossibleUrls() as $uri) {
             if ($requestUri->getHost() == $uri->getHost()) {
                 $redirectUri = $uri;
                 $redirectWithPath = true;
                 break;
             }
         }
+
         if (!$redirectWithPath) {
-            $redirectWithPath = \in_array($requestUri->getHost(), $this->projectUri->getFullRedirectDomains());
+            $redirectWithPath = \in_array($requestUri->getHost(), $this->applicationUri->getFullRedirectDomains());
         }
 
         if ($redirectWithPath) {
             $redirectUri = $redirectUri->withPath($requestUri->getPath());
-            $redirectUri = $redirectUri->withQuery($redirectUri->getQuery());
+            $redirectUri = $redirectUri->withQuery($requestUri->getQuery());
         }
 
         return new RedirectResponse($redirectUri);
