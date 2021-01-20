@@ -12,9 +12,9 @@ namespace Ixocreate\Application\Package;
 interface PackageInterface
 {
     /**
-     * @return array|null
+     * @return array
      */
-    public function getBootstrapItems(): ?array;
+    public function getBootstrapItems(): array;
 
     /**
      * @return string|null
@@ -22,7 +22,7 @@ interface PackageInterface
     public function getBootstrapDirectory(): ?string;
 
     /**
-     * @return array|null
+     * @return array
      */
-    public function getDependencies(): ?array;
+    public function getDependencies(): array;
 }

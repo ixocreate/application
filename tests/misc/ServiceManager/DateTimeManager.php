@@ -13,5 +13,5 @@ use Ixocreate\ServiceManager\SubManager\AbstractSubManager;
 
 class DateTimeManager extends AbstractSubManager
 {
-    protected $instanceOf = \DateTimeInterface::class;
+    const INSTANCE_OF = \DateTimeInterface::class;
 }

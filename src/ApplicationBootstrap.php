@@ -9,12 +9,10 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application;
 
+use Ixocreate\Application\Bootstrap\BootstrapFactoryInterface;
 use Ixocreate\Application\Bootstrap\BootstrapItemInclude;
-use Ixocreate\Application\Service\ServiceHandler;
-use Ixocreate\Application\Service\ServiceRegistry;
 use Ixocreate\Application\ServiceManager\ServiceManagerConfig;
-use Ixocreate\ServiceManager\ServiceManager;
-use Ixocreate\ServiceManager\ServiceManagerSetup;
+use Ixocreate\ServiceManager\ServiceManagerInterface;
 
 final class ApplicationBootstrap
 {
@@ -22,26 +20,35 @@ final class ApplicationBootstrap
      * @param string $bootstrapDirectory
      * @param string $applicationCacheDirectory
      * @param ApplicationInterface $application
-     * @return ServiceManager
+     * @param BootstrapFactoryInterface $bootstrapFactory
+     * @return ServiceManagerInterface
      */
-    public function bootstrap(string $bootstrapDirectory, string $applicationCacheDirectory, ApplicationInterface $application): ServiceManager
-    {
+    public function bootstrap(
+        string $bootstrapDirectory,
+        string $applicationCacheDirectory,
+        ApplicationInterface $application,
+        BootstrapFactoryInterface $bootstrapFactory
+    ): ServiceManagerInterface {
         if (\file_exists($applicationCacheDirectory . 'application.cache')) {
             $applicationConfig = @\unserialize(
                 \file_get_contents($applicationCacheDirectory . 'application.cache')
             );
         } else {
-            $applicationConfig = $this->createApplicationConfig($bootstrapDirectory, $application);
+            $applicationConfig = $this->createApplicationConfig(
+                $bootstrapFactory->createApplicationConfigurator($bootstrapDirectory),
+                $application
+            );
             if (!$applicationConfig->isDevelopment()) {
                 \file_put_contents($applicationCacheDirectory . 'application.cache', \serialize($applicationConfig));
             }
         }
 
-        $serviceRegistry = (new ServiceHandler())->loadFromCache($applicationConfig);
+        $serviceRegistry = $bootstrapFactory->createServiceHandler()->load($applicationConfig);
         $serviceRegistry->add(ApplicationConfig::class, $applicationConfig);
 
-        $serviceManager = $this->createServiceManager(
+        $serviceManager = $bootstrapFactory->createServiceManager(
             $serviceRegistry->get(ServiceManagerConfig::class),
+            $applicationConfig,
             $serviceRegistry
         );
 
@@ -53,16 +60,14 @@ final class ApplicationBootstrap
     }
 
     /**
-     * @param string $bootstrapDirectory
+     * @param ApplicationConfigurator $applicationConfigurator
      * @param ApplicationInterface $application
      * @return ApplicationConfig
      */
     private function createApplicationConfig(
-        string $bootstrapDirectory,
+        ApplicationConfigurator $applicationConfigurator,
         ApplicationInterface $application
     ): ApplicationConfig {
-        $applicationConfigurator = new ApplicationConfigurator($bootstrapDirectory);
-
         $include = function ($bootstrapFile) use ($applicationConfigurator) {
             if (\file_exists($bootstrapFile)) {
                 BootstrapItemInclude::include(
@@ -78,25 +83,5 @@ final class ApplicationBootstrap
         $application->configure($applicationConfigurator);
 
         return $applicationConfigurator->getApplicationConfig();
-    }
-
-    /**
-     * @param ServiceManagerConfig $serviceManagerConfig
-     * @param ServiceRegistry $serviceRegistry
-     * @return ServiceManager
-     */
-    private function createServiceManager(
-        ServiceManagerConfig $serviceManagerConfig,
-        ServiceRegistry $serviceRegistry
-    ): ServiceManager {
-        return new ServiceManager(
-            $serviceManagerConfig,
-            new ServiceManagerSetup(
-                $serviceRegistry->get(ApplicationConfig::class)->getPersistCacheDirectory() . 'servicemanager/',
-                !$serviceRegistry->get(ApplicationConfig::class)->isDevelopment(),
-                !$serviceRegistry->get(ApplicationConfig::class)->isDevelopment()
-            ),
-            $serviceRegistry->all()
-        );
     }
 }

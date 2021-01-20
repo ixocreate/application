@@ -256,10 +256,8 @@ final class ApplicationConfigurator
             $package = new $packageClass();
 
             $bootstrapItems = $package->getBootstrapItems();
-            if (!empty($bootstrapItems)) {
-                foreach ($bootstrapItems as $bootstrapItem) {
-                    $this->addBootstrapItem($bootstrapItem);
-                }
+            foreach ($bootstrapItems as $bootstrapItem) {
+                $this->addBootstrapItem($bootstrapItem);
             }
         }
 
@@ -271,10 +269,6 @@ final class ApplicationConfigurator
      */
     private function processPackages(?array $packages): void
     {
-        if (empty($packages)) {
-            return;
-        }
-
         foreach ($packages as $item) {
             if (\in_array($item, $this->packages)) {
                 continue;

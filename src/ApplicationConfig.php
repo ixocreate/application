@@ -11,7 +11,6 @@ namespace Ixocreate\Application;
 
 use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
 use Ixocreate\Application\Package\BootInterface;
-use Ixocreate\Application\Package\BootstrapAwareInterface;
 use Ixocreate\Application\Package\PackageInterface;
 use Ixocreate\Application\Service\SerializableServiceInterface;
 
@@ -40,10 +39,10 @@ final class ApplicationConfig implements SerializableServiceInterface
             'bootstrapEnvDirectory' => $applicationConfigurator->getBootstrapEnvDirectory(),
             'bootstrapItems' => $applicationConfigurator->getBootstrapItems(),
             'packages' => $applicationConfigurator->getPackages(),
-            'bootPackages' => [],
             'errorDisplay' => $applicationConfigurator->isErrorDisplay(),
             'errorDisplayIps' => $applicationConfigurator->getErrorDisplayIps(),
             'errorTemplate' => $applicationConfigurator->getErrorTemplate(),
+            'bootPackages' => [],
         ];
 
         $this->initPackages();
@@ -146,11 +145,13 @@ final class ApplicationConfig implements SerializableServiceInterface
         return $this->packages;
     }
 
+    /**
+     * @return BootInterface[]
+     */
     public function getBootPackages(): array
     {
-        return $this->config['bootPackages'];
-
         if ($this->bootPackages === null) {
+            $this->bootPackages = [];
             foreach ($this->config['bootPackages'] as $packagesClass) {
                 $this->bootPackages[] = new $packagesClass();
             }

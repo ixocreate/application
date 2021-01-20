@@ -11,10 +11,10 @@ namespace Ixocreate\Test\Application\Http\Request;
 
 use Ixocreate\Application\Http\Request\AbstractRequestWrapper;
 use PHPUnit\Framework\TestCase;
-use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\StreamFactory;
-use Zend\Diactoros\UploadedFile;
-use Zend\Diactoros\Uri;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\StreamFactory;
+use Laminas\Diactoros\UploadedFile;
+use Laminas\Diactoros\Uri;
 
 /**
  * @covers \Ixocreate\Application\Http\Request\AbstractRequestWrapper

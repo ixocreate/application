@@ -12,7 +12,7 @@ namespace Ixocreate\Test\Application\Uri;
 use Ixocreate\Application\Uri\ApplicationUri;
 use Ixocreate\Application\Uri\ApplicationUriConfigurator;
 use PHPUnit\Framework\TestCase;
-use Zend\Diactoros\Uri;
+use Laminas\Diactoros\Uri;
 
 /**
  * Class ProjectUriTest

@@ -43,11 +43,6 @@ class PackageDummy implements PackageInterface
         return null;
     }
 
-    public function getConfigDirectory(): ?string
-    {
-        return null;
-    }
-
     public function getDependencies(): ?array
     {
         return null;

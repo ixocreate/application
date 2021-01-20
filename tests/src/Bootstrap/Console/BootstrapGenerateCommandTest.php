@@ -29,7 +29,7 @@ class BootstrapGenerateCommandTest extends TestCase
 
     private $vfs;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->vfs = vfsStream::setup();
         vfsStream::copyFromFileSystem('tests/bootstrap', $this->vfs);

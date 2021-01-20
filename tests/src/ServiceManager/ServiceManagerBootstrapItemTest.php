@@ -20,7 +20,7 @@ class ServiceManagerBootstrapItemTest extends TestCase
      */
     private $bootstrapItem;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->bootstrapItem = new ServiceManagerBootstrapItem();
     }

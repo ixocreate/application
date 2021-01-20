@@ -13,7 +13,7 @@ use Ixocreate\Application\Service\ServiceRegistryInterface;
 use Ixocreate\Application\Uri\ApplicationUri;
 use Ixocreate\Application\Uri\ApplicationUriConfigurator;
 use PHPUnit\Framework\TestCase;
-use Zend\Diactoros\Uri;
+use Laminas\Diactoros\Uri;
 
 class ApplicationUriConfiguratorTest extends TestCase
 {

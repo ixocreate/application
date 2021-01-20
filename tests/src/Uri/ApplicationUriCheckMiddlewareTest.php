@@ -16,9 +16,9 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\Uri;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\Uri;
 
 class ApplicationUriCheckMiddlewareTest extends TestCase
 {
@@ -49,13 +49,13 @@ class ApplicationUriCheckMiddlewareTest extends TestCase
             }
         };
 
-        $request = new ServerRequest([], [], new \Zend\Diactoros\Uri('https://project-uri-something.test'));
+        $request = new ServerRequest([], [], new \Laminas\Diactoros\Uri('https://project-uri-something.test'));
         $response = $middleware->process($request, $requestHandler);
         $this->assertNull($requestHandler->getRequest());
         $this->assertInstanceOf(Response\RedirectResponse::class, $response);
 
 
-        $request = new ServerRequest([], [], new \Zend\Diactoros\Uri('https://project-uri.test'));
+        $request = new ServerRequest([], [], new \Laminas\Diactoros\Uri('https://project-uri.test'));
         $response = $middleware->process($request, $requestHandler);
         $this->assertEquals($request, $requestHandler->getRequest());
         $this->assertInstanceOf(Response::class, $response);

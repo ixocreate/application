@@ -24,7 +24,7 @@ class BootstrapListCommandTest extends TestCase
 {
     private $config;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $configurator = new ApplicationConfigurator('tests/bootstrap');
         $configurator->addBootstrapItem(BootstrapDummy::class);
