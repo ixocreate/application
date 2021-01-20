@@ -12,8 +12,8 @@ namespace Ixocreate\Test\Application\Uri;
 use Ixocreate\Application\Service\ServiceRegistryInterface;
 use Ixocreate\Application\Uri\ApplicationUri;
 use Ixocreate\Application\Uri\ApplicationUriConfigurator;
-use PHPUnit\Framework\TestCase;
 use Laminas\Diactoros\Uri;
+use PHPUnit\Framework\TestCase;
 
 class ApplicationUriConfiguratorTest extends TestCase
 {

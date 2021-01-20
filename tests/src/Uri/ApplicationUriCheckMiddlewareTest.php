@@ -12,13 +12,13 @@ namespace Ixocreate\Test\Application\Uri;
 use Ixocreate\Application\Uri\ApplicationUri;
 use Ixocreate\Application\Uri\ApplicationUriConfigurator;
 use Ixocreate\Application\Uri\Middleware\ApplicationUriCheckMiddleware;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\Uri;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Laminas\Diactoros\Response;
-use Laminas\Diactoros\ServerRequest;
-use Laminas\Diactoros\Uri;
 
 class ApplicationUriCheckMiddlewareTest extends TestCase
 {

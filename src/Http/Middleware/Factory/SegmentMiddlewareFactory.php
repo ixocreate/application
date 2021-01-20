@@ -21,16 +21,16 @@ use Ixocreate\Application\Http\SegmentProviderInterface;
 use Ixocreate\Application\Uri\ApplicationUri;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\Diactoros\Uri;
+use Laminas\Stratigility\Middleware\PathMiddlewareDecorator;
 use Mezzio\MiddlewareContainer;
 use Mezzio\MiddlewareFactory;
 use Mezzio\Router\Middleware\DispatchMiddleware;
 use Mezzio\Router\Middleware\RouteMiddleware;
 use Mezzio\Router\RouteCollector;
-use Laminas\Stratigility\Middleware\PathMiddlewareDecorator;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 final class SegmentMiddlewareFactory implements FactoryInterface
 {

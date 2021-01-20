@@ -10,11 +10,11 @@ declare(strict_types=1);
 namespace Ixocreate\Application\Uri\Middleware;
 
 use Ixocreate\Application\Uri\ApplicationUri;
+use Laminas\Diactoros\Response\RedirectResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Laminas\Diactoros\Response\RedirectResponse;
 
 final class ApplicationUriCheckMiddleware implements MiddlewareInterface
 {

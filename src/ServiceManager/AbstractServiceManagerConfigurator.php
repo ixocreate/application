@@ -15,8 +15,8 @@ use Ixocreate\ServiceManager\Exception\InvalidArgumentException;
 use Ixocreate\ServiceManager\Factory\AutowireFactory;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\InitializerInterface;
-use Zend\Code\Reflection\FileReflection;
-use Zend\ServiceManager\Proxy\LazyServiceFactory;
+use Laminas\Code\Reflection\FileReflection;
+use Laminas\ServiceManager\Proxy\LazyServiceFactory;
 
 abstract class AbstractServiceManagerConfigurator implements ConfiguratorInterface, ServiceManagerConfiguratorInterface
 {

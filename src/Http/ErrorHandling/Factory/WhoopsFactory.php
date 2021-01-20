@@ -11,11 +11,11 @@ namespace Ixocreate\Application\Http\ErrorHandling\Factory;
 
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
+use Mezzio\Container\Exception;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as Whoops;
 use Whoops\Util\Misc as WhoopsUtil;
-use Mezzio\Container\Exception;
 
 final class WhoopsFactory implements FactoryInterface
 {

@@ -11,8 +11,8 @@ namespace Ixocreate\Application\Uri;
 
 use Ixocreate\Application\Configurator\ConfiguratorInterface;
 use Ixocreate\Application\Service\ServiceRegistryInterface;
-use Psr\Http\Message\UriInterface;
 use Laminas\Diactoros\Uri;
+use Psr\Http\Message\UriInterface;
 
 final class ApplicationUriConfigurator implements ConfiguratorInterface
 {

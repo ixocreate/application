@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Http\Middleware;
 
+use Laminas\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\MiddlewarePipeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Laminas\Stratigility\MiddlewarePipe;
-use Laminas\Stratigility\MiddlewarePipeInterface;
 
 final class SegmentMiddlewarePipe implements MiddlewarePipeInterface
 {

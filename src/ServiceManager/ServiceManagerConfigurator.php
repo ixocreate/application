@@ -32,7 +32,7 @@ final class ServiceManagerConfigurator extends AbstractServiceManagerConfigurato
                 "'%s' doesn't implement '%s'",
                 $manager,
                 SubManagerInterface::class
-                ));
+            ));
         }
 
         if (!\class_exists($factory)) {
