@@ -15,7 +15,7 @@ use Whoops\Handler\JsonResponseHandler;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as Whoops;
 use Whoops\Util\Misc as WhoopsUtil;
-use Zend\Expressive\Container\Exception;
+use Mezzio\Container\Exception;
 
 final class WhoopsFactory implements FactoryInterface
 {

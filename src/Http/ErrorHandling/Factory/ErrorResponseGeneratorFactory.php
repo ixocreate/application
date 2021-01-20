@@ -14,7 +14,7 @@ use Ixocreate\Application\Http\ErrorHandling\Response\ErrorResponseGenerator;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
 use Ixocreate\Template\Renderer;
-use Zend\Expressive\Middleware\WhoopsErrorResponseGenerator;
+use Mezzio\Middleware\WhoopsErrorResponseGenerator;
 
 final class ErrorResponseGeneratorFactory implements FactoryInterface
 {

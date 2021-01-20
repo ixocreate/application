@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Ixocreate\Application\Http\Pipe;
 
-use Zend\Stdlib\PriorityList;
+use Laminas\Stdlib\PriorityList;
 
 class RouteCollectorConfigurator
 {

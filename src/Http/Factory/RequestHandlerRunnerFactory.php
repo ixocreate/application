@@ -17,13 +17,13 @@ use Ixocreate\Application\Http\Pipe\PipeConfigurator;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\ServerRequestFactory;
-use Zend\Expressive\Middleware\ErrorResponseGenerator;
-use Zend\HttpHandlerRunner\Emitter\EmitterStack;
-use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
-use Zend\HttpHandlerRunner\RequestHandlerRunner;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\ServerRequestFactory;
+use Mezzio\Middleware\ErrorResponseGenerator;
+use Laminas\HttpHandlerRunner\Emitter\EmitterStack;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 
 final class RequestHandlerRunnerFactory implements FactoryInterface
 {

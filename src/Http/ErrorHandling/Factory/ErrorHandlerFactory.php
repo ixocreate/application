@@ -14,8 +14,8 @@ use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response;
-use Zend\Stratigility\Middleware\ErrorHandler;
+use Laminas\Diactoros\Response;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
 final class ErrorHandlerFactory implements FactoryInterface
 {

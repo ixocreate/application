@@ -24,13 +24,13 @@ use Ixocreate\ServiceManager\ServiceManagerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Uri;
-use Zend\Expressive\MiddlewareContainer;
-use Zend\Expressive\MiddlewareFactory;
-use Zend\Expressive\Router\Middleware\DispatchMiddleware;
-use Zend\Expressive\Router\Middleware\RouteMiddleware;
-use Zend\Expressive\Router\RouteCollector;
-use Zend\Stratigility\Middleware\PathMiddlewareDecorator;
+use Laminas\Diactoros\Uri;
+use Mezzio\MiddlewareContainer;
+use Mezzio\MiddlewareFactory;
+use Mezzio\Router\Middleware\DispatchMiddleware;
+use Mezzio\Router\Middleware\RouteMiddleware;
+use Mezzio\Router\RouteCollector;
+use Laminas\Stratigility\Middleware\PathMiddlewareDecorator;
 
 final class SegmentMiddlewareFactory implements FactoryInterface
 {

@@ -13,8 +13,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Stratigility\MiddlewarePipe;
-use Zend\Stratigility\MiddlewarePipeInterface;
+use Laminas\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\MiddlewarePipeInterface;
 
 final class SegmentMiddlewarePipe implements MiddlewarePipeInterface
 {

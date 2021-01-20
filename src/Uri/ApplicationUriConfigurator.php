@@ -12,7 +12,7 @@ namespace Ixocreate\Application\Uri;
 use Ixocreate\Application\Configurator\ConfiguratorInterface;
 use Ixocreate\Application\Service\ServiceRegistryInterface;
 use Psr\Http\Message\UriInterface;
-use Zend\Diactoros\Uri;
+use Laminas\Diactoros\Uri;
 
 final class ApplicationUriConfigurator implements ConfiguratorInterface
 {
@@ -87,7 +87,7 @@ final class ApplicationUriConfigurator implements ConfiguratorInterface
      */
     public function addFullRedirectDomain(string $domain): void
     {
-        $this->fullRedirectDomains[] = \strtolower($domain);
+        $this->fullRedirectDomains[] = \mb_strtolower($domain);
     }
 
     /**
