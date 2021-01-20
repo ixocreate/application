@@ -17,20 +17,20 @@ use Ixocreate\Application\Package\ConfigureAwareInterface;
 use Ixocreate\Application\Package\PackageInterface;
 use Ixocreate\Application\Package\ProvideServicesInterface;
 
-final class ServiceHandler
+final class ServiceHandler implements ServiceHandlerInterface
 {
     /**
      * @param ApplicationConfig $applicationConfig
      * @return ServiceRegistry
      */
-    public function loadFromCache(ApplicationConfig $applicationConfig): ServiceRegistry
+    public function load(ApplicationConfig $applicationConfig): ServiceRegistry
     {
         if ($applicationConfig->isDevelopment()) {
-            return $this->load($applicationConfig);
+            return $this->createServiceRegistry($applicationConfig);
         }
 
         if (!\file_exists($this->getCacheFileName($applicationConfig))) {
-            return $this->load($applicationConfig);
+            return $this->createServiceRegistry($applicationConfig);
         }
 
         $serviceRegistry = @\unserialize(
@@ -38,13 +38,13 @@ final class ServiceHandler
         );
 
         if (!($serviceRegistry instanceof ServiceRegistry)) {
-            return $this->load($applicationConfig);
+            return $this->createServiceRegistry($applicationConfig);
         }
 
         return $serviceRegistry;
     }
 
-    public function load(ApplicationConfig $applicationConfig): ServiceRegistry
+    private function createServiceRegistry(ApplicationConfig $applicationConfig): ServiceRegistry
     {
         $configuratorRegistry = new ConfiguratorRegistry();
 
