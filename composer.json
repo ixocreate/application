@@ -17,11 +17,11 @@
         "php": "^7.2 || ^8.0",
         "ixocreate/servicemanager": "dev-develop",
         "laminas/laminas-code": "^3.4",
-        "laminas/laminas-diactoros": "^2.1",
+        "laminas/laminas-diactoros": "^2.3",
         "mezzio/mezzio": "^3.0",
         "mezzio/mezzio-fastroute": "^3.0",
         "mezzio/mezzio-helpers": "^5.0",
-        "symfony/console": "^4.0"
+        "symfony/console": "^5.2"
     },
     "require-dev": {
         "ixocreate/coding-standard": "^2.0",

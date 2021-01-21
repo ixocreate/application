@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-use Ixocreate\Application\Service\ServiceManagerConfigurator;
+use Ixocreate\Application\ServiceManager\ServiceManagerConfigurator;
 use Symfony\Component\Console\Command\HelpCommand;
 
 /** @var ServiceManagerConfigurator $serviceManager */

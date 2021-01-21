@@ -10,10 +10,10 @@ declare(strict_types=1);
 namespace Ixocreate\Application\Console;
 
 use Ixocreate\Application\Console\Factory\CommandMapFactory;
-use Ixocreate\ServiceManager\SubManager\SubManager;
+use Ixocreate\ServiceManager\SubManager\AbstractSubManager;
 use Symfony\Component\Console\CommandLoader\CommandLoaderInterface;
 
-final class ConsoleSubManager extends SubManager implements CommandLoaderInterface
+final class ConsoleSubManager extends AbstractSubManager implements CommandLoaderInterface
 {
     /**
      * @return array|string[]
@@ -21,7 +21,7 @@ final class ConsoleSubManager extends SubManager implements CommandLoaderInterfa
     public function getNames(): array
     {
         $names = [];
-        foreach ($this->getServiceManagerConfig()->getFactories() as $name => $factory) {
+        foreach ($this->serviceManagerConfig()->getFactories() as $name => $factory) {
             if ($factory === CommandMapFactory::class) {
                 $names[] = $name;
             }
