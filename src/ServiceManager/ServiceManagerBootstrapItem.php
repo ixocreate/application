@@ -11,6 +11,14 @@ namespace Ixocreate\Application\ServiceManager;
 
 use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
 use Ixocreate\Application\Configurator\ConfiguratorInterface;
+use Ixocreate\Application\Console\ConsoleRunner;
+use Ixocreate\Application\Console\ConsoleSubManager;
+use Ixocreate\Application\Console\Factory\ConsoleRunnerFactory;
+use Ixocreate\Application\Http\Factory\FastRouterFactory;
+use Ixocreate\Application\Http\Factory\RequestHandlerRunnerFactory;
+use Ixocreate\Application\Http\Middleware\MiddlewareSubManager;
+use Laminas\HttpHandlerRunner\RequestHandlerRunner;
+use Mezzio\Router\FastRouteRouter;
 
 final class ServiceManagerBootstrapItem implements BootstrapItemInterface
 {
@@ -19,7 +27,16 @@ final class ServiceManagerBootstrapItem implements BootstrapItemInterface
      */
     public function getConfigurator(): ConfiguratorInterface
     {
-        return new ServiceManagerConfigurator();
+        $serviceManagerConfigurator = new ServiceManagerConfigurator();
+
+        $serviceManagerConfigurator->addFactory(RequestHandlerRunner::class, RequestHandlerRunnerFactory::class);
+        $serviceManagerConfigurator->addFactory(FastRouteRouter::class, FastRouterFactory::class);
+        $serviceManagerConfigurator->addSubManager(MiddlewareSubManager::class);
+
+        $serviceManagerConfigurator->addFactory(ConsoleRunner::class, ConsoleRunnerFactory::class);
+        $serviceManagerConfigurator->addSubManager(ConsoleSubManager::class);
+
+        return $serviceManagerConfigurator;
     }
 
     /**
