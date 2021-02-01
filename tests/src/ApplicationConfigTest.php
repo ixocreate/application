@@ -135,7 +135,7 @@ class ApplicationConfigTest extends TestCase
             'errorDisplay' => false,
             'errorDisplayIps' => ['1.2.3.4'],
             'errorTemplate' => 'test_template',
-            'bootPackages' => [],
+            'bootPackages' => [PackageDummy::class],
         ];
         $applicationConfigurator = new ApplicationConfigurator($config['bootstrapDirectory']);
         $applicationConfigurator->setDevelopment($config['development']);
