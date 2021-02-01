@@ -66,11 +66,11 @@ EOD;
             if ($bootstrapItem->getFileName() === $input->getArgument('file')) {
                 $this->generateFile($directory, $bootstrapItem);
                 $output->writeln(\sprintf("<info>%s generated</info>", $bootstrapItem->getFileName()));
-                return;
+                return 0;
             }
         }
 
-        throw new \Exception(\sprintf("Bootstrap file %s does not exist", $input->getArgument("file")));
+        throw new \Exception(\sprintf("Bootstrap file %s does not exist", $input->getArgument('file')));
     }
 
     public static function getCommandName()

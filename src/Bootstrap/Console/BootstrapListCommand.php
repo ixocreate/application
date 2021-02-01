@@ -60,6 +60,8 @@ final class BootstrapListCommand extends Command implements CommandInterface
             $headers,
             $data
         );
+
+        return 0;
     }
 
     public static function getCommandName()

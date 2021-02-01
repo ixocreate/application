@@ -48,9 +48,10 @@ class BootstrapGenerateCommandTest extends TestCase
         $output = new BufferedOutput();
 
         $command = new BootstrapGenerateCommand($this->config);
-        $command->run($input, $output);
+        $exitCode = $command->run($input, $output);
 
         $this->assertTrue($this->vfs->hasChild('secondDummy.php'));
+        $this->assertEquals(0, $exitCode);
     }
 
     public function testEnvExecute()
@@ -62,9 +63,10 @@ class BootstrapGenerateCommandTest extends TestCase
         $output = new BufferedOutput();
 
         $command = new BootstrapGenerateCommand($this->config);
-        $command->run($input, $output);
+        $exitCode = $command->run($input, $output);
 
         $this->assertTrue($this->vfs->hasChild('production/secondDummy.php'));
+        $this->assertEquals(0, $exitCode);
     }
 
     public function testEnvCleanupExecute()
@@ -79,11 +81,12 @@ class BootstrapGenerateCommandTest extends TestCase
         $this->assertTrue($this->vfs->hasChild('production/secondDummy.php'));
         $this->vfs->getChild('production')->removeChild('secondDummy.php');
 
-        $command->run(new ArrayInput([
+        $exitCode = $command->run(new ArrayInput([
             'file' => 'secondDummy.php',
             'env' => "production/\t",
         ]), $output);
         $this->assertTrue($this->vfs->hasChild('production/secondDummy.php'));
+        $this->assertEquals(0, $exitCode);
     }
 
     public function testMissingFilename()
@@ -94,7 +97,8 @@ class BootstrapGenerateCommandTest extends TestCase
         $this->expectException(RuntimeException::class);
 
         $command = new BootstrapGenerateCommand($this->config);
-        $command->run($input, $output);
+        $exitCode = $command->run($input, $output);
+        $this->assertEquals(0, $exitCode);
     }
 
     public function testExistingFile()
@@ -108,7 +112,8 @@ class BootstrapGenerateCommandTest extends TestCase
         $this->expectException(\Exception::class);
 
         $command = new BootstrapGenerateCommand($this->config);
-        $command->run($input, $output);
+        $exitCode = $command->run($input, $output);
+        $this->assertEquals(0, $exitCode);
     }
 
     public function testInvalidFilename()
@@ -121,7 +126,8 @@ class BootstrapGenerateCommandTest extends TestCase
         $this->expectException(\Exception::class);
 
         $command = new BootstrapGenerateCommand($this->config);
-        $command->run($input, $output);
+        $exitCode = $command->run($input, $output);
+        $this->assertEquals(0, $exitCode);
     }
 
     public function testCommandName()

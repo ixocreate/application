@@ -56,5 +56,7 @@ final class PublishListCommand extends Command implements CommandInterface
             ['Publish'],
             $data
         );
+
+        return 0;
     }
 }

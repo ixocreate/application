@@ -120,5 +120,7 @@ final class PublishCommand extends Command implements CommandInterface
 
             $output->writeln(\sprintf('%s published', $name));
         }
+
+        return 0;
     }
 }
