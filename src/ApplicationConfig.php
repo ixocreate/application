@@ -16,7 +16,7 @@ use Ixocreate\Application\Service\SerializableServiceInterface;
 
 final class ApplicationConfig implements SerializableServiceInterface
 {
-    private $config = null;
+    private $config;
 
     private $bootstrapItems = null;
 
@@ -48,8 +48,10 @@ final class ApplicationConfig implements SerializableServiceInterface
         $this->initPackages();
 
         foreach ($this->packages as $package) {
+            $this->bootstrapItems = [];
             if ($package instanceof BootInterface) {
-                $this->config['bootPackages'][] = $package;
+                $this->config['bootPackages'][] = \get_class($package);
+                $this->bootstrapItems[] = $package;
             }
         }
     }
