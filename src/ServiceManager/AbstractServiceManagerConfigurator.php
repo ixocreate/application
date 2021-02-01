@@ -15,8 +15,12 @@ use Ixocreate\ServiceManager\Exception\InvalidArgumentException;
 use Ixocreate\ServiceManager\Factory\AutowireFactory;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\InitializerInterface;
-use Laminas\Code\Reflection\FileReflection;
 use Laminas\ServiceManager\Proxy\LazyServiceFactory;
+use Roave\BetterReflection\BetterReflection;
+use Roave\BetterReflection\Reflector\ClassReflector;
+use Roave\BetterReflection\SourceLocator\Type\AggregateSourceLocator;
+use Roave\BetterReflection\SourceLocator\Type\AutoloadSourceLocator;
+use Roave\BetterReflection\SourceLocator\Type\SingleFileSourceLocator;
 
 abstract class AbstractServiceManagerConfigurator implements ConfiguratorInterface, ServiceManagerConfiguratorInterface
 {
@@ -248,8 +252,14 @@ abstract class AbstractServiceManagerConfigurator implements ConfiguratorInterfa
             }
 
             try {
-                $fileReflection = new FileReflection($directory . '/' . $entry, true);
-                foreach ($fileReflection->getClasses() as $class) {
+                $astLocator = (new BetterReflection())->astLocator();
+                $directoriesSourceLocator = new SingleFileSourceLocator($directory . '/' . $entry, $astLocator);
+                $reflector = new ClassReflector(new AggregateSourceLocator([
+                    $directoriesSourceLocator,
+                    new AutoloadSourceLocator($astLocator),
+                ]));
+
+                foreach ($reflector->getAllClasses() as $class) {
                     if (\array_key_exists($class->getName(), $this->factories)) {
                         continue;
                     }
