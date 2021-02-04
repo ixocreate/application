@@ -259,7 +259,7 @@ abstract class AbstractServiceManagerConfigurator implements ConfiguratorInterfa
                 $reflector = new ClassReflector(new AggregateSourceLocator([
                     $directoriesSourceLocator,
                     new AutoloadSourceLocator($astLocator),
-                    new PhpInternalSourceLocator($astLocator, new ReflectionSourceStubber())
+                    new PhpInternalSourceLocator($astLocator, new ReflectionSourceStubber()),
                 ]));
 
                 foreach ($reflector->getAllClasses() as $class) {
