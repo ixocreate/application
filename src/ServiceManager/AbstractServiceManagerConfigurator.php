@@ -18,8 +18,10 @@ use Ixocreate\ServiceManager\InitializerInterface;
 use Laminas\ServiceManager\Proxy\LazyServiceFactory;
 use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflector\ClassReflector;
+use Roave\BetterReflection\SourceLocator\SourceStubber\ReflectionSourceStubber;
 use Roave\BetterReflection\SourceLocator\Type\AggregateSourceLocator;
 use Roave\BetterReflection\SourceLocator\Type\AutoloadSourceLocator;
+use Roave\BetterReflection\SourceLocator\Type\PhpInternalSourceLocator;
 use Roave\BetterReflection\SourceLocator\Type\SingleFileSourceLocator;
 
 abstract class AbstractServiceManagerConfigurator implements ConfiguratorInterface, ServiceManagerConfiguratorInterface
@@ -257,6 +259,7 @@ abstract class AbstractServiceManagerConfigurator implements ConfiguratorInterfa
                 $reflector = new ClassReflector(new AggregateSourceLocator([
                     $directoriesSourceLocator,
                     new AutoloadSourceLocator($astLocator),
+                    new PhpInternalSourceLocator($astLocator, new ReflectionSourceStubber())
                 ]));
 
                 foreach ($reflector->getAllClasses() as $class) {
