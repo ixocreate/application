@@ -20,7 +20,6 @@
         "mezzio/mezzio": "^3.0",
         "mezzio/mezzio-fastroute": "^3.0",
         "mezzio/mezzio-helpers": "^5.0",
-        "roave/better-reflection": "^4.2",
         "symfony/console": "^5.2"
     },
     "require-dev": {

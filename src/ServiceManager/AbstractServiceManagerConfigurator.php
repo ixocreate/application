@@ -16,13 +16,6 @@ use Ixocreate\ServiceManager\Factory\AutowireFactory;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\InitializerInterface;
 use Laminas\ServiceManager\Proxy\LazyServiceFactory;
-use Roave\BetterReflection\BetterReflection;
-use Roave\BetterReflection\Reflector\ClassReflector;
-use Roave\BetterReflection\SourceLocator\SourceStubber\ReflectionSourceStubber;
-use Roave\BetterReflection\SourceLocator\Type\AggregateSourceLocator;
-use Roave\BetterReflection\SourceLocator\Type\AutoloadSourceLocator;
-use Roave\BetterReflection\SourceLocator\Type\PhpInternalSourceLocator;
-use Roave\BetterReflection\SourceLocator\Type\SingleFileSourceLocator;
 
 abstract class AbstractServiceManagerConfigurator implements ConfiguratorInterface, ServiceManagerConfiguratorInterface
 {
@@ -242,7 +235,7 @@ abstract class AbstractServiceManagerConfigurator implements ConfiguratorInterfa
 
             if (\is_dir($directory . '/' . $entry)) {
                 if ($recursive === true) {
-                    $this->scanDirectory($directory . '/' . $entry, $recursive, $only);
+                    $this->scanDirectory($directory . $entry . '/', $recursive, $only);
                 }
                 continue;
             }
@@ -253,49 +246,38 @@ abstract class AbstractServiceManagerConfigurator implements ConfiguratorInterfa
                 continue;
             }
 
-            try {
-                $astLocator = (new BetterReflection())->astLocator();
-                $directoriesSourceLocator = new SingleFileSourceLocator($directory . '/' . $entry, $astLocator);
-                $reflector = new ClassReflector(new AggregateSourceLocator([
-                    $directoriesSourceLocator,
-                    new AutoloadSourceLocator($astLocator),
-                    new PhpInternalSourceLocator($astLocator, new ReflectionSourceStubber()),
-                ]));
-
-                foreach ($reflector->getAllClasses() as $class) {
-                    if (\array_key_exists($class->getName(), $this->factories)) {
-                        continue;
-                    }
-
-                    if ($class->isAbstract()) {
-                        continue;
-                    }
-                    if ($class->isInterface()) {
-                        continue;
-                    }
-
-                    if (!empty($only)) {
-                        $check = false;
-
-                        foreach ($only as $instanceCheck) {
-                            if (\interface_exists($instanceCheck) && $class->implementsInterface($instanceCheck)) {
-                                $check = true;
-                                break;
-                            } elseif ($class->isSubclassOf($instanceCheck)) {
-                                $check = true;
-                                break;
-                            }
-                        }
-
-                        if ($check === false) {
-                            continue;
-                        }
-                    }
-
-                    $this->addFactory($class->getName());
-                }
-            } catch (\Exception $e) {
+            $code = \file_get_contents($directory . '/' . $entry);
+            \preg_match('/\snamespace ([^;]+);/', $code, $namespaceMatch);
+            \preg_match('/\s(?<!abstract )class ([^ ]+) /', $code, $classNameMatch);
+            if (empty($namespaceMatch) || empty($classNameMatch)) {
+                continue;
             }
+
+            $fqn = $namespaceMatch[1] . '\\' . $classNameMatch[1];
+            if (!\class_exists($fqn)) {
+                throw new \Exception($fqn . ' could not be imported');
+            }
+
+            if (\array_key_exists($fqn, $this->factories)) {
+                continue;
+            }
+
+            if (!empty($only)) {
+                $check = false;
+
+                foreach ($only as $instanceCheck) {
+                    if (\is_subclass_of($fqn, $instanceCheck)) {
+                        $check = true;
+                        break;
+                    }
+                }
+
+                if ($check === false) {
+                    continue;
+                }
+            }
+
+            $this->addFactory($fqn);
         }
     }
 }
