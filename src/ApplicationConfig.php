@@ -47,11 +47,12 @@ final class ApplicationConfig implements SerializableServiceInterface
 
         $this->initPackages();
 
+        $this->bootPackages = [];
         foreach ($this->packages as $package) {
-            $this->bootPackages = [];
             if ($package instanceof BootInterface) {
-                $this->config['bootPackages'][] = \get_class($package);
-                $this->bootPackages[] = $package;
+                $packageClass = \get_class($package);
+                $this->config['bootPackages'][] = $packageClass;
+                $this->bootPackages[$packageClass] = $package;
             }
         }
     }
@@ -155,7 +156,7 @@ final class ApplicationConfig implements SerializableServiceInterface
         if ($this->bootPackages === null) {
             $this->bootPackages = [];
             foreach ($this->config['bootPackages'] as $packagesClass) {
-                $this->bootPackages[] = new $packagesClass();
+                $this->bootPackages[$packagesClass] = new $packagesClass();
             }
         }
 
