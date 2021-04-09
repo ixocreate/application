@@ -11,7 +11,7 @@ namespace Ixocreate\Test\Application\Configurator;
 
 use Ixocreate\Application\Configurator\ConfiguratorRegistry;
 use Ixocreate\Application\Exception\ConfiguratorNotFoundException;
-use Ixocreate\Misc\Application\BootstrapDummy;
+use Ixocreate\Misc\Application\BootstrapItemDummy;
 use Ixocreate\Misc\Application\ConfiguratorDummy;
 use PHPUnit\Framework\TestCase;
 
@@ -33,7 +33,7 @@ class ConfiguratorRegistryTest extends TestCase
         }
 
         $this->assertTrue($configuratorRegistry->has(ConfiguratorDummy::class));
-        $this->assertFalse($configuratorRegistry->has(BootstrapDummy::class));
+        $this->assertFalse($configuratorRegistry->has(BootstrapItemDummy::class));
         $this->assertInstanceOf(ConfiguratorDummy::class, $configuratorRegistry->get(ConfiguratorDummy::class));
         $this->assertSame($configuratorList, $configuratorRegistry->all());
     }
@@ -43,6 +43,6 @@ class ConfiguratorRegistryTest extends TestCase
         $configuratorRegistry = new ConfiguratorRegistry();
 
         $this->expectException(ConfiguratorNotFoundException::class);
-        $configuratorRegistry->get(BootstrapDummy::class);
+        $configuratorRegistry->get(BootstrapItemDummy::class);
     }
 }

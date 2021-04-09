@@ -11,7 +11,7 @@ namespace Ixocreate\Test\Application;
 
 use Ixocreate\Application\ApplicationConfigurator;
 use Ixocreate\Application\Exception\InvalidArgumentException;
-use Ixocreate\Misc\Application\BootstrapDummy;
+use Ixocreate\Misc\Application\BootstrapItemDummy;
 use Ixocreate\Misc\Application\PackageDummy;
 use PHPUnit\Framework\TestCase;
 
@@ -93,9 +93,9 @@ class ApplicationConfiguratorTest extends TestCase
     public function testAddBootstrapItem()
     {
         $applicationConfigurator = new ApplicationConfigurator('bootstrap');
-        $applicationConfigurator->addBootstrapItem(BootstrapDummy::class);
+        $applicationConfigurator->addBootstrapItem(BootstrapItemDummy::class);
         $this->assertCount(1, $applicationConfigurator->getBootstrapItems());
-        $this->assertSame(BootstrapDummy::class, $applicationConfigurator->getBootstrapItems()[0]);
+        $this->assertSame(BootstrapItemDummy::class, $applicationConfigurator->getBootstrapItems()[0]);
     }
 
     public function testInvalidAddBootstrapItem()

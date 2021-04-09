@@ -12,7 +12,7 @@ namespace Ixocreate\Test\Application\Bootstrap\Console;
 use Ixocreate\Application\ApplicationConfig;
 use Ixocreate\Application\ApplicationConfigurator;
 use Ixocreate\Application\Bootstrap\Console\BootstrapListCommand;
-use Ixocreate\Misc\Application\BootstrapDummy;
+use Ixocreate\Misc\Application\BootstrapItemDummy;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -27,7 +27,7 @@ class BootstrapListCommandTest extends TestCase
     protected function setUp(): void
     {
         $configurator = new ApplicationConfigurator('tests/bootstrap');
-        $configurator->addBootstrapItem(BootstrapDummy::class);
+        $configurator->addBootstrapItem(BootstrapItemDummy::class);
         $this->config = new ApplicationConfig($configurator);
     }
 

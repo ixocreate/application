@@ -12,7 +12,7 @@ namespace Ixocreate\Misc\Application;
 use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
 use Ixocreate\Application\Configurator\ConfiguratorInterface;
 
-class BootstrapDummy implements BootstrapItemInterface
+class BootstrapItemSecondDummy implements BootstrapItemInterface
 {
     public function getConfigurator(): ConfiguratorInterface
     {
@@ -21,11 +21,11 @@ class BootstrapDummy implements BootstrapItemInterface
 
     public function getVariableName(): string
     {
-        return 'dummy';
+        return 'secondDummy';
     }
 
     public function getFileName(): string
     {
-        return 'dummy.php';
+        return 'secondDummy.php';
     }
 }

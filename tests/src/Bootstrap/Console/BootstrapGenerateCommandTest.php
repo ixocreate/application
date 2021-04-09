@@ -12,8 +12,8 @@ namespace Ixocreate\Test\Application\Bootstrap\Console;
 use Ixocreate\Application\ApplicationConfig;
 use Ixocreate\Application\ApplicationConfigurator;
 use Ixocreate\Application\Bootstrap\Console\BootstrapGenerateCommand;
-use Ixocreate\Misc\Application\BootstrapDummy;
-use Ixocreate\Misc\Application\BootstrapSecondDummy;
+use Ixocreate\Misc\Application\BootstrapItemDummy;
+use Ixocreate\Misc\Application\BootstrapItemSecondDummy;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Exception\RuntimeException;
@@ -35,8 +35,8 @@ class BootstrapGenerateCommandTest extends TestCase
         vfsStream::copyFromFileSystem('tests/bootstrap', $this->vfs);
 
         $configurator = new ApplicationConfigurator($this->vfs->url());
-        $configurator->addBootstrapItem(BootstrapDummy::class);
-        $configurator->addBootstrapItem(BootstrapSecondDummy::class);
+        $configurator->addBootstrapItem(BootstrapItemDummy::class);
+        $configurator->addBootstrapItem(BootstrapItemSecondDummy::class);
         $this->config = new ApplicationConfig($configurator);
     }
 

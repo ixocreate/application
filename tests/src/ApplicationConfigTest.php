@@ -11,7 +11,7 @@ namespace Ixocreate\Test\Application;
 
 use Ixocreate\Application\ApplicationConfig;
 use Ixocreate\Application\ApplicationConfigurator;
-use Ixocreate\Misc\Application\BootstrapDummy;
+use Ixocreate\Misc\Application\BootstrapItemDummy;
 use Ixocreate\Misc\Application\PackageDummy;
 use PHPUnit\Framework\TestCase;
 
@@ -107,10 +107,10 @@ class ApplicationConfigTest extends TestCase
     public function testBootstrapItems()
     {
         $applicationConfigurator = new ApplicationConfigurator('bootstrap');
-        $applicationConfigurator->addBootstrapItem(BootstrapDummy::class);
+        $applicationConfigurator->addBootstrapItem(BootstrapItemDummy::class);
 
         $applicationConfig = new ApplicationConfig($applicationConfigurator);
-        $this->assertInstanceOf(BootstrapDummy::class, $applicationConfig->getBootstrapItems()[0]);
+        $this->assertInstanceOf(BootstrapItemDummy::class, $applicationConfig->getBootstrapItems()[0]);
     }
 
     public function testPackages()
@@ -130,7 +130,7 @@ class ApplicationConfigTest extends TestCase
             'cacheDirectory' => 'data/cache/application_test/',
             'bootstrapDirectory' => 'bootstrap_test/',
             'bootstrapEnvDirectory' => 'local/',
-            'bootstrapItems' => [BootstrapDummy::class],
+            'bootstrapItems' => [BootstrapItemDummy::class],
             'packages' => [PackageDummy::class],
             'errorDisplay' => false,
             'errorDisplayIps' => ['1.2.3.4'],
@@ -161,7 +161,7 @@ class ApplicationConfigTest extends TestCase
             'cacheDirectory' => 'data/cache/application_test/',
             'bootstrapDirectory' => 'bootstrap_test/',
             'bootstrapEnvDirectory' => 'local/',
-            'bootstrapItems' => [BootstrapDummy::class],
+            'bootstrapItems' => [BootstrapItemDummy::class],
             'packages' => [PackageDummy::class],
             'errorDisplay' => false,
             'errorDisplayIps' => ['1.2.3.4'],
@@ -179,7 +179,7 @@ class ApplicationConfigTest extends TestCase
         $this->assertSame($config['errorDisplayIps'], $applicationConfig->errorDisplayIps());
         $this->assertSame($config['errorTemplate'], $applicationConfig->errorTemplate());
 
-        $this->assertInstanceOf(BootstrapDummy::class, $applicationConfig->getBootstrapItems()[0]);
+        $this->assertInstanceOf(BootstrapItemDummy::class, $applicationConfig->getBootstrapItems()[0]);
         $this->assertInstanceOf(PackageDummy::class, $applicationConfig->getPackages()[0]);
     }
 }
