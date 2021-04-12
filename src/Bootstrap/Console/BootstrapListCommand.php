@@ -31,6 +31,7 @@ final class BootstrapListCommand extends Command implements CommandInterface
 
     public function configure()
     {
+        $this->setDescription('List all bootstrap files and if they are used in any environment');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

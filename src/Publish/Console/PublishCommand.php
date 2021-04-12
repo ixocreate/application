@@ -43,8 +43,10 @@ final class PublishCommand extends Command implements CommandInterface
     {
         $this
             ->addArgument('type', InputArgument::OPTIONAL, 'Publish a given type of publishable files')
-            ->addOption("force", "f", InputOption::VALUE_NONE, 'Force overwrite')
+            ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force overwrite')
             ->setAliases(['publish']);
+
+        $this->setDescription('Copy corresponding files of selected type from all packages to the destination directory');
     }
 
     /**

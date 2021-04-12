@@ -49,6 +49,8 @@ EOD;
             ->addArgument('file', InputArgument::REQUIRED, 'Bootstrap file name')
             ->addArgument('env', InputArgument::OPTIONAL, 'save bootstrap file in env directory')
             ->setAliases(['make:bootstrap']);
+
+        $this->setDescription('Create bootstrap file');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
