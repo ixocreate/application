@@ -10,11 +10,13 @@ declare(strict_types=1);
 namespace Ixocreate\Misc\Application;
 
 use Ixocreate\Application\Configurator\ConfiguratorRegistryInterface;
+use Ixocreate\Application\Package\BootInterface;
+use Ixocreate\Application\Package\ConfigureAwareInterface;
 use Ixocreate\Application\Package\PackageInterface;
 use Ixocreate\Application\Service\ServiceRegistryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
 
-class PackageDummy implements PackageInterface
+class PackageDummy implements PackageInterface, ConfigureAwareInterface, BootInterface
 {
     public function configure(ConfiguratorRegistryInterface $configuratorRegistry): void
     {
@@ -24,14 +26,9 @@ class PackageDummy implements PackageInterface
     {
     }
 
-    public function getBootstrapItems(): ?array
+    public function getBootstrapItems(): array
     {
-        return null;
-    }
-
-    public function getConfigProvider(): ?array
-    {
-        return null;
+        return [];
     }
 
     public function boot(ServiceManagerInterface $serviceManager): void
@@ -43,13 +40,8 @@ class PackageDummy implements PackageInterface
         return null;
     }
 
-    public function getConfigDirectory(): ?string
+    public function getDependencies(): array
     {
-        return null;
-    }
-
-    public function getDependencies(): ?array
-    {
-        return null;
+        return [];
     }
 }

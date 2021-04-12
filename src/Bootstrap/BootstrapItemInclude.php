@@ -33,7 +33,7 @@ final class BootstrapItemInclude
     public static function normalizePath(string $path): string
     {
         if (empty($path)) {
-            $path = ".";
+            return './';
         }
 
         return \rtrim($path, '/') . '/';

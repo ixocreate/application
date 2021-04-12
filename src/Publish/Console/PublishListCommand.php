@@ -30,6 +30,11 @@ final class PublishListCommand extends Command implements CommandInterface
         $this->publishConfig = $publishConfig;
     }
 
+    protected function configure()
+    {
+        $this->setDescription('List all available publish types');
+    }
+
     public static function getCommandName()
     {
         return 'publish:list';
@@ -56,5 +61,7 @@ final class PublishListCommand extends Command implements CommandInterface
             ['Publish'],
             $data
         );
+
+        return 0;
     }
 }

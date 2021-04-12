@@ -11,8 +11,8 @@ namespace Ixocreate\Application\Uri;
 
 use Ixocreate\Application\Configurator\ConfiguratorInterface;
 use Ixocreate\Application\Service\ServiceRegistryInterface;
+use Laminas\Diactoros\Uri;
 use Psr\Http\Message\UriInterface;
-use Zend\Diactoros\Uri;
 
 final class ApplicationUriConfigurator implements ConfiguratorInterface
 {
@@ -25,6 +25,11 @@ final class ApplicationUriConfigurator implements ConfiguratorInterface
      * @var array
      */
     private $alternativeUris = [];
+
+    /**
+     * @var array
+     */
+    private $fullRedirectDomains = [];
 
     /**
      * ApplicationUriConfigurator constructor.
@@ -75,6 +80,22 @@ final class ApplicationUriConfigurator implements ConfiguratorInterface
     public function getAlternativeUris(): array
     {
         return $this->alternativeUris;
+    }
+
+    /**
+     * @param string $domain
+     */
+    public function addFullRedirectDomain(string $domain): void
+    {
+        $this->fullRedirectDomains[] = \mb_strtolower($domain);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getFullRedirectDomains(): array
+    {
+        return $this->fullRedirectDomains;
     }
 
     /**

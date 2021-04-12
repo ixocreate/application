@@ -11,8 +11,9 @@ namespace Ixocreate\Application;
 
 use Ixocreate\Application\Bootstrap\BootstrapItemInclude;
 use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
+use Ixocreate\Application\Exception\InvalidArgumentException;
 use Ixocreate\Application\Package\PackageInterface;
-use Ixocreate\Application\Service\ServiceManagerBootstrapItem;
+use Ixocreate\Application\ServiceManager\ServiceManagerBootstrapItem;
 
 final class ApplicationConfigurator
 {
@@ -47,16 +48,6 @@ final class ApplicationConfigurator
     private $bootstrapEnvDirectory = "local/";
 
     /**
-     * @var string
-     */
-    private $configDirectory = "config/";
-
-    /**
-     * @var string
-     */
-    private $configEnvDirectory = "local/";
-
-    /**
      * @var array
      */
     private $packages = [];
@@ -87,6 +78,9 @@ final class ApplicationConfigurator
      */
     public function setBootstrapEnvDirectory(string $directory): void
     {
+        if (empty($directory)) {
+            throw new InvalidArgumentException('Env directory must not be empty');
+        }
         $this->bootstrapEnvDirectory = BootstrapItemInclude::normalizePath($directory);
     }
 
@@ -144,38 +138,6 @@ final class ApplicationConfigurator
     public function getCacheDirectory(): string
     {
         return $this->cacheDirectory;
-    }
-
-    /**
-     * @param string $configDirectory
-     */
-    public function setConfigDirectory(string $configDirectory): void
-    {
-        $this->configDirectory = BootstrapItemInclude::normalizePath($configDirectory);
-    }
-
-    /**
-     * @return string
-     */
-    public function getConfigDirectory(): string
-    {
-        return $this->configDirectory;
-    }
-
-    /**
-     * @param string $configEnvDirectory
-     */
-    public function setConfigEnvDirectory(string $configEnvDirectory): void
-    {
-        $this->configEnvDirectory = BootstrapItemInclude::normalizePath($configEnvDirectory);
-    }
-
-    /**
-     * @return string
-     */
-    public function getConfigEnvDirectory(): string
-    {
-        return $this->configEnvDirectory;
     }
 
     /**
@@ -294,10 +256,8 @@ final class ApplicationConfigurator
             $package = new $packageClass();
 
             $bootstrapItems = $package->getBootstrapItems();
-            if (!empty($bootstrapItems)) {
-                foreach ($bootstrapItems as $bootstrapItem) {
-                    $this->addBootstrapItem($bootstrapItem);
-                }
+            foreach ($bootstrapItems as $bootstrapItem) {
+                $this->addBootstrapItem($bootstrapItem);
             }
         }
 
@@ -309,10 +269,6 @@ final class ApplicationConfigurator
      */
     private function processPackages(?array $packages): void
     {
-        if (empty($packages)) {
-            return;
-        }
-
         foreach ($packages as $item) {
             if (\in_array($item, $this->packages)) {
                 continue;

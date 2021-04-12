@@ -16,14 +16,14 @@ use Ixocreate\Application\Http\Pipe\PipeConfig;
 use Ixocreate\Application\Http\Pipe\PipeConfigurator;
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\HttpHandlerRunner\Emitter\EmitterStack;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use Laminas\HttpHandlerRunner\RequestHandlerRunner;
+use Mezzio\Middleware\ErrorResponseGenerator;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\ServerRequestFactory;
-use Zend\Expressive\Middleware\ErrorResponseGenerator;
-use Zend\HttpHandlerRunner\Emitter\EmitterStack;
-use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
-use Zend\HttpHandlerRunner\RequestHandlerRunner;
 
 final class RequestHandlerRunnerFactory implements FactoryInterface
 {
@@ -33,7 +33,6 @@ final class RequestHandlerRunnerFactory implements FactoryInterface
      * @param array|null $options
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Zend\HttpHandlerRunner\Emitter\InvalidArgumentException
      * @return RequestHandlerRunner
      */
     public function __invoke(ServiceManagerInterface $container, $requestedName, array $options = null)

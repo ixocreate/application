@@ -29,10 +29,16 @@ final class ApplicationUri implements SerializableServiceInterface
      */
     private $possibleUrls;
 
+    /**
+     * @var array
+     */
+    private $fullRedirectDomains = [];
+
     public function __construct(ApplicationUriConfigurator $configurator)
     {
         $this->mainUri = $configurator->getMainUri();
         $this->alternativeUris = $configurator->getAlternativeUris();
+        $this->fullRedirectDomains = $configurator->getFullRedirectDomains();
 
         $this->possibleUrls = $this->alternativeUris;
         $this->possibleUrls['mainUri'] = $this->mainUri;
@@ -93,6 +99,11 @@ final class ApplicationUri implements SerializableServiceInterface
             return $this->possibleUrls[$name];
         }
         return null;
+    }
+
+    public function getFullRedirectDomains(): array
+    {
+        return $this->fullRedirectDomains;
     }
 
     /**
@@ -163,6 +174,7 @@ final class ApplicationUri implements SerializableServiceInterface
         return \serialize([
             'mainUri' => $this->mainUri,
             'alternativeUris' => $this->alternativeUris,
+            'fullRedirectDomains' => $this->fullRedirectDomains,
         ]);
     }
 
@@ -171,6 +183,7 @@ final class ApplicationUri implements SerializableServiceInterface
         $data = \unserialize($serialized);
         $this->mainUri = $data['mainUri'];
         $this->alternativeUris = $data['alternativeUris'];
+        $this->fullRedirectDomains = $data['fullRedirectDomains'];
 
         $this->possibleUrls = $this->alternativeUris;
         $this->possibleUrls['mainUri'] = $this->mainUri;

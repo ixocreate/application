@@ -10,16 +10,19 @@ declare(strict_types=1);
 namespace Ixocreate\Application;
 
 use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
+use Ixocreate\Application\Package\BootInterface;
 use Ixocreate\Application\Package\PackageInterface;
 use Ixocreate\Application\Service\SerializableServiceInterface;
 
 final class ApplicationConfig implements SerializableServiceInterface
 {
-    private $config = null;
+    private $config;
 
     private $bootstrapItems = null;
 
     private $packages = null;
+
+    private $bootPackages = null;
 
     /**
      * ApplicationConfig constructor.
@@ -34,14 +37,24 @@ final class ApplicationConfig implements SerializableServiceInterface
             'cacheDirectory' => $applicationConfigurator->getCacheDirectory(),
             'bootstrapDirectory' => $applicationConfigurator->getBootstrapDirectory(),
             'bootstrapEnvDirectory' => $applicationConfigurator->getBootstrapEnvDirectory(),
-            'configDirectory' => $applicationConfigurator->getConfigDirectory(),
-            'configEnvDirectory' => $applicationConfigurator->getConfigEnvDirectory(),
             'bootstrapItems' => $applicationConfigurator->getBootstrapItems(),
             'packages' => $applicationConfigurator->getPackages(),
             'errorDisplay' => $applicationConfigurator->isErrorDisplay(),
             'errorDisplayIps' => $applicationConfigurator->getErrorDisplayIps(),
             'errorTemplate' => $applicationConfigurator->getErrorTemplate(),
+            'bootPackages' => [],
         ];
+
+        $this->initPackages();
+
+        $this->bootPackages = [];
+        foreach ($this->packages as $package) {
+            if ($package instanceof BootInterface) {
+                $packageClass = \get_class($package);
+                $this->config['bootPackages'][] = $packageClass;
+                $this->bootPackages[$packageClass] = $package;
+            }
+        }
     }
 
     /**
@@ -82,22 +95,6 @@ final class ApplicationConfig implements SerializableServiceInterface
     public function getBootstrapEnvDirectory(): string
     {
         return $this->config['bootstrapEnvDirectory'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getConfigDirectory(): string
-    {
-        return $this->config['configDirectory'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getConfigEnvDirectory(): string
-    {
-        return $this->config['configEnvDirectory'];
     }
 
     /**
@@ -145,14 +142,34 @@ final class ApplicationConfig implements SerializableServiceInterface
     public function getPackages(): array
     {
         if ($this->packages === null) {
-            $this->packages = [];
-
-            foreach ($this->config['packages'] as $packagesClass) {
-                $this->packages[] = new $packagesClass();
-            }
+            $this->initPackages();
         }
 
         return $this->packages;
+    }
+
+    /**
+     * @return BootInterface[]
+     */
+    public function getBootPackages(): array
+    {
+        if ($this->bootPackages === null) {
+            $this->bootPackages = [];
+            foreach ($this->config['bootPackages'] as $packagesClass) {
+                $this->bootPackages[$packagesClass] = new $packagesClass();
+            }
+        }
+
+        return $this->bootPackages;
+    }
+
+    private function initPackages()
+    {
+        $this->packages = [];
+        foreach ($this->config['packages'] as $packagesClass) {
+            $package = new $packagesClass();
+            $this->packages[] = $package;
+        }
     }
 
     /**

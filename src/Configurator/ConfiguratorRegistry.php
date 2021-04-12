@@ -46,7 +46,7 @@ final class ConfiguratorRegistry implements ConfiguratorRegistryInterface
             return $this->configurators[$name];
         }
 
-        throw new ConfiguratorNotFoundException(\sprintf("CmsConfigurator with name '%s' not found", $name));
+        throw new ConfiguratorNotFoundException(\sprintf("Configurator with name '%s' not found", $name));
     }
 
     /**

@@ -12,26 +12,25 @@ namespace Ixocreate\Application\Service;
 use Ixocreate\Application\ApplicationConfig;
 use Ixocreate\Application\Bootstrap\BootstrapItemInclude;
 use Ixocreate\Application\Bootstrap\BootstrapItemInterface;
-use Ixocreate\Application\Config\Config;
 use Ixocreate\Application\Configurator\ConfiguratorRegistry;
+use Ixocreate\Application\Package\ConfigureAwareInterface;
 use Ixocreate\Application\Package\PackageInterface;
-use Zend\Stdlib\ArrayUtils;
-use Zend\Stdlib\Glob;
+use Ixocreate\Application\Package\ProvideServicesInterface;
 
-final class ServiceHandler
+final class ServiceHandler implements ServiceHandlerInterface
 {
     /**
      * @param ApplicationConfig $applicationConfig
      * @return ServiceRegistry
      */
-    public function loadFromCache(ApplicationConfig $applicationConfig): ServiceRegistry
+    public function load(ApplicationConfig $applicationConfig): ServiceRegistry
     {
         if ($applicationConfig->isDevelopment()) {
-            return $this->load($applicationConfig);
+            return $this->createServiceRegistry($applicationConfig);
         }
 
         if (!\file_exists($this->getCacheFileName($applicationConfig))) {
-            return $this->load($applicationConfig);
+            return $this->createServiceRegistry($applicationConfig);
         }
 
         $serviceRegistry = @\unserialize(
@@ -39,13 +38,13 @@ final class ServiceHandler
         );
 
         if (!($serviceRegistry instanceof ServiceRegistry)) {
-            return $this->load($applicationConfig);
+            return $this->createServiceRegistry($applicationConfig);
         }
 
         return $serviceRegistry;
     }
 
-    public function load(ApplicationConfig $applicationConfig): ServiceRegistry
+    private function createServiceRegistry(ApplicationConfig $applicationConfig): ServiceRegistry
     {
         $configuratorRegistry = new ConfiguratorRegistry();
 
@@ -54,18 +53,21 @@ final class ServiceHandler
         }
 
         foreach ($applicationConfig->getPackages() as $package) {
-            $package->configure($configuratorRegistry);
+            if ($package instanceof ConfigureAwareInterface) {
+                $package->configure($configuratorRegistry);
+            }
         }
 
         $serviceRegistry = new ServiceRegistry();
-        $serviceRegistry->add(Config::class, $this->createConfig($applicationConfig));
 
         foreach ($applicationConfig->getBootstrapItems() as $bootstrapItem) {
             $configuratorRegistry->get(\get_class($bootstrapItem))->registerService($serviceRegistry);
         }
 
         foreach ($applicationConfig->getPackages() as $package) {
-            $package->addServices($serviceRegistry);
+            if ($package instanceof ProvideServicesInterface) {
+                $package->provideServices($serviceRegistry);
+            }
         }
 
         if (!$applicationConfig->isDevelopment()) {
@@ -100,49 +102,6 @@ final class ServiceHandler
         }
 
         return $directory . "services.cache";
-    }
-
-    /**
-     * @param ApplicationConfig $applicationConfig
-     * @return Config
-     */
-    private function createConfig(ApplicationConfig $applicationConfig): Config
-    {
-        $mergedConfig = [];
-        $configDirectories = [];
-        foreach ($applicationConfig->getPackages() as $package) {
-            if (!empty($package->getConfigProvider())) {
-                foreach ($package->getConfigProvider() as $provider) {
-                    $mergedConfig = ArrayUtils::merge($mergedConfig, (new $provider())());
-                }
-            }
-            if (!empty($package->getConfigDirectory())) {
-                $configDirectories[] = $package->getConfigDirectory();
-            }
-        }
-
-        $configDirectories[] = $applicationConfig->getConfigDirectory();
-        $configDirectories[] = $applicationConfig->getConfigDirectory() . $applicationConfig->getConfigEnvDirectory();
-        foreach ($configDirectories as $directory) {
-            if (!\is_dir($directory)) {
-                continue;
-            }
-
-            $directory = \rtrim($directory, '/') . '/';
-
-            foreach (Glob::glob($directory . "*.config.php", Glob::GLOB_BRACE, true) as $file) {
-                $data = require $file;
-                if (!\is_array($data)) {
-                    continue;
-                }
-
-                $prefix = \mb_substr(\basename($file), 0, -11);
-                $data = [$prefix => $data];
-                $mergedConfig = ArrayUtils::merge($mergedConfig, $data);
-            }
-        }
-
-        return new Config($mergedConfig);
     }
 
     private function handleBootstrapItem(

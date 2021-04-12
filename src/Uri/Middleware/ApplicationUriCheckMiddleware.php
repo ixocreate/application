@@ -10,27 +10,27 @@ declare(strict_types=1);
 namespace Ixocreate\Application\Uri\Middleware;
 
 use Ixocreate\Application\Uri\ApplicationUri;
+use Laminas\Diactoros\Response\RedirectResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Response\RedirectResponse;
 
 final class ApplicationUriCheckMiddleware implements MiddlewareInterface
 {
     /**
      * @var ApplicationUri
      */
-    private $projectUri;
+    private $applicationUri;
 
     /**
      * ApplicationUriCheckMiddleware constructor.
      *
-     * @param ApplicationUri $projectUri
+     * @param ApplicationUri $applicationUri
      */
-    public function __construct(ApplicationUri $projectUri)
+    public function __construct(ApplicationUri $applicationUri)
     {
-        $this->projectUri = $projectUri;
+        $this->applicationUri = $applicationUri;
     }
 
     /**
@@ -40,10 +40,32 @@ final class ApplicationUriCheckMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if ($this->projectUri->isValidUrl($request->getUri())) {
+        $requestUri = $request->getUri();
+
+        if ($this->applicationUri->isValidUrl($requestUri)) {
             return $handler->handle($request);
         }
 
-        return new RedirectResponse($this->projectUri->getMainUri());
+        $redirectWithPath = false;
+        $redirectUri = $this->applicationUri->getMainUri();
+
+        foreach ($this->applicationUri->getPossibleUrls() as $uri) {
+            if ($requestUri->getHost() == $uri->getHost()) {
+                $redirectUri = $uri;
+                $redirectWithPath = true;
+                break;
+            }
+        }
+
+        if (!$redirectWithPath) {
+            $redirectWithPath = \in_array($requestUri->getHost(), $this->applicationUri->getFullRedirectDomains());
+        }
+
+        if ($redirectWithPath) {
+            $redirectUri = $redirectUri->withPath($requestUri->getPath());
+            $redirectUri = $redirectUri->withQuery($requestUri->getQuery());
+        }
+
+        return new RedirectResponse($redirectUri);
     }
 }

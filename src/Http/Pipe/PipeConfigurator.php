@@ -16,8 +16,8 @@ use Ixocreate\Application\Http\Pipe\Config\RoutingPipeConfig;
 use Ixocreate\Application\Http\Pipe\Config\SegmentConfig;
 use Ixocreate\Application\Http\Pipe\Config\SegmentPipeConfig;
 use Ixocreate\Application\Service\ServiceRegistryInterface;
-use Zend\Expressive\Router\FastRouteRouter;
-use Zend\Stdlib\PriorityList;
+use Laminas\Stdlib\PriorityList;
+use Mezzio\Router\FastRouteRouter;
 
 final class PipeConfigurator extends RouteCollectorConfigurator implements ConfiguratorInterface
 {

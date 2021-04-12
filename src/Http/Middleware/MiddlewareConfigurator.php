@@ -11,7 +11,7 @@ namespace Ixocreate\Application\Http\Middleware;
 
 use Ixocreate\Application\Configurator\ConfiguratorInterface;
 use Ixocreate\Application\Service\ServiceRegistryInterface;
-use Ixocreate\Application\Service\SubManagerConfigurator;
+use Ixocreate\Application\ServiceManager\SubManagerConfigurator;
 use Ixocreate\ServiceManager\Factory\AutowireFactory;
 use Psr\Http\Server\MiddlewareInterface;
 

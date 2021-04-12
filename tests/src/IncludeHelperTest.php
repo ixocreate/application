@@ -16,7 +16,7 @@ class IncludeHelperTest extends TestCase
 {
     private $includeTestFile;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->includeTestFile = \realpath(__DIR__ . '/../bootstrap/include_test.php');
     }

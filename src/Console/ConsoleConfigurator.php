@@ -14,7 +14,7 @@ use Ixocreate\Application\Console\Factory\CommandInitializer;
 use Ixocreate\Application\Console\Factory\CommandMapFactory;
 use Ixocreate\Application\Exception\InvalidArgumentException;
 use Ixocreate\Application\Service\ServiceRegistryInterface;
-use Ixocreate\Application\Service\SubManagerConfigurator;
+use Ixocreate\Application\ServiceManager\SubManagerConfigurator;
 use Ixocreate\ServiceManager\Factory\AutowireFactory;
 
 final class ConsoleConfigurator implements ConfiguratorInterface

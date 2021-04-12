@@ -11,7 +11,7 @@ namespace Ixocreate\Application\Http\Factory;
 
 use Ixocreate\ServiceManager\FactoryInterface;
 use Ixocreate\ServiceManager\ServiceManagerInterface;
-use Zend\Expressive\Router\FastRouteRouter;
+use Mezzio\Router\FastRouteRouter;
 
 final class FastRouterFactory implements FactoryInterface
 {
