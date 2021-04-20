@@ -49,7 +49,7 @@ class ApplicationBootstrapTest extends TestCase
         $bootstrap = new ApplicationBootstrap();
         $serviceManager = $bootstrap->bootstrap($this->vfsCache->url() . '/bootstrap', $this->vfsCache->url() . '/cache/', $application, new BootstrapFactory());
 
-        $this->assertTrue($this->vfsCache->getChild('cache')->hasChildren());
+        $this->assertFalse($this->vfsCache->getChild('cache')->hasChildren());
 
         $this->assertInstanceOf(ServiceManager::class, $serviceManager);
         $this->assertInstanceOf(ApplicationConfig::class, $serviceManager->get(ApplicationConfig::class));
