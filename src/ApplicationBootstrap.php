@@ -27,9 +27,10 @@ final class ApplicationBootstrap
         string $bootstrapDirectory,
         string $applicationCacheDirectory,
         ApplicationInterface $application,
-        BootstrapFactoryInterface $bootstrapFactory
+        BootstrapFactoryInterface $bootstrapFactory,
+        bool $useApplicationConfigCache = true
     ): ServiceManagerInterface {
-        if (\file_exists($applicationCacheDirectory . 'application.cache')) {
+        if ($useApplicationConfigCache && \file_exists($applicationCacheDirectory . 'application.cache')) {
             $applicationConfig = @\unserialize(
                 \file_get_contents($applicationCacheDirectory . 'application.cache')
             );
@@ -38,9 +39,8 @@ final class ApplicationBootstrap
                 $bootstrapFactory->createApplicationConfigurator($bootstrapDirectory),
                 $application
             );
-            if (!$applicationConfig->isDevelopment()) {
-                \file_put_contents($applicationCacheDirectory . 'application.cache', \serialize($applicationConfig));
-            }
+
+            \file_put_contents($applicationCacheDirectory . 'application.cache', \serialize($applicationConfig));
         }
 
         $serviceRegistry = $bootstrapFactory->createServiceHandler()->load($applicationConfig);

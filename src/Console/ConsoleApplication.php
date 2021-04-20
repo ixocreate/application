@@ -26,6 +26,8 @@ final class ConsoleApplication implements ApplicationInterface
      */
     private $applicationCacheDirectory;
 
+    private $isDevelopment = false;
+
     /**
      * ConsoleApplication constructor.
      *
@@ -44,26 +46,28 @@ final class ConsoleApplication implements ApplicationInterface
      */
     public function run(): void
     {
+        //TODO make a proper short syntax check (for grouped input options)
+        if (isset($_SERVER['argv']) &&
+            \is_array($_SERVER['argv']) &&
+            (\array_search('-d', $_SERVER['argv'], true) !== false || \array_search('--development', $_SERVER['argv'], true) !== false)
+        ) {
+            $this->isDevelopment = true;
+        }
+
         $serviceManager = (new ApplicationBootstrap())->bootstrap(
             $this->bootstrapDirectory,
             $this->applicationCacheDirectory,
             $this,
-            new BootstrapFactory()
+            new BootstrapFactory(),
+            !$this->isDevelopment
         );
         $serviceManager->get(ConsoleRunner::class)->run();
     }
 
     public function configure(ApplicationConfigurator $applicationConfigurator): void
     {
-        if (!isset($_SERVER['argv']) || !\is_array($_SERVER['argv'])) {
-            return;
-        }
-
-        if (\array_search('-d', $_SERVER['argv'], true) !== false || \array_search('--development', $_SERVER['argv'], true) !== false) {
+        if ($this->isDevelopment === true) {
             $applicationConfigurator->setDevelopment(true);
-            return;
         }
-
-        //TODO make a proper short syntax check (for grouped input options)
     }
 }
