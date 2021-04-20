@@ -35,12 +35,7 @@ final class ApplicationBootstrap
                 \file_get_contents($applicationCacheDirectory . 'application.cache')
             );
         } else {
-            $applicationConfig = $this->createApplicationConfig(
-                $bootstrapFactory->createApplicationConfigurator($bootstrapDirectory),
-                $application
-            );
-
-            \file_put_contents($applicationCacheDirectory . 'application.cache', \serialize($applicationConfig));
+            $applicationConfig = $this->save($bootstrapDirectory, $applicationCacheDirectory, $application, $bootstrapFactory);
         }
 
         $serviceRegistry = $bootstrapFactory->createServiceHandler()->load($applicationConfig);
@@ -57,6 +52,28 @@ final class ApplicationBootstrap
         }
 
         return $serviceManager;
+    }
+
+    public function save(
+        string $bootstrapDirectory,
+        string $applicationCacheDirectory,
+        ApplicationInterface $application,
+        BootstrapFactoryInterface $bootstrapFactory,
+        bool $force = false
+    ): ApplicationConfig {
+        $applicationConfig = $this->createApplicationConfig(
+            $bootstrapFactory->createApplicationConfigurator($bootstrapDirectory),
+            $application
+        );
+
+        if (!$applicationConfig->isDevelopment() || $force) {
+            if (!\file_exists($applicationCacheDirectory)) {
+                \mkdir($applicationCacheDirectory, 0777, true);
+            }
+            \file_put_contents($applicationCacheDirectory . 'application.cache', \serialize($applicationConfig));
+        }
+
+        return $applicationConfig;
     }
 
     /**
