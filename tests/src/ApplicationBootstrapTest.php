@@ -36,19 +36,20 @@ class ApplicationBootstrapTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->vfsCache = vfsStream::setup('cache');
+        $this->vfsCache = vfsStream::setup('data');
     }
 
     public function testMinimalBootstrap()
     {
         $application = $this->createMock(ApplicationInterface::class);
 
-        $vfsBootstrap = vfsStream::setup('bootstrap');
+        \mkdir($this->vfsCache->url() . '/bootstrap');
+        \mkdir($this->vfsCache->url() . '/cache');
 
         $bootstrap = new ApplicationBootstrap();
-        $serviceManager = $bootstrap->bootstrap($vfsBootstrap->url(), $this->vfsCache->url(), $application, new BootstrapFactory());
+        $serviceManager = $bootstrap->bootstrap($this->vfsCache->url() . '/bootstrap', $this->vfsCache->url() . '/cache/', $application, new BootstrapFactory());
 
-        $this->assertFalse($this->vfsCache->hasChildren());
+        $this->assertTrue($this->vfsCache->getChild('cache')->hasChildren());
 
         $this->assertInstanceOf(ServiceManager::class, $serviceManager);
         $this->assertInstanceOf(ApplicationConfig::class, $serviceManager->get(ApplicationConfig::class));
@@ -125,7 +126,7 @@ EOF
         $bootstrap = new ApplicationBootstrap();
         $serviceManager = $bootstrap->bootstrap(
             $vfsBootstrap->url() . '/',
-            $this->vfsCache->url() . '/',
+            $vfsBootstrap->url() . '/',
             $application,
             $bootstrapFactoryMock
         );

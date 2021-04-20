@@ -17,8 +17,6 @@ class ConsoleApplicationTest extends TestCase
 {
     public function testConfigure()
     {
-        $application = new ConsoleApplication('/bootstrap');
-
         $_SERVER['argv'] = ['-d'];
         $configurator = $this->createMock(ApplicationConfigurator::class);
         $configurator->expects($this->once())
@@ -26,6 +24,7 @@ class ConsoleApplicationTest extends TestCase
             ->willReturnCallback(function ($param) {
                 $this->assertTrue($param);
             });
+        $application = new ConsoleApplication('/bootstrap');
         $application->configure($configurator);
 
         $_SERVER['argv'] = ['--development'];
@@ -35,29 +34,31 @@ class ConsoleApplicationTest extends TestCase
             ->willReturnCallback(function ($param) {
                 $this->assertTrue($param);
             });
+        $application = new ConsoleApplication('/bootstrap');
         $application->configure($configurator);
     }
 
     public function testEmptyConfigure()
     {
-        $application = new ConsoleApplication('/bootstrap');
-
         unset($_SERVER['argv']);
         $configurator = $this->createMock(ApplicationConfigurator::class);
         $configurator->expects($this->never())
             ->method('setDevelopment');
+        $application = new ConsoleApplication('/bootstrap');
         $application->configure($configurator);
 
         $_SERVER['argv'] = 'string';
         $configurator = $this->createMock(ApplicationConfigurator::class);
         $configurator->expects($this->never())
             ->method('setDevelopment');
+        $application = new ConsoleApplication('/bootstrap');
         $application->configure($configurator);
 
         $_SERVER['argv'] = ['string'];
         $configurator = $this->createMock(ApplicationConfigurator::class);
         $configurator->expects($this->never())
             ->method('setDevelopment');
+        $application = new ConsoleApplication('/bootstrap');
         $application->configure($configurator);
     }
 }

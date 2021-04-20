@@ -38,6 +38,14 @@ final class ConsoleApplication implements ApplicationInterface
     {
         $this->bootstrapDirectory = $bootstrapDirectory;
         $this->applicationCacheDirectory = $applicationCacheDirectory;
+
+        //TODO make a proper short syntax check (for grouped input options)
+        if (isset($_SERVER['argv']) &&
+            \is_array($_SERVER['argv']) &&
+            (\array_search('-d', $_SERVER['argv'], true) !== false || \array_search('--development', $_SERVER['argv'], true) !== false)
+        ) {
+            $this->isDevelopment = true;
+        }
     }
 
     /**
@@ -46,14 +54,6 @@ final class ConsoleApplication implements ApplicationInterface
      */
     public function run(): void
     {
-        //TODO make a proper short syntax check (for grouped input options)
-        if (isset($_SERVER['argv']) &&
-            \is_array($_SERVER['argv']) &&
-            (\array_search('-d', $_SERVER['argv'], true) !== false || \array_search('--development', $_SERVER['argv'], true) !== false)
-        ) {
-            $this->isDevelopment = true;
-        }
-
         $serviceManager = (new ApplicationBootstrap())->bootstrap(
             $this->bootstrapDirectory,
             $this->applicationCacheDirectory,
