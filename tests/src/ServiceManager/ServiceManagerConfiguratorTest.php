@@ -15,6 +15,7 @@ use Ixocreate\Application\ServiceManager\ServiceManagerConfigurator;
 use Ixocreate\Application\ServiceManager\SubManagerFactory;
 use Ixocreate\Misc\Application\Scan\AbstractClass;
 use Ixocreate\Misc\Application\Scan\AnotherClass;
+use Ixocreate\Misc\Application\Scan\Class0;
 use Ixocreate\Misc\Application\Scan\Class1;
 use Ixocreate\Misc\Application\Scan\Class2;
 use Ixocreate\Misc\Application\Scan\Class4;
