@@ -276,6 +276,7 @@ class ServiceManagerConfiguratorTest extends TestCase
         $factories = $serviceManagerConfig->getFactories();
         $this->assertArrayHasKey(AnotherClass::class, $factories);
         $this->assertEquals(DateTimeFactory::class, $factories[AnotherClass::class]);
+        $this->assertArrayHasKey(Class0::class, $factories);
         $this->assertArrayHasKey(Class1::class, $factories);
         $this->assertArrayHasKey(Class2::class, $factories);
         $this->assertArrayHasKey(Class3::class, $factories);
