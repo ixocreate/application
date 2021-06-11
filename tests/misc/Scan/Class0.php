@@ -11,5 +11,4 @@ namespace Ixocreate\Misc\Application\Scan;
 
 class Class0
 {
-
 }
