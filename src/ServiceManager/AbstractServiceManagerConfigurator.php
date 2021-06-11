@@ -248,7 +248,7 @@ abstract class AbstractServiceManagerConfigurator implements ConfiguratorInterfa
 
             $code = \file_get_contents($directory . '/' . $entry);
             \preg_match('/\snamespace ([^;]+);/', $code, $namespaceMatch);
-            \preg_match('/\s(?<!abstract )class ([^ ]+) /', $code, $classNameMatch);
+            \preg_match('/\s(?<!abstract )class ([^\s]+)\s/', $code, $classNameMatch);
             if (empty($namespaceMatch) || empty($classNameMatch)) {
                 continue;
             }
