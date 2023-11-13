@@ -52,6 +52,8 @@ final class ApplicationConfigurator
      */
     private $packages = [];
 
+    private $logErrors = true;
+
     private $errorDisplay = true;
 
     private $errorDisplayIps = [];
@@ -219,6 +221,22 @@ final class ApplicationConfigurator
     public function addErrorDisplayIps(string $ip): void
     {
         $this->errorDisplayIps[] = $ip;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLogErrors(): bool
+    {
+        return $this->logErrors;
+    }
+
+    /**
+     * @param bool $errorLogy
+     */
+    public function setLogErrors(bool $logErrors): void
+    {
+        $this->logErrors = $logErrors;
     }
 
     /**

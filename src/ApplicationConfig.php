@@ -39,6 +39,7 @@ final class ApplicationConfig implements SerializableServiceInterface
             'bootstrapEnvDirectory' => $applicationConfigurator->getBootstrapEnvDirectory(),
             'bootstrapItems' => $applicationConfigurator->getBootstrapItems(),
             'packages' => $applicationConfigurator->getPackages(),
+            'logErrors' => $applicationConfigurator->isLogErrors(),
             'errorDisplay' => $applicationConfigurator->isErrorDisplay(),
             'errorDisplayIps' => $applicationConfigurator->getErrorDisplayIps(),
             'errorTemplate' => $applicationConfigurator->getErrorTemplate(),
@@ -103,6 +104,14 @@ final class ApplicationConfig implements SerializableServiceInterface
     public function isErrorDisplay(): bool
     {
         return $this->config['errorDisplay'];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLogErrors(): bool
+    {
+        return $this->config['logErrors'];
     }
 
     /**
