@@ -43,6 +43,7 @@ final class ApplicationConfig implements SerializableServiceInterface
             'errorDisplay' => $applicationConfigurator->isErrorDisplay(),
             'errorDisplayIps' => $applicationConfigurator->getErrorDisplayIps(),
             'errorTemplate' => $applicationConfigurator->getErrorTemplate(),
+            'loginTypes' => $applicationConfigurator->getLoginTypes(),
             'bootPackages' => [],
         ];
 
@@ -64,6 +65,13 @@ final class ApplicationConfig implements SerializableServiceInterface
     public function isDevelopment(): bool
     {
         return $this->config['development'];
+    }
+    /**
+     * @return bool
+     */
+    public function getLoginTypes(): array
+    {
+        return $this->config['loginTypes'];
     }
 
     /**

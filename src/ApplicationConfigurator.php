@@ -60,6 +60,18 @@ final class ApplicationConfigurator
 
     private $errorTemplate = null;
 
+    private $loginTypes = [
+        'credentials' => true,
+        'google' => false,
+        /*
+        'google' => [
+            'client_id' => '',
+            'client_secret' => '',
+            'allowed_groups' => [],
+        ],
+        */
+    ];
+
     /**
      * ApplicationConfigurator constructor.
      *
@@ -108,6 +120,22 @@ final class ApplicationConfigurator
     public function isDevelopment(): bool
     {
         return $this->development;
+    }
+
+    /**
+     * @param bool $development
+     */
+    public function setLoginTypes(array $loginTypes): void
+    {
+        $this->loginTypes = $loginTypes;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getLoginTypes(): array
+    {
+        return $this->loginTypes;
     }
 
     /**
